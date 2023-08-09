@@ -2,6 +2,8 @@
 
 
 /*.........................._error..........................*/
+
+/*..........................NUM 1 START..........................*/
 /**
  * rev_str - Reverses a string
  * @s: string to reverse
@@ -11,19 +13,32 @@
 void rev_str(char *s)
 {
 	int x = 0, y = 0, z;
-	char tmp;
+	char tmp = 'a';
 
 	while (s[x])
 		x++;
 	z = x / 2, x = x - 1;
 	while (x >= z)
 	{
-		tmp  = s[y];
-		s[y] = s[x];
-		s[x] = tmp;
-		x--, y++;
+		rev_str_Daf(s, x, y, tmp);
 	}
 }
+/*..........................NUM 1 BTW..........................*/
+/**
+ * rev_str - Reverses a string
+ * @s: string to reverse
+ *
+ * Return: Nothing
+ */
+void rev_str_Daf(char *s, int x, int y, char tmp)
+{
+	tmp  = s[y];
+	s[y] = s[x];
+	s[x] = tmp;
+	x--, y++;
+}
+/*..........................NUM 1 END..........................*/
+
 /**
  * blen - obtains length of number in base
  *

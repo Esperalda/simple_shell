@@ -13,6 +13,9 @@
 #include <signal.h>
 #include <sys/wait.h>
 
+/*..........................NUM 1 START..........................*/
+/*..........................NUM 1 BTW..........................*/
+/*..........................NUM 1 END..........................*/
 
 /**
  * struct shellDType - struct containing important shell info
@@ -124,5 +127,11 @@ void help_cd(void);
 void help_help(void);
 void help_alias(void);
 void printsHelp(void);
+
+/*..........................START..........................*/
+void rev_str_Daf(char *s, int x, int y, char tmp);
+
+/*..........................END..........................*/
+
 
 #endif
