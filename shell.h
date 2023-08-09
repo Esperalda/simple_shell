@@ -129,7 +129,8 @@ void help_alias(void);
 void printsHelp(void);
 
 /*..........................START..........................*/
-unsigned long int blen_inner(unsigned long int n, unsigned long int base);
+int b_Length(unsigned long int n, unsigned long int base);
+unsigned long int b_Length_inner(unsigned long int n, unsigned long int base);
 
 /*..........................END..........................*/
 

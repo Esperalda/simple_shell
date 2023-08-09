@@ -28,31 +28,31 @@ void rev_str(char *s)
 
 /*..........................NUM 1 START..........................*/
 /**
- * blen - obtains length of number in base
+ * b_Length - obtains length of number in base
  *
  * @n: number
  * @base: base of number
  *
  * Return: length of number
  */
-int blen(unsigned long int n, unsigned long int base)
+int b_Length(unsigned long int n, unsigned long int base)
 {
 	unsigned long int x, neg = 0;
 
 	for (x = 0; n > 0; x++)
-		n = blen_inner(n, base);
+		n = b_Length_inner(n, base);
 	return (x + neg);
 }
 /*..........................NUM 1 BTW..........................*/
 /**
- * blen - obtains length of number in base
+ * b_Length - obtains length of number in base
  *
  * @n: number
  * @base: base of number
  *
  * Return: length of number
  */
-unsigned long int blen_inner(unsigned long int n, unsigned long int base)
+unsigned long int b_Length_inner(unsigned long int n, unsigned long int base)
 {
 	n = n / base;
 	return (n);
@@ -72,7 +72,7 @@ char *_itoa(int n)
 	char *str;
 
 	if (n != 0)
-		str = malloc(blen(n, base) + 1);
+		str = malloc(b_Length(n, base) + 1);
 	else
 		str = malloc(2), str[x] = '0', x++;
 
