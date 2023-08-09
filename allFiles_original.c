@@ -3,7 +3,6 @@
 
 /*.........................._error..........................*/
 
-/*..........................NUM 1 START..........................*/
 /**
  * rev_str - Reverses a string
  * @s: string to reverse
@@ -13,32 +12,21 @@
 void rev_str(char *s)
 {
 	int x = 0, y = 0, z;
-	char tmp = 'a';
+	char tmp;
 
 	while (s[x])
 		x++;
 	z = x / 2, x = x - 1;
 	while (x >= z)
 	{
-		rev_str_Daf(s, x, y, tmp);
+		tmp  = s[y];
+		s[y] = s[x];
+		s[x] = tmp;
+		x--, y++;
 	}
 }
-/*..........................NUM 1 BTW..........................*/
-/**
- * rev_str - Reverses a string
- * @s: string to reverse
- *
- * Return: Nothing
- */
-void rev_str_Daf(char *s, int x, int y, char tmp)
-{
-	tmp  = s[y];
-	s[y] = s[x];
-	s[x] = tmp;
-	x--, y++;
-}
-/*..........................NUM 1 END..........................*/
 
+/*..........................NUM 1 START..........................*/
 /**
  * blen - obtains length of number in base
  *
@@ -52,9 +40,25 @@ int blen(unsigned long int n, unsigned long int base)
 	unsigned long int x, neg = 0;
 
 	for (x = 0; n > 0; x++)
-		n = n / base;
+		n = blen_inner(n, base);
 	return (x + neg);
 }
+/*..........................NUM 1 BTW..........................*/
+/**
+ * blen - obtains length of number in base
+ *
+ * @n: number
+ * @base: base of number
+ *
+ * Return: length of number
+ */
+unsigned long int blen_inner(unsigned long int n, unsigned long int base)
+{
+	n = n / base;
+	return (n);
+}
+/*..........................NUM 1 END..........................*/
+
 /**
  * _itoa - converts an integer to string
  *

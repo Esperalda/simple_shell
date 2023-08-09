@@ -129,7 +129,7 @@ void help_alias(void);
 void printsHelp(void);
 
 /*..........................START..........................*/
-void rev_str_Daf(char *s, int x, int y, char tmp);
+unsigned long int blen_inner(unsigned long int n, unsigned long int base);
 
 /*..........................END..........................*/
 
