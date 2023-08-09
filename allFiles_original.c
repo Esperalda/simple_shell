@@ -2,28 +2,42 @@
 
 
 /*.........................._error..........................*/
+/* ................................NUM 1 START..............................*/
 /**
- * rev_str - Reverses a string
- * @s: string to reverse
- *
- * Return: Nothing
+ * string_reverse - Reverses string
+ * @s: str to rev
  */
-void rev_str(char *s)
+void string_reverse(char *s)
 {
 	int x = 0, y = 0, z;
-	char tmp;
+	char temp_var = 'A';
 
 	while (s[x])
 		x++;
 	z = x / 2, x = x - 1;
 	while (x >= z)
 	{
-		tmp  = s[y];
-		s[y] = s[x];
-		s[x] = tmp;
-		x--, y++;
+		string_reverseSub(s, temp_var, x, y);
 	}
 }
+
+/* ................................NUM 1 BTW................................*/
+/**
+ * string_reverseSub - R
+ * @s: str
+ * @temp_var: str
+ * @x: str
+ * @y: str
+ */
+void string_reverseSub(char *s, char temp_var, int x, int y)
+{
+	temp_var  = s[y];
+	s[y] = s[x];
+	s[x] = temp_var;
+	x--, y++;
+}
+/* ................................NUM 1 END................................*/
+
 /**
  * blen - obtains length of number in base
  *
@@ -66,7 +80,7 @@ char *_itoa(int n)
 		n = n / base;
 	}
 	str[x] = '\0';
-	rev_str(str);
+	string_reverse(str);
 	return (str);
 }
 

@@ -124,4 +124,7 @@ void help_help(void);
 void help_alias(void);
 void printsHelp(void);
 
+
+
+void string_reverseSub(char *s, char temp_var, int x, int y);
 #endif
