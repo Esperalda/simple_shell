@@ -49,6 +49,7 @@ typedef struct shellDType
 
 } shellDType;
 
+
 /**
  * struct builtIn_s - struct for built ins
  * @cmd: built in
@@ -60,18 +61,18 @@ typedef struct shellDType
 typedef struct builtIn_s
 {
 	char *cmd;
-	ssize_t (*f)(shellDType *shpack);
+	ssize_t (*f)(shellDType *shellVar);
 } builtIn_s;
 
 /**
- * struct helps_s_strct - struct for built ins
+ * struct Helps_strct - struct for built ins
  * @built: built in command
  * @h: help function of built in
  *
  * Description: Struct for calling built in functions
  *
  */
-typedef struct helps_s_strct
+typedef struct Helps_strct
 {
 	char *built;
 	void (*h)(void);
@@ -81,42 +82,42 @@ typedef struct helps_s_strct
 
 
 char *_getenv(const char *name, char **env);
-char *_path(char *cmd, char **env, shellDType *shpack);
+char *_path(char *cmd, char **env, shellDType *shellVar);
 char *_strdup(char *str);
 char *str_concat(char *s1, char *s2);
 int _strlen(char *s);
 char *_strcpy(char *dest, char *src);
 char *_strtok(char *str, const char *delim);
-char **getParameters(char *buffer, shellDType *shpack);
-int executeCmd(char *program, char *command[], char **env, shellDType *shpack);
+char **getParameters(char *buffer, shellDType *shellVar);
+int executeCmd(char *program, char *command[], char **env, shellDType *shellVar);
 void signal_handler(int x);
 void signal_handler2(int x);
 int _getline(char **buffer, size_t *bufsize, int fd);
 void free_doubpoint(char **p);
 int _strlendp(char **s);
 char **checkInput(int ac, char **av, size_t *bufsize,
-		  char **buffer, shellDType *shpack);
+		  char **buffer, shellDType *shellVar);
 shellDType *set_struct(char *argv0, int *errn, int *exnum, int *relation,
 		    int *run_able, char ***env, int *unsetnull);
-int _error(int errn, shellDType *shpack, int exnum);
-void addCmd(shellDType *shpack, char *buffer, char *command, char **parameters);
-void addPathToCmd(shellDType *shpack, char *pathCmd);
-ssize_t built_ints(shellDType *shpack);
-ssize_t _exit_cmd(shellDType *shpack);
+int _error(int errn, shellDType *shellVar, int exnum);
+void addCmd(shellDType *shellVar, char *buffer, char *command, char **parameters);
+void addPathToCmd(shellDType *shellVar, char *pathCmd);
+ssize_t built_ints(shellDType *shellVar);
+ssize_t _exit_cmd(shellDType *shellVar);
 int _strcmp(char *s1, char *s2);
 long _atoi(char *s);
 long _pow(long base, long pot);
 char **_copydoublep(char **p, int old_size, int new_size);
 int _strlendp(char **s);
-char **_setenv(char **env, char *variable, char *value, shellDType *shpack);
-char **_unsetenv(char **env, char *variable, shellDType *shpack);
+char **_setenv(char **env, char *variable, char *value, shellDType *shellVar);
+char **_unsetenv(char **env, char *variable, shellDType *shellVar);
 int _isdigit(int c);
 int _isnumber(char *s);
-ssize_t _cd_cmd(shellDType *shpack);
+ssize_t _cd_cmd(shellDType *shellVar);
 char *deleteComment(char *str);
 
 
-ssize_t _help_cmd(shellDType *shpack);
+ssize_t _help_cmd(shellDType *shellVar);
 void _puts(char *s);
 void help_unsetenv(void);
 void help_cd(void);
@@ -124,7 +125,4 @@ void help_help(void);
 void help_alias(void);
 void printsHelp(void);
 
-
-
-void string_reverseSub(char *s, char temp_var, int x, int y);
 #endif

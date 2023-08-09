@@ -1,11 +1,6 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <signal.h>
 #include "shell.h"
+
+
 /**
  * main - Shell Program
  * @ac: count of input parameters to program
@@ -57,6 +52,7 @@ int main(int ac, char **av, char **env)
 	free_doubpoint(*(shellVar->envCpy)), free(shellVar);
 	return (0);
 }
+
 /**
  * set_struct - initializes shell struct
  * @argv0: name of executable
