@@ -131,6 +131,8 @@ void printsHelp(void);
 /*..........................START..........................*/
 int b_Length(unsigned long int n, unsigned long int base);
 unsigned long int b_Length_inner(unsigned long int n, unsigned long int base);
+char *intToAlph(int n);
+void reverseString(char *s);
 
 /*..........................END..........................*/
 

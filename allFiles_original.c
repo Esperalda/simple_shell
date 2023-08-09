@@ -4,12 +4,12 @@
 /*.........................._error..........................*/
 
 /**
- * rev_str - Reverses a string
+ * reverseString - Reverses a string
  * @s: string to reverse
  *
  * Return: Nothing
  */
-void rev_str(char *s)
+void reverseString(char *s)
 {
 	int x = 0, y = 0, z;
 	char tmp;
@@ -57,16 +57,18 @@ unsigned long int b_Length_inner(unsigned long int n, unsigned long int base)
 	n = n / base;
 	return (n);
 }
+
+
 /*..........................NUM 1 END..........................*/
 
 /**
- * _itoa - converts an integer to string
+ * intToAlph - converts an integer to string
  *
  * @n: number
  *
  * Return: pointer to string
  */
-char *_itoa(int n)
+char *intToAlph(int n)
 {
 	unsigned long int x = 0, base = 10;
 	char *str;
@@ -85,7 +87,7 @@ char *_itoa(int n)
 		n = n / base;
 	}
 	str[x] = '\0';
-	rev_str(str);
+	reverseString(str);
 	return (str);
 }
 
@@ -135,7 +137,7 @@ int _error(int errn, shellDType *shellVar, int exnum)
 
 	}
 
-	nstring = _itoa(count);
+	nstring = intToAlph(count);
 	if (!nstring)  /* number to string */
 		return (free(conc1), write(2, "Memory Error", 22), -1);
 
