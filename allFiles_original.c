@@ -249,7 +249,7 @@ char *_error2(int errn, char *conc2, char *option)
  *
  * Return: pointer to string
  */
-void _error2_inner(char *conc2, char *option, char *conc1)
+char *_error2_inner(char *conc2, char *option, char *conc1)
 {
 	conc1 = str_concat(conc2, option);
 	if (!conc1) /*hsh: count: cmd: error option*/
@@ -258,6 +258,7 @@ void _error2_inner(char *conc2, char *option, char *conc1)
 		return (free(conc2), NULL);
 	}
 	free(conc2);
+	return (conc1);
 }
 /*..........................NUM 3 END..........................*/
 
