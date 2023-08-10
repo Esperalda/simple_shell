@@ -86,7 +86,7 @@ unsigned long int b_Length_inner(unsigned long int n, unsigned long int base)
 /*..........................NUM 1 END..........................*/
 
 
-/*..........................NUM 11 START..........................*/
+/*..........................NUM 12 START..........................*/
 /**
  * intToAlph - converts an integer to string
  *
@@ -114,7 +114,7 @@ char *intToAlph(int n)
 	reverseString(str);
 	return (str);
 }
-/*..........................NUM 11 BTW..........................*/
+/*..........................NUM 12 BTW..........................*/
 /**
  * intToAlph - converts an integer to string
  *
@@ -125,15 +125,15 @@ char *intToAlph(int n)
 char *intToAlph_upper(int n, unsigned long int x, unsigned long int base)
 {	
 	char *str;
-	
+
 	if (n != 0)
 		str = malloc(b_Length(n, base) + 1);
 	else
 		str = malloc(2), str[x] = '0', x++;
 	return (str);
 }
-/*..........................NUM 11 BTW..........................*/
-/*..........................NUM 11 END..........................*/
+/*..........................NUM 12 BTW..........................*/
+/*..........................NUM 12 END..........................*/
 
 /*..........................NUM 2 START..........................*/
 /**
@@ -215,6 +215,7 @@ int _error(int errn, shellDType *shellVar, int exnum)
 	shellVar->exitnum[0] = exnum;
 	return (0);
 }
+
 
 /*..........................NUM 2 BTW..........................*/
 /**
@@ -333,11 +334,12 @@ ssize_t _exit_cmd(shellDType *shellVar)
 			exit(valueToExit);
 		}
 	}
-
 	_error(2, shellVar, 2);
 	free(shellVar->options);
 	return (-1);
 }
+
+/*..........................NUM 11 START..........................*/
 /**
  * _env_cmd - built in command env
  * @shellVar: struct containing shell info
@@ -351,21 +353,14 @@ ssize_t _env_cmd(shellDType *shellVar)
 
 	if (*(shellVar->envCpy) == NULL)
 	{
-		write(2, "Environment is Null, Can't Print it\n", 36);
-		shellVar->exitnum[0] = 2;
-		free(shellVar->options);
-		return (-1);
+		checker = _env_cmd_upper(shellVar);
 	}
 
 	str = *(shellVar->envCpy);
 
 	if (shellVar->options[1] == NULL)
 	{
-		for (; str && *str; str++)
-		{
-			write(1, *str, _strlen(*str));
-			write(1, "\n", 1);
-		}
+		_env_cmd_lower(str);
 	}
 	else
 	{
@@ -376,6 +371,38 @@ ssize_t _env_cmd(shellDType *shellVar)
 	free(shellVar->options);
 	return (checker);
 }
+/*..........................NUM 11 BTW..........................*/
+/**
+ * _env_cmd - built in command env
+ * @shellVar: struct containing shell info
+ *
+ * Return: 1 if succesful
+ */
+int _env_cmd_upper(shellDType *shellVar)
+{
+	write(2, "Environment is Null, Can't Print it\n", 36);
+	shellVar->exitnum[0] = 2;
+	free(shellVar->options);
+	return (-1);
+}
+/*..........................NUM 11 BTW..........................*/
+/**
+ * _env_cmd - built in command env
+ * @shellVar: struct containing shell info
+ *
+ * Return: 1 if succesful
+ */
+void _env_cmd_lower(char **str)
+{
+	for (; str && *str; str++)
+	{
+		write(1, *str, _strlen(*str));
+		write(1, "\n", 1);
+	}
+}
+/*..........................NUM 11 END..........................*/
+
+
 /**
  * _setenv_cmd - built in command setenv
  * @shellVar: struct containing shell info
