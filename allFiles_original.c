@@ -1619,7 +1619,7 @@ void signal_handler2(int x)
 }
 
 /*..........................str_concat..........................*/
-/*..........................NUM 11 START..........................*/
+
 /**
  * str_concat - concatenates two strings
  * @s1: string1
@@ -1629,7 +1629,7 @@ void signal_handler2(int x)
  */
 char *str_concat(char *s1, char *s2)
 {
-	int l1, l2, i = 0, j = 0;
+	int l1, l2, i, j;
 	char *s;
 	char *nul = "";
 
@@ -1649,40 +1649,18 @@ char *str_concat(char *s1, char *s2)
 	if (s == 0)
 		return (0);
 
-	*(s + i) = str_concat_inner(s1, s2, s, l1, l2, 1);
+	for (i = 0; i < l1; i++)
+		*(s + i) = *(s1 + i);
 
-	*(s + j) = str_concat_inner(s1, s2, s, l1, l2, 2);
+	for (i = 0, j = l1; i <= l2; j++, i++)
+		*(s + j) = *(s2 + i);
 
 	return (s);
 }
-/*..........................NUM 11 BTW..........................*/
-/**
- * str_concat - concatenates two strings
- * @s1: string1
- * @s2: string2
- *
- * Return: Pointer
- */
-char str_concat_inner(char *s1, char *s2, char *s, int l1, int l2, int chk)
-{
-	int i, j;
-	
-	if (chk == 1)
-	{
-		for (i = 0; i < l1; i++)
-		*(s + i) = *(s1 + i);
-	}
-	else
-	{
-		for (i = 0, j = l1; i <= l2; j++, i++)
-		*(s + j) = *(s2 + i);
-	}
-	return ('a');
-}
-/*..........................NUM 11 END..........................*/
 
 
 /*..........................strdup..........................*/
+/*..........................NUM 11 START..........................*/
 /**
  * _strcpy - copy a source input ont destinated input
  * @dest: target where will be stored the input
@@ -1704,6 +1682,9 @@ char *_strcpy(char *dest, char *src)
 
 	return (dest);
 }
+/*..........................NUM 11 BTW..........................*/
+/*..........................NUM 11 END..........................*/
+
 
 /**
  * _strlen - function that returns the length of a string
