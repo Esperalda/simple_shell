@@ -10,32 +10,21 @@
 void string_reverse(char *s)
 {
 	int x = 0, y = 0, z;
-	char temp_var = 'A';
+	char temp_var;
 
 	while (s[x])
 		x++;
 	z = x / 2, x = x - 1;
 	while (x >= z)
 	{
-		string_reverseSub(s, temp_var, x, y);
+		temp_var  = s[y];
+		s[y] = s[x];
+		s[x] = temp_var;
+		x--, y++;
 	}
 }
 
 /* ................................NUM 1 BTW................................*/
-/**
- * string_reverseSub - R
- * @s: str
- * @temp_var: str
- * @x: str
- * @y: str
- */
-void string_reverseSub(char *s, char temp_var, int x, int y)
-{
-	temp_var  = s[y];
-	s[y] = s[x];
-	s[x] = temp_var;
-	x--, y++;
-}
 /* ................................NUM 1 END................................*/
 
 /* ................................NUM 2 START..............................*/
@@ -50,7 +39,7 @@ void freeCharFoluke(char *temp)
 }
 /* ................................NUM 2 END................................*/
 
-
+/*..........................NUM 29 START..........................*/
 /**
  * lenBTen - get length
  *
@@ -63,11 +52,26 @@ int lenBTen(unsigned long int n, unsigned long int base)
 	unsigned long int x, negNum = 0, ret;
 
 	for (x = 0; n > 0; x++)
-		n = n / base;
+		n = b_Length_inner(n, base);
 	ret = x + negNum;
 	return (ret);
 }
 
+/*..........................NUM 29 BTW..........................*/
+/**
+ * b_Length - obtains length of number in base
+ *
+ * @n: number
+ * @base: base of number
+ *
+ * Return: length of number
+ */
+unsigned long int b_Length_inner(unsigned long int n, unsigned long int base)
+{
+	n = n / base;
+	return (n);
+}
+/*..........................NUM 29 END..........................*/
 
 /**
  * intToAlp - converts
@@ -90,7 +94,7 @@ char *intToAlp(int n)
 	for (; n > 0; x++)
 	{
 		str[x] = (n % base) + '0';
-		n = n / base;
+		n = b_Length_inner(n, base);
 	}
 	str[x] = '\0';
 	string_reverse(str);

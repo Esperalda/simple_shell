@@ -1,11 +1,6 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <signal.h>
 #include "shell.h"
+
+
 /**
  * main - Shell Program
  * @ac: count of input parameters to program
@@ -24,41 +19,42 @@ int main(int ac, char **av, char **env)
 
 	if (ac > 1 || av == NULL)
 		write(2, "Please run with no arguments\n", 29), exit(127);
-	signal(SIGINT, sigHandlr);
-	sizeEnv = strLenPtr(env);
-	env = cpyDoblePtr(env, sizeEnv, sizeEnv);
-	shellVar = shellStructDef(av[0], &errn, &exnum, &relation, &run_able, &env, &enul);
+	signal(SIGINT, signal_handler);
+	sizeEnv = _strlendp(env);
+	env = _copydoublep(env, sizeEnv, sizeEnv);
+	shellVar = set_struct(av[0], &errn, &exnum, &relation, &run_able, &env, &enul);
 	while (1)
 	{
 		command = NULL;
-		command = chckInputFunc(ac, av, &bufsize, &buffer, shellVar);
+		command = checkInput(ac, av, &bufsize, &buffer, shellVar);
 		if (!command)
 			continue;
-		addComnd(shellVar, buffer, command[0], command);
-		isBuiltIn = chckBuiltIn(shellVar);
+		addCmd(shellVar, buffer, command[0], command);
+		isBuiltIn = built_ints(shellVar);
 		if (isBuiltIn == -1 || isBuiltIn == 1)
 			continue;
-		pathCmd = searchPath(command[0], env, shellVar);
-		addPath2Comnd(shellVar, pathCmd);
+		pathCmd = _path(command[0], env, shellVar);
+		addPathToCmd(shellVar, pathCmd);
 		if (!pathCmd)
 		{
 			free(command);
-			shellVar->errnum[0] += 1, errorSetStr(0, shellVar, 127);
+			shellVar->errnum[0] += 1, _error(0, shellVar, 127);
 			continue;
 		}
 		else if (access(pathCmd, X_OK) == -1)
-			errorSetStr(1, shellVar, 126);
+			_error(1, shellVar, 126);
 		else
-			excuteCmd(pathCmd, command, env, shellVar);
+			executeCmd(pathCmd, command, env, shellVar);
 		free(command);
 		free(pathCmd);
 
 	}
-	freeDobleCharPntrFoluke(*(shellVar->envCpy)), free(shellVar);
+	free_doubpoint(*(shellVar->envCpy)), free(shellVar);
 	return (0);
 }
+
 /**
- * shellStructDef - initializes shell struct
+ * set_struct - initializes shell struct
  * @argv0: name of executable
  * @errn: number of error message
  * @exnum: exit number of shell
@@ -70,7 +66,7 @@ int main(int ac, char **av, char **env)
  * Return: Pointer to struct
  *
  */
-shellDType *shellStructDef(char *argv0, int *errn, int *exnum,
+shellDType *set_struct(char *argv0, int *errn, int *exnum,
 		    int *relation, int *run_able, char ***env, int *unsetnull)
 {
 	shellDType *shellpack;
@@ -93,7 +89,7 @@ shellDType *shellStructDef(char *argv0, int *errn, int *exnum,
 	return (shellpack);
 }
 /**
- * addComnd - adds values to shell struct
+ * addCmd - adds values to shell struct
  * @shellVar: shell struct
  * @buffer: string written after prompt
  * @command: command written after prompt
@@ -101,7 +97,7 @@ shellDType *shellStructDef(char *argv0, int *errn, int *exnum,
  *
  * Return: No return
  */
-void addComnd(shellDType *shellVar, char *buffer, char *command, char **parameters)
+void addCmd(shellDType *shellVar, char *buffer, char *command, char **parameters)
 {
 	shellVar->buffer = buffer;
 	shellVar->cmd = command;
@@ -109,13 +105,13 @@ void addComnd(shellDType *shellVar, char *buffer, char *command, char **paramete
 }
 
 /**
- * addPath2Comnd - initializes path value of struct
+ * addPathToCmd - initializes path value of struct
  * @shellVar: shell struct
  * @pathCmd: path of cmd written after propmpt
  *
  * Return: No Return
  */
-void addPath2Comnd(shellDType *shellVar, char *pathCmd)
+void addPathToCmd(shellDType *shellVar, char *pathCmd)
 {
 	shellVar->path = pathCmd;
 }

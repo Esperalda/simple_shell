@@ -97,7 +97,7 @@ char *intToAlph(int n)
 	return (str);
 }
 
-char *_error2(int errn, char *conc2, char *option);
+
 /**
  * _error - creates a string with error line
  * @errn: number corresponding to type of error

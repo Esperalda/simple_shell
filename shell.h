@@ -13,9 +13,6 @@
 #include <signal.h>
 #include <sys/wait.h>
 
-/*..........................NUM 1 START..........................*/
-/*..........................NUM 1 BTW..........................*/
-/*..........................NUM 1 END..........................*/
 
 /**
  * struct shellDType - struct containing important shell info
@@ -37,21 +34,20 @@
  */
 typedef struct shellDType
 {
-	char *hshname;        /* Name of shell argv[0] */
-	char *buffer;         /* complete line written in prompt */
-	char *cmd;            /* current command */
-	char **options;       /* options of current command */
-	char *path;           /* absolute path of command */
-	int *errnum;          /* error number for message */
-	int *exitnum;         /* exit number */
-	int *relation;        /* 0 Undef, 1 ||, 2 && */
-	int *run_able;        /* 0 False 1 True (Is able to run)*/
+	char *hshname;		  /* Name of shell argv[0] */
+	char *buffer;		  /* complete line written in prompt */
+	char *cmd;			  /* current command */
+	char **options;		  /* options of current command */
+	char *path;			  /* absolute path of command */
+	int *errnum;		  /* error number for message */
+	int *exitnum;		  /* exit number */
+	int *relation;		  /* 0 Undef, 1 ||, 2 && */
+	int *run_able;		  /* 0 False 1 True (Is able to run)*/
 	struct shellDType *next; /*adress of next cmd to run */
-	char ***envCpy;       /* current environment */
-	int *unsetnull;       /*check for setting environment to NULL */
+	char ***envCpy;		  /* current environment */
+	int *unsetnull;		  /*check for setting environment to NULL */
 
 } shellDType;
-
 
 /**
  * struct builtIn_s - struct for built ins
@@ -81,66 +77,102 @@ typedef struct Helps_strct
 	void (*h)(void);
 } helps_s;
 
+char *fetchEnviron(const char *name, char **env);
+char *searchPath(char *cmd, char **env, shellDType *shellVar);
+char *stringDuplicateFunc(char *str);
+char *stringCatenator(char *s1, char *s2);
+int stringLengthFunc(char *s);
+char *stringCopy(char *dest, char *src);
+char *stringTokenizeFunc(char *str, const char *delim);
+char **fetchParam(char *buffer, shellDType *shellVar);
+int excuteCmd(char *program, char *command[], char **env, shellDType *shellVar);
+void sigHandlr(int x);
+void sigHandlr2(int x);
+int fetchLine(char **buffer, size_t *bufsize, int fd);
+int strLenPtr(char **s);
+char **chckInputFunc(int ac, char **av, size_t *bufsize,
+					 char **buffer, shellDType *shellVar);
+shellDType *shellStructDef(char *argv0, int *errn, int *exnum, int *relation,
+						int *run_able, char ***env, int *unsetnull);
+int errorSetStr(int errn, shellDType *shellVar, int exnum);
+void addComnd(shellDType *shellVar, char *buffer, char *command, char **parameters);
+void addPath2Comnd(shellDType *shellVar, char *pathCmd);
+ssize_t chckBuiltIn(shellDType *shellVar);
+ssize_t exitCmdFunc(shellDType *shellVar);
+int stringCompare(char *s1, char *s2);
+long atoiFol(char *s);
+long powerFunc(long base, long pot);
+char **cpyDoblePtr(char **p, int old_size, int new_size);
+char **setEnvironm(char **env, char *variable, char *value, shellDType *shellVar);
+char **unSetEnviron(char **env, char *variable, shellDType *shellVar);
+int isDigitFunc(int c);
+int isNumba(char *s);
+char *delComnt(char *str);
+
+ssize_t hlpComnd(shellDType *shellVar);
+void putsFunctn(char *s);
+void hlpUnSetEnviron(void);
+
+void freeCharFoluke(char *temp);
+void freeDobleCharPntrFoluke(char **p);
+
+void string_reverse(char *s);
+void string_reverseSub(char *s, char tmp, int x, int y);
+int lenBTen(unsigned long int n, unsigned long int base);
+char *intToAlp(int n);
+char *errorSub(int errn, char *concB, char *optn);
+ssize_t envCmd(shellDType *shellVar);
+ssize_t setEnvironCmd(shellDType *shellVar);
+ssize_t unSetEnvironComnd(shellDType *shellVar);
+char *secAuxCd(shellDType *shellVar, char *currdir);
+char *secAuxCdFol(char *home, char *dire);
+char *firstAuxCd(shellDType *shellVar, char *currdir);
+ssize_t cDirCmnd(shellDType *shellVar);
+long powerFuncFol(long base, long res);
+long atoiFolFol(long subtracn);
+char *memorySet(char *s, char b, unsigned int n);
+char *memoryCopy(char *dest, char *src, unsigned int n);
+void *reAllocateFunc(void *ptr, unsigned int old_size, unsigned int new_size);
+int stringCompareFol(char *s1, char *s2, int x);
+char delComntFol(char str);
+char memorySetFol(char *s, char b, unsigned int x);
+char memoryCopyFol(char *dest, char *src, unsigned int x);
+char *pthChcker(char *path);
+char pthChckerFol(char *path, char *npath, int x, int y);
+void hlpExitFunc(void);
+void hlpExitFuncFol(void);
+void hlpEnviron(void);
+void hlpEnvironFol(void);
+void hlpSetEnviron(void);
+void hlpSetEnvironFol(void);
+void hlpUnSetEnviron(void);
+void hlpUnSetEnvironFol(void);
+void cdHlp(void);
+void cdHlpFol(void);
+void hlpHlp(void);
+void hlpHlpFol(void);
+void hlpAlias(void);
+void hlpAliasFol(void);
+void prntHlp(void);
+void prntHlpFol(void);
+char *stringCatenator(char *s1, char *s2);
+char *stringCatenatorFol();
+char stringCatenatorFol2(char *sx, char *sy, int k);
+char stringCopyFol(char *destinatn, char *source, int i);
+int errorSetStrFolu(int errn, int z, char *concA, char *concB, char *err[]);
+int errorSetStrFolu1(int errn, int cnt, int  z, char *hshname, char *nustr,
+				char *concA, char *concB, char *coluspc, char *err[]);
+int errorSetStrFolu2(int errn, char *concA, char *concB,
+						char *coluspc, char *err[], char *cmd);
+void printCmt(int chk);
+unsigned long int b_Length_inner(unsigned long int n, unsigned long int base);
 
 
 
-char *_getenv(const char *name, char **env);
-char *_path(char *cmd, char **env, shellDType *shellVar);
-char *_strdup(char *str);
-char *str_concat(char *s1, char *s2);
-int _strlen(char *s);
-char *_strcpy(char *dest, char *src);
-char *_strtok(char *str, const char *delim);
-char **getParameters(char *buffer, shellDType *shellVar);
-int executeCmd(char *program, char *command[], char **env, shellDType *shellVar);
-void signal_handler(int x);
-void signal_handler2(int x);
-int _getline(char **buffer, size_t *bufsize, int fd);
-void free_doubpoint(char **p);
-int _strlendp(char **s);
-char **checkInput(int ac, char **av, size_t *bufsize,
-		  char **buffer, shellDType *shellVar);
-shellDType *set_struct(char *argv0, int *errn, int *exnum, int *relation,
-		    int *run_able, char ***env, int *unsetnull);
-int _error(int errn, shellDType *shellVar, int exnum);
-void addCmd(shellDType *shellVar, char *buffer, char *command, char **parameters);
-void addPathToCmd(shellDType *shellVar, char *pathCmd);
-ssize_t built_ints(shellDType *shellVar);
-ssize_t _exit_cmd(shellDType *shellVar);
-int _strcmp(char *s1, char *s2);
-long _atoi(char *s);
-long _pow(long base, long pot);
-char **_copydoublep(char **p, int old_size, int new_size);
-int _strlendp(char **s);
-char **_setenv(char **env, char *variable, char *value, shellDType *shellVar);
-char **_unsetenv(char **env, char *variable, shellDType *shellVar);
-int _isdigit(int c);
-int _isnumber(char *s);
-ssize_t _cd_cmd(shellDType *shellVar);
-char *deleteComment(char *str);
 
 
-ssize_t _help_cmd(shellDType *shellVar);
-void _puts(char *s);
-void help_unsetenv(void);
-void help_cd(void);
+ssize_t cdComndFunc(shellDType *shellVar);
 void help_help(void);
 void help_alias(void);
 void printsHelp(void);
-
-/*..........................START..........................*/
-int b_Length(unsigned long int n, unsigned long int base);
-unsigned long int b_Length_inner(unsigned long int n, unsigned long int base);
-char *intToAlph(int n);
-void reverseString(char *s);
-char intToAlph_inner(int n, unsigned long int x, unsigned long int base,
-						char *str);
-
-
-
-/*..........................END..........................*/
-
-/*..........................NUM 1 START..........................*/
-/*..........................NUM 1 BTW..........................*/
-/*..........................NUM 1 END..........................*/
 #endif
