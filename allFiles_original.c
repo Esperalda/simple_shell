@@ -880,7 +880,7 @@ char *_getenv(const char *name, char **env)
 }
 
 /*..........................getline..........................*/
-
+/*..........................NUM 7 START..........................*/
 /**
  * _memset - fills memory with constant byte
  * @s: memory area
@@ -895,9 +895,26 @@ char *_memset(char *s, char b, unsigned int n)
 	unsigned int x;
 
 	for (x = 0; x < n; x++)
-		s[x] = b;
+		s[x] = _memset_inner(s, b, x);
 	return (s);
 }
+/*..........................NUM 7 BTW..........................*/
+/**
+ * _memset - fills memory with constant byte
+ * @s: memory area
+ * @b: constant byte b
+ * @n: first n bytes of memory area pointed by s
+ *
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
+ */
+char _memset_inner(char *s, char b, unsigned int x)
+{
+	s[x] = b;
+	return (s[x]);
+}
+/*..........................NUM 7 END..........................*/
+
 /**
  * _memcpy - copies memory
  * @dest: destination

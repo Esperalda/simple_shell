@@ -139,6 +139,7 @@ char *_error2_inner(char *conc2, char *option, char *conc1);
 long _pow_inner(long base, long res);
 int _strcmp_inner(char *s1, char *s2, int x, int equal);
 char deleteComment_inner(void);
+char _memset_inner(char *s, char b, unsigned int x);
 
 
 
