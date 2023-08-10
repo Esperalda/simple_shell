@@ -137,7 +137,7 @@ char intToAlph_inner(int n, unsigned long int x, unsigned long int base,
 						char *str);
 char *_error2(int errn, char *conc2, char *option);
 int _error_inner(int errn, char *conc1, char *conc2, char *err[], int z);
-void _error2(char *conc2, char *option, char *conc1);
+void _error2_inner(char *conc2, char *option, char *conc1);
 
 
 
