@@ -559,6 +559,8 @@ char *auxcd2_inner(char *home)
 /*..........................NUM 14 BTW..........................*/
 /*..........................NUM 14 END..........................*/
 
+
+/*..........................NUM 15 START..........................*/
 /**
  * auxcd - auxiliary function of cd built in
  * @shellVar: struct containing shell info
@@ -572,10 +574,7 @@ char *auxcd(shellDType *shellVar, char *currdir)
 
 	if (shellVar->options[1] && shellVar->options[2])
 	{
-		write(2, "cd: too many arguments\n", 23);
-		shellVar->exitnum[0] = 2;
-		free(shellVar->options);
-		free(currdir);
+		auxcd_inner(shellVar, currdir);
 		return (dir);
 	}
 
@@ -593,6 +592,25 @@ char *auxcd(shellDType *shellVar, char *currdir)
 
 	return (dir);
 }
+/*..........................NUM 15 BTW..........................*/
+/**
+ * auxcd - auxiliary function of cd built in
+ * @shellVar: struct containing shell info
+ * @currdir: the current directory
+ *
+ * Return: Pointer to dir or NULL if fail
+ */
+void auxcd_inner(shellDType *shellVar, char *currdir)
+{
+	write(2, "cd: too many arguments\n", 23);
+	shellVar->exitnum[0] = 2;
+	free(shellVar->options);
+	free(currdir);
+}
+/*..........................NUM 15 BTW..........................*/
+/*..........................NUM 15 END..........................*/
+
+
 
 /**
  * _cd_cmd - built in command cd
