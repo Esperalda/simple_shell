@@ -175,6 +175,7 @@ int _error(int errn, shellDType *shellVar, int exnum)
 	shellVar->exitnum[0] = exnum;
 	return (0);
 }
+
 /*..........................NUM 2 BTW..........................*/
 /**
  * _error - creates a string with error line
