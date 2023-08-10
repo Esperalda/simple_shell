@@ -64,6 +64,8 @@ unsigned long int b_Length_inner(unsigned long int n, unsigned long int base)
 
 
 /*..........................NUM 2 START..........................*/
+/*..........................NUM 2 BTW..........................*/
+/*..........................NUM 2 END..........................*/
 /**
  * intToAlph - converts an integer to string
  *
@@ -86,30 +88,14 @@ char *intToAlph(int n)
 
 	for (; n > 0; x++)
 	{
-		intToAlph_inner(n, x, base, str);
+		str[x] = (n % base) + '0';
+		n = b_Length_inner(n, base);
+		/* n = n / base; */
 	}
 	str[x] = '\0';
 	reverseString(str);
 	return (str);
 }
-
-
-/*..........................NUM 2 BTW..........................*/
-/**
- * intToAlph - converts an integer to string
- *
- * @n: number
- *
- * Return: pointer to string
- */
-char intToAlph_inner(int n, unsigned long int x, unsigned long int base,
-						char *str)
-{
-	str[x] = (n % base) + '0';
-	n = n / base;
-	return (str[x]);
-}
-/*..........................NUM 2 END..........................*/
 
 char *_error2(int errn, char *conc2, char *option);
 /**
