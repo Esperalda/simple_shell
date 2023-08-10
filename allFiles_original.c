@@ -1134,6 +1134,8 @@ void _puts(char *s)
 {
 	write(1, s, _strlen(s));
 }
+
+
 /**
  * help_exit - prints help of exit built in
  *
@@ -1147,6 +1149,8 @@ void help_exit(void)
 	_puts("    If N is omitted, the exit status\n");
 	_puts("    is that of the last command executed.\n");
 }
+
+
 /**
  * help_env - prints help of env built in
  *
@@ -1158,6 +1162,8 @@ void help_env(void)
 	_puts("    prints the current environment.\n\n");
 	_puts("    Has no options\n");
 }
+
+
 /**
  * help_setenv - prints help of setenv built in
  *
@@ -1256,6 +1262,8 @@ void help_cd(void)
 	_puts("    successfully when\n");
 	_puts("    is used; -1 otherwise.\n");
 }
+
+
 /**
  * help_help - prints help of help built in
  *
@@ -1275,6 +1283,8 @@ void help_help(void)
 	_puts("    Returns success unless PATTERN is not found or an invalid ");
 	_puts("    option is given.\n");
 }
+
+
 /**
  * help_alias - prints help of alias built in
  *
@@ -1320,7 +1330,9 @@ void printsHelp(void)
 	_puts(" alias [name[='value'] ...]\n");
 }
 
+
 /*..........................path..........................*/
+/*..........................NUM 10 START..........................*/
 /**
  * _pathcheck - check if current dir must be added
  * @path: path env variable
@@ -1353,17 +1365,17 @@ char *_pathcheck(char *path)
 	{
 		if (path[y] == '=' && path[y + 1] == ':')
 		{
-			npath[x] = path[y], npath[x + 1] = '.', x++;
+			npath[x] = _pathcheck_inner(path, npath, x, y), x++;
 			continue;
 		}
 		if (path[y] == ':' && path[y + 1] == ':')
 		{
-			npath[x] = path[y], npath[x + 1] = '.', x++;
+			npath[x] = _pathcheck_inner(path, npath, x, y), x++;
 			continue;
 		}
 		if (path[y] == ':' && path[y + 1] == '\0')
 		{
-			npath[x] = path[y], npath[x + 1] = '.', x++;
+			npath[x] = _pathcheck_inner(path, npath, x, y), x++;
 			continue;
 		}
 		npath[x] = path[y];
@@ -1371,6 +1383,23 @@ char *_pathcheck(char *path)
 	free(path);
 	return (npath);
 }
+/*..........................NUM 10 BTW..........................*/
+/**
+ * _pathcheck - check if current dir must be added
+ * @path: path env variable
+ *
+ * Return: Pointer to adress of new PATH
+ *
+ */
+
+char _pathcheck_inner(char *path, char *npath, int x, int y)
+{
+	npath[x] = path[y], npath[x + 1] = '.';
+	return (npath[x]);
+}
+/*..........................NUM 10 END..........................*/
+
+
 /**
  * _path - Searches for a cmd in PATH
  * @cmd: string contating env variable PATH
