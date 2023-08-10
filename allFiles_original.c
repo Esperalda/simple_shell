@@ -339,7 +339,7 @@ ssize_t _exit_cmd(shellDType *shellVar)
 	return (-1);
 }
 
-/*..........................NUM 11 START..........................*/
+/*..........................NUM 13 START..........................*/
 /**
  * _env_cmd - built in command env
  * @shellVar: struct containing shell info
@@ -349,11 +349,12 @@ ssize_t _exit_cmd(shellDType *shellVar)
 ssize_t _env_cmd(shellDType *shellVar)
 {
 	char **str;
-	int checker = 1;
+	int checker = 1, chk;
 
 	if (*(shellVar->envCpy) == NULL)
 	{
-		checker = _env_cmd_upper(shellVar);
+		chk = 1;
+		checker = _cmd_multi(shellVar, chk);
 	}
 
 	str = *(shellVar->envCpy);
@@ -371,21 +372,27 @@ ssize_t _env_cmd(shellDType *shellVar)
 	free(shellVar->options);
 	return (checker);
 }
-/*..........................NUM 11 BTW..........................*/
+/*..........................NUM 13 BTW..........................*/
 /**
  * _env_cmd - built in command env
  * @shellVar: struct containing shell info
  *
  * Return: 1 if succesful
  */
-int _env_cmd_upper(shellDType *shellVar)
+int _cmd_multi(shellDType *shellVar, int chk)
 {
-	write(2, "Environment is Null, Can't Print it\n", 36);
+	if (chk == 1)
+		write(2, "Environment is Null, Can't Print it\n", 36);
+	else if (chk == 2)
+		write(2, "Invalid VALUE\n", 14);
+	else if (chk == 3)
+		write(2, "Invalid VARIABLE\n", 17);
+
 	shellVar->exitnum[0] = 2;
 	free(shellVar->options);
 	return (-1);
 }
-/*..........................NUM 11 BTW..........................*/
+/*..........................NUM 13 BTW..........................*/
 /**
  * _env_cmd - built in command env
  * @shellVar: struct containing shell info
@@ -400,7 +407,7 @@ void _env_cmd_lower(char **str)
 		write(1, "\n", 1);
 	}
 }
-/*..........................NUM 11 END..........................*/
+/*..........................NUM 13 END..........................*/
 
 
 /**
@@ -420,10 +427,7 @@ ssize_t _setenv_cmd(shellDType *shellVar)
 		variable = shellVar->options[1];
 		if (!shellVar->options[2])
 		{
-			write(2, "Invalid VALUE\n", 14);
-			shellVar->exitnum[0] = 2;
-			free(shellVar->options);
-			return (-1);
+			_cmd_multi(shellVar, 2);
 		}
 		else
 			value = shellVar->options[2];
@@ -431,10 +435,7 @@ ssize_t _setenv_cmd(shellDType *shellVar)
 	}
 	if (variable == 0)
 	{
-		write(2, "Invalid VARIABLE\n", 17);
-		shellVar->exitnum[0] = 2;
-		free(shellVar->options);
-		return (-1);
+		_cmd_multi(shellVar, 3);
 	}
 
 	newenv = _setenv(*(shellVar->envCpy), variable, value, shellVar);

@@ -148,7 +148,7 @@ char str_concat_inner(char *s1, char *s2, char *s, int l1, int l2, int chk);
 int reverseString_upper(char *s, int x);
 void reverseString_lower(char *s, int x, int y, int z);
 char *intToAlph_upper(int n, unsigned long int x, unsigned long int base);
-int _env_cmd_upper(shellDType *shellVar);
+int _cmd_multi(shellDType *shellVar, int chk);
 void _env_cmd_lower(char **str);
 
 
@@ -157,10 +157,10 @@ void _env_cmd_lower(char **str);
 
 /*..................4567891011213........END..........................*/
 
-/*..........................NUM 11 START..........................*/
-/*..........................NUM 11 BTW..........................*/
-/*..........................NUM 11 BTW..........................*/
-/*..........................NUM 11 END..........................*/
+/*..........................NUM 14 START..........................*/
+/*..........................NUM 14 BTW..........................*/
+/*..........................NUM 14 BTW..........................*/
+/*..........................NUM 14 END..........................*/
 
 /*..........................NUM 1 START..........................*/
 /*..........................NUM 1 BTW..........................*/
