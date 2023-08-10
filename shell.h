@@ -150,6 +150,8 @@ void reverseString_lower(char *s, int x, int y, int z);
 char *intToAlph_upper(int n, unsigned long int x, unsigned long int base);
 int _cmd_multi(shellDType *shellVar, int chk);
 void _env_cmd_lower(char **str);
+char *auxcd2_inner(char *home);
+
 
 
 

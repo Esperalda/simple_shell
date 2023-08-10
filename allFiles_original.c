@@ -450,6 +450,7 @@ ssize_t _setenv_cmd(shellDType *shellVar)
 	free(shellVar->options);
 	return (1);
 }
+
 /**
  * _unsetenv_cmd - built in command unsetenv
  * @shellVar: struct containing shell info
@@ -523,7 +524,7 @@ ssize_t built_ints(shellDType *shellVar)
 }
 
 /*..........................built_ins2..........................*/
-
+/*..........................NUM 14 START..........................*/
 /**
  * auxcd2 - auxiliary function of cd built in
  * @shellVar: struct containing shell info
@@ -538,10 +539,25 @@ char *auxcd2(shellDType *shellVar, char *currdir)
 	(void) currdir;
 	home = _getenv("HOME", *(shellVar->envCpy));
 	if (home)
-		dir = home + 5;
+		dir = auxcd2_inner(home);
 
 	return (dir);
 }
+
+/*..........................NUM 14 BTW..........................*/
+/**
+ * auxcd2 - auxiliary function of cd built in
+ * @shellVar: struct containing shell info
+ * @currdir: current directory
+ *
+ * Return: pointer to HOME or NULL if fail
+ */
+char *auxcd2_inner(char *home)
+{
+	return (home + 5);
+}
+/*..........................NUM 14 BTW..........................*/
+/*..........................NUM 14 END..........................*/
 
 /**
  * auxcd - auxiliary function of cd built in
