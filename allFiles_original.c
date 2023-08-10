@@ -2,7 +2,7 @@
 
 
 /*.........................._error..........................*/
-
+/*..........................XXXXX..........................*/
 /**
  * reverseString - Reverses a string
  * @s: string to reverse
@@ -25,6 +25,7 @@ void reverseString(char *s)
 		x--, y++;
 	}
 }
+/*..........................XXXXX..........................*/
 
 /*..........................NUM 1 START..........................*/
 /**
@@ -61,6 +62,8 @@ unsigned long int b_Length_inner(unsigned long int n, unsigned long int base)
 
 /*..........................NUM 1 END..........................*/
 
+
+/*..........................NUM 2 START..........................*/
 /**
  * intToAlph - converts an integer to string
  *
@@ -83,13 +86,30 @@ char *intToAlph(int n)
 
 	for (; n > 0; x++)
 	{
-		str[x] = (n % base) + '0';
-		n = n / base;
+		intToAlph_inner(n, x, base, str);
 	}
 	str[x] = '\0';
 	reverseString(str);
 	return (str);
 }
+
+
+/*..........................NUM 2 BTW..........................*/
+/**
+ * intToAlph - converts an integer to string
+ *
+ * @n: number
+ *
+ * Return: pointer to string
+ */
+char intToAlph_inner(int n, unsigned long int x, unsigned long int base,
+						char *str)
+{
+	str[x] = (n % base) + '0';
+	n = n / base;
+	return (str[x]);
+}
+/*..........................NUM 2 END..........................*/
 
 char *_error2(int errn, char *conc2, char *option);
 /**

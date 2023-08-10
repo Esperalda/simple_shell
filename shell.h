@@ -133,8 +133,14 @@ int b_Length(unsigned long int n, unsigned long int base);
 unsigned long int b_Length_inner(unsigned long int n, unsigned long int base);
 char *intToAlph(int n);
 void reverseString(char *s);
+char intToAlph_inner(int n, unsigned long int x, unsigned long int base,
+						char *str);
+
+
 
 /*..........................END..........................*/
 
-
+/*..........................NUM 1 START..........................*/
+/*..........................NUM 1 BTW..........................*/
+/*..........................NUM 1 END..........................*/
 #endif
