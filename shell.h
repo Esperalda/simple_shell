@@ -144,11 +144,12 @@ char _memcpy_inner(char *dest, char *src, unsigned int x);
 void *_realloc_inner(void *ptr, unsigned int old_size, unsigned int new_size,
 				void *ptr2, int chk);
 char _pathcheck_inner(char *path, char *npath, int x, int y);
+char str_concat_inner(char *s1, char *s2, char *s, int l1, int l2, int chk);
 
 
 
 
-/*..................456789........END..........................*/
+/*..................45678910........END..........................*/
 
 /*..........................NUM 1 START..........................*/
 /*..........................NUM 1 BTW..........................*/
