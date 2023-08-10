@@ -83,12 +83,10 @@ unsigned long int b_Length_inner(unsigned long int n, unsigned long int base)
 	n = n / base;
 	return (n);
 }
-
-
 /*..........................NUM 1 END..........................*/
 
 
-
+/*..........................NUM 11 START..........................*/
 /**
  * intToAlph - converts an integer to string
  *
@@ -101,10 +99,7 @@ char *intToAlph(int n)
 	unsigned long int x = 0, base = 10;
 	char *str;
 
-	if (n != 0)
-		str = malloc(b_Length(n, base) + 1);
-	else
-		str = malloc(2), str[x] = '0', x++;
+	str = intToAlph_upper(n, x, base);
 
 	if (str == 0)
 		return (0);
@@ -119,6 +114,26 @@ char *intToAlph(int n)
 	reverseString(str);
 	return (str);
 }
+/*..........................NUM 11 BTW..........................*/
+/**
+ * intToAlph - converts an integer to string
+ *
+ * @n: number
+ *
+ * Return: pointer to string
+ */
+char *intToAlph_upper(int n, unsigned long int x, unsigned long int base)
+{	
+	char *str;
+	
+	if (n != 0)
+		str = malloc(b_Length(n, base) + 1);
+	else
+		str = malloc(2), str[x] = '0', x++;
+	return (str);
+}
+/*..........................NUM 11 BTW..........................*/
+/*..........................NUM 11 END..........................*/
 
 /*..........................NUM 2 START..........................*/
 /**

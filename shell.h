@@ -147,6 +147,8 @@ char _pathcheck_inner(char *path, char *npath, int x, int y);
 char str_concat_inner(char *s1, char *s2, char *s, int l1, int l2, int chk);
 int reverseString_upper(char *s, int x);
 void reverseString_lower(char *s, int x, int y, int z);
+char *intToAlph_upper(int n, unsigned long int x, unsigned long int base);
+
 
 
 
@@ -154,6 +156,7 @@ void reverseString_lower(char *s, int x, int y, int z);
 /*..................45678910........END..........................*/
 
 /*..........................NUM 11 START..........................*/
+/*..........................NUM 11 BTW..........................*/
 /*..........................NUM 11 BTW..........................*/
 /*..........................NUM 11 END..........................*/
 
