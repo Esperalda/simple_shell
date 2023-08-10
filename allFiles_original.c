@@ -593,9 +593,8 @@ long _pow_inner(long base, long res)
 	res *= base;
 	return (res);
 }
-
-
 /*..........................NUM 4 END..........................*/
+
 
 /**
  * _atoi - convert a char input to int
@@ -758,6 +757,7 @@ char **checkInput(int ac, char **av, size_t *bufsize,
 	return (command);
 }
 
+/*..........................NUM 6 START..........................*/
 /**
  * deleteComment - deletes a commnet inside a command line
  *
@@ -773,12 +773,26 @@ char *deleteComment(char *str)
 	for (; str && *str; str++)
 		if (*str == '#' && *(str - 1) == ' ')
 		{
-			*str = '\0';
+			*str = deleteComment_inner();
 			break;
 		}
 
 	return (org);
 }
+/*..........................NUM 6 BTW..........................*/
+/**
+ * deleteComment - deletes a commnet inside a command line
+ *
+ * @str: string to operate
+ *
+ * Return: pointer to string
+ *
+ */
+char deleteComment_inner(void)
+{
+	return ('\0');
+}
+/*..........................NUM 6 END..........................*/
 
 
 /*..........................executeCmd..........................*/
