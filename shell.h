@@ -137,10 +137,11 @@ char *_error2(int errn, char *conc2, char *option);
 int _error_inner(int errn, char *conc1, char *conc2, char *err[], int z);
 char *_error2_inner(char *conc2, char *option, char *conc1);
 long _pow_inner(long base, long res);
+int _strcmp_inner(char *s1, char *s2, int x, int equal);
 
 
 
-/*..........................END..........................*/
+/*..................45........END..........................*/
 
 /*..........................NUM 1 START..........................*/
 /*..........................NUM 1 BTW..........................*/

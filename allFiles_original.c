@@ -562,6 +562,7 @@ ssize_t _cd_cmd(shellDType *shellVar)
 
 
 /*..........................built_ins3..........................*/
+/*..........................NUM 4 START..........................*/
 /**
  * _pow - gets the result of base to ower
  * @base: base decimal
@@ -575,10 +576,26 @@ long _pow(long base, long pot)
 	long res = 1;
 
 	for (x = 0; x < pot; x++)
-		res *= base;
+		_pow_inner(base, res);
 
 	return (res);
 }
+/*..........................NUM 4 BTW..........................*/
+/**
+ * _pow - gets the result of base to ower
+ * @base: base decimal
+ * @pot: power
+ *
+ * Return: result
+ */
+long _pow_inner(long base, long res)
+{
+	res *= base;
+	return (res);
+}
+
+
+/*..........................NUM 4 END..........................*/
 
 /**
  * _atoi - convert a char input to int
@@ -620,6 +637,8 @@ long _atoi(char *s)
 
 	return (toReturn);
 }
+
+/*..........................NUM 5 START..........................*/
 /**
  * _strcmp - compares two strings
  * @s1: string 1
@@ -635,10 +654,26 @@ int _strcmp(char *s1, char *s2)
 
 	for (x = 0; (*(s1 + x) || *(s2 + x)) && !equal; x++)
 		if (*(s1 + x) != *(s2 + x))
-			equal = *(s1 + x) - *(s2 + x);
+			equal = _strcmp_inner(s1, s2, x, equal);
 
 	return (equal);
 }
+/*..........................NUM 5 BTW..........................*/
+/**
+ * _strcmp - compares two strings
+ * @s1: string 1
+ * @s2: string 2
+ *
+ * Return: 0 if strings are equal or another value if not
+ *
+ */
+int _strcmp_inner(char *s1, char *s2, int x, int equal)
+{
+	equal = *(s1 + x) - *(s2 + x);
+	return (equal);
+}
+/*..........................NUM 5 END..........................*/
+
 /**
  * _isdigit - checks if a character is a digit
  * @c: character
