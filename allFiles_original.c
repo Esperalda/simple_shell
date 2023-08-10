@@ -2,7 +2,7 @@
 
 
 /*.........................._error..........................*/
-/*..........................XXXXX..........................*/
+/*..........................NUM 11 START..........................*/
 /**
  * reverseString - Reverses a string
  * @s: string to reverse
@@ -12,11 +12,35 @@
 void reverseString(char *s)
 {
 	int x = 0, y = 0, z;
-	char tmp;
 
+	x = reverseString_upper(s, x);
+	z = x / 2, x = x - 1;
+	reverseString_lower(s, x, y, z);
+}
+/*..........................NUM 11 BTW..........................*/
+/**
+ * reverseString - Reverses a string
+ * @s: string to reverse
+ *
+ * Return: Nothing
+ */
+int reverseString_upper(char *s, int x)
+{
 	while (s[x])
 		x++;
-	z = x / 2, x = x - 1;
+	return (x);
+}
+/*..........................NUM 11 BTW..........................*/
+/**
+ * reverseString - Reverses a string
+ * @s: string to reverse
+ *
+ * Return: Nothing
+ */
+void reverseString_lower(char *s, int x, int y, int z)
+{
+	char tmp;
+
 	while (x >= z)
 	{
 		tmp  = s[y];
@@ -24,8 +48,9 @@ void reverseString(char *s)
 		s[x] = tmp;
 		x--, y++;
 	}
+
 }
-/*..........................XXXXX..........................*/
+/*..........................NUM 11 END..........................*/
 
 /*..........................NUM 1 START..........................*/
 /**
@@ -1660,7 +1685,6 @@ char *str_concat(char *s1, char *s2)
 
 
 /*..........................strdup..........................*/
-/*..........................NUM 11 START..........................*/
 /**
  * _strcpy - copy a source input ont destinated input
  * @dest: target where will be stored the input
@@ -1682,9 +1706,6 @@ char *_strcpy(char *dest, char *src)
 
 	return (dest);
 }
-/*..........................NUM 11 BTW..........................*/
-/*..........................NUM 11 END..........................*/
-
 
 /**
  * _strlen - function that returns the length of a string
