@@ -63,9 +63,7 @@ unsigned long int b_Length_inner(unsigned long int n, unsigned long int base)
 /*..........................NUM 1 END..........................*/
 
 
-/*..........................NUM 2 START..........................*/
-/*..........................NUM 2 BTW..........................*/
-/*..........................NUM 2 END..........................*/
+
 /**
  * intToAlph - converts an integer to string
  *
@@ -97,7 +95,7 @@ char *intToAlph(int n)
 	return (str);
 }
 
-
+/*..........................NUM 2 START..........................*/
 /**
  * _error - creates a string with error line
  * @errn: number corresponding to type of error
@@ -108,11 +106,6 @@ char *intToAlph(int n)
  */
 int _error(int errn, shellDType *shellVar, int exnum)
 {
-	/**
-	 * 0 - file or cmd not found , 1 - permission denied, 2 - illegal exit number
-	 * 3 - setenv error,         , 4 - can´t cd         , 5 - invalid option cd
-	 * 6 - help _error           , 7 - memory allocation, 8 - Alias Error
-	 **/
 	int count = shellVar->errnum[0], z = 0;
 	char *cmd = shellVar->cmd, **option = shellVar->options;
 	char *shelln = shellVar->hshname;
@@ -131,16 +124,8 @@ int _error(int errn, shellDType *shellVar, int exnum)
 
 	if (errn == 7) /* Alloc Error */
 	{
-		conc2 = str_concat(conc1, err[errn]); /*hsh: count: error*/
-		if (!conc2)
-			return (free(conc1), write(2, "Memory Error", 22), -1);
-		free(conc1);
-		while (conc2[z] != 0)
-			z++;
-		write(2, conc2, z), write(2, "\n", 1);
-		free(conc2);
-		return (0);
-
+		conc2 = "fol";
+		_error_inner(errn, conc1, conc2, err, z);
 	}
 
 	nstring = intToAlph(count);
@@ -189,8 +174,30 @@ int _error(int errn, shellDType *shellVar, int exnum)
 	free(conc2);
 	shellVar->exitnum[0] = exnum;
 	return (0);
-
 }
+/*..........................NUM 2 BTW..........................*/
+/**
+ * _error - creates a string with error line
+ * @errn: number corresponding to type of error
+ * @shellVar: struct containing shell information
+ * @exnum: value of exit the shell should have
+ *
+ * Return: 0 success, -1 fail
+ */
+int _error_inner(int errn, char *conc1, char *conc2, char *err[], int z)
+{
+	conc2 = str_concat(conc1, err[errn]); /*hsh: count: error*/
+	if (!conc2)
+		return (free(conc1), write(2, "Memory Error", 22), -1);
+	free(conc1);
+	while (conc2[z] != 0)
+		z++;
+	write(2, conc2, z), write(2, "\n", 1);
+	free(conc2);
+	return (0);
+}
+/*..........................NUM 2 END..........................*/
+
 /**
  * _error2 - extra modes for error generation
  * @errn: number corresponding to type of error
