@@ -199,6 +199,7 @@ int _error_inner(int errn, char *conc1, char *conc2, char *err[], int z)
 }
 /*..........................NUM 2 END..........................*/
 
+/*..........................NUM 3 START..........................*/
 /**
  * _error2 - extra modes for error generation
  * @errn: number corresponding to type of error
@@ -209,11 +210,6 @@ int _error_inner(int errn, char *conc1, char *conc2, char *err[], int z)
  */
 char *_error2(int errn, char *conc2, char *option)
 {
-	/**
-	 * 0 - file or cmd not found , 1 - permission denied, 2 - illegal exit number
-	 * 3 - setenv error,         , 4 - can´t cd         , 5 - invalid option cd
-	 * 6 - help _error           , 7 - memory allocation, 8 - Alias Error
-	 **/
 	char *conc1, *colspace = ": ";
 
 	if (errn == 2) /* exit error */
@@ -238,18 +234,33 @@ char *_error2(int errn, char *conc2, char *option)
 	}
 	if (errn > 3) /* Errors with options at end */
 	{
-		conc1 = str_concat(conc2, option);
-		if (!conc1) /*hsh: count: cmd: error option*/
-		{
-			write(2, "Memory Error", 22);
-			return (free(conc2), NULL);
-		}
-		free(conc2);
+		_error2_inner(conc2, option, conc1);
 		return (conc1);
 	}
 	return (conc2);
 
 }
+/*..........................NUM 3 BTW..........................*/
+/**
+ * _error2 - extra modes for error generation
+ * @errn: number corresponding to type of error
+ * @conc2: error part from _error
+ * @option: cmd option thaat
+ *
+ * Return: pointer to string
+ */
+void _error2_inner(char *conc2, char *option, char *conc1)
+{
+	conc1 = str_concat(conc2, option);
+	if (!conc1) /*hsh: count: cmd: error option*/
+	{
+		write(2, "Memory Error", 22);
+		return (free(conc2), NULL);
+	}
+	free(conc2);
+}
+/*..........................NUM 3 END..........................*/
+
 
 /*..........................built_ins1..........................*/
 
