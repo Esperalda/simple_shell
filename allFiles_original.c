@@ -947,6 +947,8 @@ char _memcpy_inner(char *dest, char *src, unsigned int x)
 }
 /*..........................NUM 8 END..........................*/
 
+
+/*..........................NUM 9 START..........................*/
 /**
  * _realloc - reallocates a memory block using malloc and free
  * @ptr: pointer to modify
@@ -958,16 +960,16 @@ char _memcpy_inner(char *dest, char *src, unsigned int x)
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
 	void *ptr2;
+	int chk = 0;
 
 	if (old_size == new_size)
 		return (ptr);
 
 	if (ptr == NULL)
 	{
-		ptr2 = malloc(new_size);
-		if (ptr2 == 0)
-			return (0);
-		free(ptr);
+		chk = 1;
+		ptr2 = NULL;
+		ptr2 = _realloc_inner(ptr, old_size, new_size, ptr2, chk);
 		return (ptr2);
 	}
 
@@ -984,10 +986,38 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 
 	ptr2 = _memset(ptr2, '\0', new_size);
 
-	_memcpy(ptr2, ptr, old_size);
-	free(ptr);
+	ptr2 = _realloc_inner(ptr, old_size, new_size, ptr2, chk);
 	return (ptr2);
 }
+/*..........................NUM 9 BTW..........................*/
+/**
+ * _realloc - reallocates a memory block using malloc and free
+ * @ptr: pointer to modify
+ * @old_size: current size of memory
+ * @new_size: size memory will now have
+ *
+ * Return: Pointer to reallocated memory
+ */
+void *_realloc_inner(void *ptr, unsigned int old_size, unsigned int new_size,
+				void *ptr2, int chk)
+{
+	if (chk == 1)
+	{
+		ptr2 = malloc(new_size);
+		if (ptr2 == 0)
+			return (0);
+		free(ptr);
+	}
+	else
+	{
+		_memcpy(ptr2, ptr, old_size);
+		free(ptr);
+	}
+	return (ptr2);
+}
+/*..........................NUM 9 END..........................*/
+
+
 /**
  * _getline - read a string or a line from an input stream
  * @buffer: pointer to a space where the stdin read will be saved

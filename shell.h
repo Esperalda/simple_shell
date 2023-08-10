@@ -141,12 +141,14 @@ int _strcmp_inner(char *s1, char *s2, int x, int equal);
 char deleteComment_inner(void);
 char _memset_inner(char *s, char b, unsigned int x);
 char _memcpy_inner(char *dest, char *src, unsigned int x);
+void *_realloc_inner(void *ptr, unsigned int old_size, unsigned int new_size,
+				void *ptr2, int chk);
 
 
 
 
 
-/*..................4567........END..........................*/
+/*..................45678........END..........................*/
 
 /*..........................NUM 1 START..........................*/
 /*..........................NUM 1 BTW..........................*/
