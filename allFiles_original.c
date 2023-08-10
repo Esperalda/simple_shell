@@ -915,6 +915,7 @@ char _memset_inner(char *s, char b, unsigned int x)
 }
 /*..........................NUM 7 END..........................*/
 
+/*..........................NUM 8 START..........................*/
 /**
  * _memcpy - copies memory
  * @dest: destination
@@ -928,9 +929,24 @@ char *_memcpy(char *dest, char *src, unsigned int n)
 	unsigned int x;
 
 	for (x = 0; x < n; x++)
-		dest[x] = src[x];
+		dest[x] = _memcpy_inner(dest, src, x);
 	return (dest);
 }
+/*..........................NUM 8 BTW..........................*/
+/**
+ * _memcpy - copies memory
+ * @dest: destination
+ * @src: source
+ * @n: size of memory to copy
+ *
+ * Return: Returns memory copied
+ */
+char _memcpy_inner(char *dest, char *src, unsigned int x)
+{
+	return (dest[x] = src[x]);
+}
+/*..........................NUM 8 END..........................*/
+
 /**
  * _realloc - reallocates a memory block using malloc and free
  * @ptr: pointer to modify

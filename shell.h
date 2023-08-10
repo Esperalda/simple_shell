@@ -140,10 +140,13 @@ long _pow_inner(long base, long res);
 int _strcmp_inner(char *s1, char *s2, int x, int equal);
 char deleteComment_inner(void);
 char _memset_inner(char *s, char b, unsigned int x);
+char _memcpy_inner(char *dest, char *src, unsigned int x);
 
 
 
-/*..................456........END..........................*/
+
+
+/*..................4567........END..........................*/
 
 /*..........................NUM 1 START..........................*/
 /*..........................NUM 1 BTW..........................*/
