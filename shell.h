@@ -165,6 +165,10 @@ void helpSetenv1(void);
 void printsHelpFunc1(void);
 int strLenDblePtrFunc(char **s);
 int strLenDblePtrFunc_inner(char **s, int x);
+int errorStrFunc1(int errNum, int cnter, int z, char *sh_Name,
+					char *numStr, char *concat_a, char *err[],
+					char *concat_b, char *collctspace, char *cmd);
+
 
 /*..........................fixed..........................*/
 
