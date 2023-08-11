@@ -160,7 +160,7 @@ int _error(int errn, shellDType *shellVar, int exnum)
 
 	conc1 = str_concat(shelln, colspace);
 	if (!conc1) /*hsh: */
-		return (write(2, "Memory Error", 22), -1);
+		return (printCmt(1), -1);
 
 	if (errn == 7) /* Alloc Error */
 	{
@@ -170,7 +170,7 @@ int _error(int errn, shellDType *shellVar, int exnum)
 
 	nstring = intToAlph(count);
 	if (!nstring)  /* number to string */
-		return (free(conc1), write(2, "Memory Error", 22), -1);
+		return (free(conc1), printCmt(1), -1);
 
 	conc2 = str_concat(conc1, nstring);
 	if (!conc2) /*hsh: count*/
@@ -182,22 +182,22 @@ int _error(int errn, shellDType *shellVar, int exnum)
 
 	conc1 = str_concat(conc2, colspace);
 	if (!conc1) /*hsh: count: */
-		return (free(conc2), write(2, "Memory Error", 22), -1);
+		return (free(conc2), printCmt(1), -1);
 
 	free(conc2);
 	conc2 = str_concat(conc1, cmd);
 	if (!conc2) /*hsh: count: cmd*/
-		return (free(conc1), write(2, "Memory Error", 22), -1);
+		return (free(conc1), printCmt(1), -1);
 	free(conc1);
 
 	conc1 = str_concat(conc2, colspace);
 	if (!conc1) /*hsh: count: cmd: */
-		return (free(conc2), write(2, "Memory Error", 22), -1);
+		return (free(conc2), printCmt(1), -1);
 	free(conc2);
 
 	conc2 = str_concat(conc1, err[errn]);
 	if (!conc2) /*hsh: count: cmd: error*/
-		return (free(conc1), write(2, "Memory Error", 22), -1);
+		return (free(conc1), printCmt(1), -1);
 	free(conc1);
 
 	if (errn > 1 && errn < 6 && errn != 3)
@@ -230,7 +230,7 @@ int _error_inner(int errn, char *conc1, char *conc2, char *err[], int z)
 {
 	conc2 = str_concat(conc1, err[errn]); /*hsh: count: error*/
 	if (!conc2)
-		return (free(conc1), write(2, "Memory Error", 22), -1);
+		return (free(conc1), printCmt(1), -1);
 	free(conc1);
 	while (conc2[z] != 0)
 		z++;
@@ -1244,7 +1244,7 @@ int _getline(char **buffer, size_t *bufsize, int fd)
 	{
 		buff = malloc(sizeof(char) * size);
 		if (!buff)
-			return (write(2, "Memory Error", 22), 0);
+			return (printCmt(1), 0);
 		*buffer = buff;
 	}
 	buff = _memset(buff, '\0', size);
@@ -1260,7 +1260,7 @@ int _getline(char **buffer, size_t *bufsize, int fd)
 			sizeold = size, size += BSIZE;
 			buff = _realloc(buff, sizeold, size);
 			if (!buff)
-				return (write(2, "Memory Error", 22), 0);
+				return (printCmt(1), 0);
 		}
 		for (; x < len; x++)
 		{
