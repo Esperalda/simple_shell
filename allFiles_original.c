@@ -1678,7 +1678,7 @@ void free_doubpoint(char **p)
 {
 	int x, z = 0;
 
-	free_doubpoint_inner(p, z);
+	z = free_doubpoint_inner(p, z);
 
 	for (x = 0; x < z; x++)
 	{
@@ -1703,6 +1703,8 @@ int free_doubpoint_inner(char **p, int z)
 }
 /*..........................NUM 24 BTW..........................*/
 /*..........................NUM 24 END..........................*/
+
+
 /**
  * _copydoublep - copies an array of strings (double pointer)
  *
@@ -1752,6 +1754,8 @@ char **_copydoublep(char **p, int old_size, int new_size)
 
 	return (copy);
 }
+
+/*..........................NUM 25 START..........................*/
 /**
  * _strlendp - calculates length of double pointer (ending in NULL)
  * @s: double pointer
@@ -1766,10 +1770,28 @@ int _strlendp(char **s)
 	if (!s)
 		return (0);
 
+	x = _strlendp_inner(s, x);
+
+	return (x);
+}
+/*..........................NUM 25 BTW..........................*/
+/**
+ * _strlendp - calculates length of double pointer (ending in NULL)
+ * @s: double pointer
+ *
+ * Return: Length of double pointer
+ *
+ */
+int _strlendp_inner(char **s, int x)
+{
 	while (s[x] != NULL)
 		x++;
 	return (x);
 }
+/*..........................NUM 25 BTW..........................*/
+/*..........................NUM 25 END..........................*/
+
+
 /**
  * _setenv - overwrite an env variable or creates it
  *
