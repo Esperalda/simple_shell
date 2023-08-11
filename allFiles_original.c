@@ -922,7 +922,7 @@ int executeCmd(char *program, char *command[], char **env, shellDType *shellVar)
 	signal(SIGINT, signal_handler2);
 	if (process == -1)
 	{
-		write(2, "Fork Error", 10);
+		printCmt(9);
 		exit(-1);
 	}
 	if (process == 0)
@@ -1918,7 +1918,7 @@ char **_setenv(char **env, char *variable, char *value, shellDType *shellVar)
 void signal_handler(int x)
 {
 	(void) x;
-	write(1, "\n$ ", 3);
+	printCmt(10);
 }
 /**
  * signal_handler2 - handles ctrl + c during cmd exec
@@ -1929,7 +1929,7 @@ void signal_handler(int x)
 void signal_handler2(int x)
 {
 	(void) x;
-	write(1, "\n", 1);
+	printCmt(11);
 }
 
 /*..........................str_concat..........................*/
@@ -2207,7 +2207,7 @@ char **_unsetenv(char **env, char *variable, shellDType *shellVar)
 		}
 	}
 	if (found == 0)
-		return (write(2, "VARIABLE not found\n", 19), NULL);
+		return (printCmt(12), NULL);
 	return (env);
 }
 
