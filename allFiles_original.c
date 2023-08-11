@@ -387,9 +387,9 @@ int _cmd_multi(shellDType *shellVar, int chk)
 		printCmt(3);
 	}
 	else if (chk == 2)
-		write(2, "Invalid VALUE\n", 14);
+		printCmt(4);
 	else if (chk == 3)
-		write(2, "Invalid VARIABLE\n", 17);
+		printCmt(5);
 
 	shellVar->exitnum[0] = 2;
 	free(shellVar->options);
@@ -470,7 +470,7 @@ ssize_t _unsetenv_cmd(shellDType *shellVar)
 	else
 	{
 		shellVar->exitnum[0] = 2;
-		write(2, "Please provide an argument\n", 27);
+		printCmt(6);
 		return (free(shellVar->options), -1);
 	}
 
@@ -605,7 +605,7 @@ char *auxcd(shellDType *shellVar, char *currdir)
  */
 void auxcd_inner(shellDType *shellVar, char *currdir)
 {
-	write(2, "cd: too many arguments\n", 23);
+	printCmt(7);
 	shellVar->exitnum[0] = 2;
 	free(shellVar->options);
 	free(currdir);
@@ -827,7 +827,7 @@ char **checkInput(int ac, char **av, size_t *bufsize,
 	if (ac == 1)
 	{
 		if (isatty(STDIN_FILENO))
-			write(1, "$ ", 2);
+			printCmt(8);
 		characters = getline(buffer, bufsize, stdin);
 
 		if (characters == -1)
