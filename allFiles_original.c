@@ -1993,6 +1993,7 @@ char *_strdup(char *str)
 	return (arr);
 }
 
+
 /*..........................strtok..........................*/
 /**
  * _strtok - tokenizes a string based on a delimiter
@@ -2088,6 +2089,11 @@ char **_copydoublepDel(char **p, int new_size, int jump)
 	return (copy);
 }
 
+
+/*..........................NUM 27 START..........................*/
+/*..........................NUM 27 BTW..........................*/
+/*..........................NUM 27 BTW..........................*/
+/*..........................NUM 27 END..........................*/
 /**
  * _unsetenv - unsets an enviromental variable
  *
