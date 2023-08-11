@@ -19,9 +19,9 @@ int main(int ac, char **av, char **env)
 
 	if (ac > 1 || av == NULL)
 		write(2, "Please run with no arguments\n", 29), exit(127);
-	signal(SIGINT, signal_handler);
-	sizeEnv = _strlendp(env);
-	env = _copydoublep(env, sizeEnv, sizeEnv);
+	signal(SIGINT, signalHandlerFunc);
+	sizeEnv = strLenDblePtrFunc(env);
+	env = copyDoublePtrFunc(env, sizeEnv, sizeEnv);
 	shellVar = set_struct(av[0], &errn, &exnum, &relation, &run_able, &env, &enul);
 	while (1)
 	{
@@ -33,7 +33,7 @@ int main(int ac, char **av, char **env)
 		isBuiltIn = checkIfBuiltinFunc(shellVar);
 		if (isBuiltIn == -1 || isBuiltIn == 1)
 			continue;
-		pathCmd = _path(command[0], env, shellVar);
+		pathCmd = pathFunc1(command[0], env, shellVar);
 		addPathToCmd(shellVar, pathCmd);
 		if (!pathCmd)
 		{
@@ -49,7 +49,7 @@ int main(int ac, char **av, char **env)
 		free(pathCmd);
 
 	}
-	free_doubpoint(*(shellVar->envCpy)), free(shellVar);
+	freeDbPtrFunc(*(shellVar->envCpy)), free(shellVar);
 	return (0);
 }
 

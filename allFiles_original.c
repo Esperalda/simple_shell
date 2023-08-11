@@ -158,7 +158,7 @@ int errorStrFunc(int errNum, shellDType *shellVar, int exnum)
 		NULL
 	};
 
-	concat_a = str_concat(sh_Name, collctspace);
+	concat_a = stringConcatFunc(sh_Name, collctspace);
 	if (!concat_a) /*hsh: */
 		return (printCmt(1), -1);
 
@@ -172,7 +172,7 @@ int errorStrFunc(int errNum, shellDType *shellVar, int exnum)
 	if (!numStr)  /* number to string */
 		return (freSingle(concat_a), printCmt(1), -1);
 
-	concat_b = str_concat(concat_a, numStr);
+	concat_b = stringConcatFunc(concat_a, numStr);
 	if (!concat_b) /*hsh: cnter*/
 	{
 		printCmt(1);
@@ -180,22 +180,22 @@ int errorStrFunc(int errNum, shellDType *shellVar, int exnum)
 	}
 	freSingle(concat_a), freSingle(numStr);
 
-	concat_a = str_concat(concat_b, collctspace);
+	concat_a = stringConcatFunc(concat_b, collctspace);
 	if (!concat_a) /*hsh: cnter: */
 		return (freSingle(concat_b), printCmt(1), -1);
 
 	freSingle(concat_b);
-	concat_b = str_concat(concat_a, cmd);
+	concat_b = stringConcatFunc(concat_a, cmd);
 	if (!concat_b) /*hsh: cnter: cmd*/
 		return (freSingle(concat_a), printCmt(1), -1);
 	freSingle(concat_a);
 
-	concat_a = str_concat(concat_b, collctspace);
+	concat_a = stringConcatFunc(concat_b, collctspace);
 	if (!concat_a) /*hsh: cnter: cmd: */
 		return (freSingle(concat_b), printCmt(1), -1);
 	freSingle(concat_b);
 
-	concat_b = str_concat(concat_a, err[errNum]);
+	concat_b = stringConcatFunc(concat_a, err[errNum]);
 	if (!concat_b) /*hsh: cnter: cmd: error*/
 		return (freSingle(concat_a), printCmt(1), -1);
 	freSingle(concat_a);
@@ -228,7 +228,7 @@ int errorStrFunc(int errNum, shellDType *shellVar, int exnum)
  */
 int errorStrFunc_inner(int errNum, char *concat_a, char *concat_b, char *err[], int z)
 {
-	concat_b = str_concat(concat_a, err[errNum]); /*hsh: cnter: error*/
+	concat_b = stringConcatFunc(concat_a, err[errNum]); /*hsh: cnter: error*/
 	if (!concat_b)
 		return (freSingle(concat_a), printCmt(1), -1);
 	freSingle(concat_a);
@@ -256,7 +256,7 @@ char *errorStrFunc2(int errNum, char *concat_b, char *optNoni)
 	if (errNum == 2) /* exit error */
 	{
 
-		concat_a = str_concat(concat_b, collctspace);
+		concat_a = stringConcatFunc(concat_b, collctspace);
 		if (!concat_a) /*hsh: cnter: cmd: error: */
 		{
 			printCmt(1);
@@ -264,7 +264,7 @@ char *errorStrFunc2(int errNum, char *concat_b, char *optNoni)
 		}
 		freSingle(concat_b);
 
-		concat_b = str_concat(concat_a, optNoni);
+		concat_b = stringConcatFunc(concat_a, optNoni);
 
 		if (!concat_b) /*hsh: cnter: cmd: error: optNoni*/
 		{
@@ -292,7 +292,7 @@ char *errorStrFunc2(int errNum, char *concat_b, char *optNoni)
  */
 char *errorStrFunc2_inner(char *concat_b, char *optNoni, char *concat_a)
 {
-	concat_a = str_concat(concat_b, optNoni);
+	concat_a = stringConcatFunc(concat_b, optNoni);
 	if (!concat_a) /*hsh: cnter: cmd: error optNoni*/
 	{
 		printCmt(1);
@@ -329,7 +329,7 @@ ssize_t exitCmdFunc(shellDType *shellVar)
 			free(*(shellVar->options));
 			free(shellVar->options);
 			if (*(shellVar->envCpy))
-				free_doubpoint(*(shellVar->envCpy));
+				freeDbPtrFunc(*(shellVar->envCpy));
 			free(shellVar);
 			exit(val2Exit);
 		}
@@ -406,7 +406,7 @@ void envCmdFunc_lower(char **str)
 {
 	for (; str && *str; str++)
 	{
-		write(1, *str, _strlen(*str));
+		write(1, *str, strLen1(*str));
 		printCmt(11);
 	}
 }
@@ -441,7 +441,7 @@ ssize_t setEnvCmdFunc(shellDType *shellVar)
 		cmdMore(shellVar, 3);
 	}
 
-	nEnv = _setenv(*(shellVar->envCpy), variable, valuel, shellVar);
+	nEnv = setEnvFunc1(*(shellVar->envCpy), variable, valuel, shellVar);
 
 	if (nEnv == 0)
 	{
@@ -480,7 +480,7 @@ ssize_t unSetEnvCmdFunc(shellDType *shellVar)
 		return (1);
 	}
 
-	nEnv = _unsetenv(*(shellVar->envCpy), variable, shellVar);
+	nEnv = unSetEnvFunf(*(shellVar->envCpy), variable, shellVar);
 
 	if (nEnv == 0 && shellVar->unsetnull[0] == 0)
 	{
@@ -508,7 +508,7 @@ ssize_t checkIfBuiltinFunc(shellDType *shellVar)
 		{"setenv", setEnvCmdFunc},
 		{"unsetenv", unSetEnvCmdFunc},
 		{"cd", cdCmdFunc},
-		{"help", _help_cmd}
+		{"help", helpCmdFunc1}
 	};
 
 	int x = 6, builtcheck; /* lenght of ops array */
@@ -581,12 +581,12 @@ char *auxChnDir(shellDType *shellVar, char *curDire)
 		return (dir);
 	}
 
-	oldPwd_b = _strdup(getEnvi("OLDPWD", *(shellVar->envCpy)));
+	oldPwd_b = stringDupl(getEnvi("OLDPWD", *(shellVar->envCpy)));
 	if (oldPwd_b)
-		oldPwd_a = _strdup(oldPwd_b + 7), freSingle(oldPwd_b);
+		oldPwd_a = stringDupl(oldPwd_b + 7), freSingle(oldPwd_b);
 	if (!oldPwd_b)
 	{
-		oldPwd_a = _strdup(curDire);
+		oldPwd_a = stringDupl(curDire);
 		/* free(oldPwd_a), free(shellVar->options), free(curDire); */
 		/* return (shellVar->exit_Num[0] = 2, NULL); */
 	}
@@ -649,14 +649,14 @@ ssize_t cdCmdFunc(shellDType *shellVar)
 	if (dir)
 		chcka = chdir(dir);
 	if (chcka == 0 && chcka_minus == 1)
-		write(1, dir, _strlen(dir)), printCmt(11);
+		write(1, dir, strLen1(dir)), printCmt(11);
 	if (chcka != 0)
 		errorStrFunc(4, shellVar, 2), exit = -1;
 	else
 	{
-		nEnv = _setenv(*(shellVar->envCpy), "PWD", dir, shellVar);
+		nEnv = setEnvFunc1(*(shellVar->envCpy), "PWD", dir, shellVar);
 		*(shellVar->envCpy) = nEnv;
-		nEnv = _setenv(*(shellVar->envCpy), "OLDPWD", curDire, shellVar);
+		nEnv = setEnvFunc1(*(shellVar->envCpy), "OLDPWD", curDire, shellVar);
 		*(shellVar->envCpy) = nEnv;
 	}
 	free(shellVar->options), freSingle(curDire), freSingle(oldPwd_a);
@@ -835,7 +835,7 @@ char **shPrmptInput(int ac, char **av, size_t *bufsize,
 			exit_Num = shellVar->exit_Num[0];
 			free(*buffer);
 			if (*(shellVar->envCpy))
-				free_doubpoint(*(shellVar->envCpy));
+				freeDbPtrFunc(*(shellVar->envCpy));
 			free(shellVar);
 			if (isatty(STDIN_FILENO))
 				printCmt(11);
@@ -844,7 +844,7 @@ char **shPrmptInput(int ac, char **av, size_t *bufsize,
 		if (**buffer == '#' || !charctrs || **buffer == '\n')
 			return (NULL);
 		*buffer = delCmntFunc(*buffer);
-		command = getParameters(*buffer, shellVar);
+		command = getParam(*buffer, shellVar);
 	}
 	else
 	{
@@ -919,7 +919,7 @@ int execCmdFunc(char *program, char *command[], char **env, shellDType *shellVar
 	int execveSts = 0, waitSts = 0;
 
 	prcss = fork();
-	signal(SIGINT, signal_handler2);
+	signal(SIGINT, signalHandlerFunc2);
 	if (prcss == -1)
 	{
 		printCmt(9);
@@ -937,7 +937,7 @@ int execCmdFunc(char *program, char *command[], char **env, shellDType *shellVar
 	else
 	{
 		waitSts = wait(&stat);
-		signal(SIGINT, signal_handler);
+		signal(SIGINT, signalHandlerFunc);
 		if (waitSts == -1)
 			exit(-1);
 		if (WEXITSTATUS(stat) == 0)
@@ -1046,18 +1046,18 @@ void freSingle(char *temp)
 /* ..........................NUM 29 END...........................*/
 /*..........................NUM 24 START..........................*/
 /**
- * free_doubpoint - frees a double pointer array of strings
+ * freeDbPtrFunc - frees a double pointer array of strings
  * (must end in NULL)
  *
  * @p: double pointer to free
  *
  * Return: no return
  */
-void free_doubpoint(char **p)
+void freeDbPtrFunc(char **p)
 {
 	int x, z = 0;
 
-	z = free_doubpoint_inner(p, z);
+	z = freeDbPtrFunc_inner(p, z);
 
 	for (x = 0; x < z; x++)
 	{
@@ -1067,14 +1067,14 @@ void free_doubpoint(char **p)
 }
 /*..........................NUM 24 BTW..........................*/
 /**
- * free_doubpoint - frees a double pointer array of strings
+ * freeDbPtrFunc - frees a double pointer array of strings
  * (must end in NULL)
  *
  * @p: double pointer to free
  *
  * Return: no return
  */
-int free_doubpoint_inner(char **p, int z)
+int freeDbPtrFunc_inner(char **p, int z)
 {
 	while (p[z] != 0)
 		z++;
@@ -1086,7 +1086,7 @@ int free_doubpoint_inner(char **p, int z)
 /*..........................getline..........................*/
 /*..........................NUM 7 START..........................*/
 /**
- * _memset - fills memory with constant byte
+ * memorySet - fills memory with constant byte
  * @s: memory area
  * @b: constant byte b
  * @n: first n bytes of memory area pointed by s
@@ -1094,17 +1094,17 @@ int free_doubpoint_inner(char **p, int z)
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.
  */
-char *_memset(char *s, char b, unsigned int n)
+char *memorySet(char *s, char b, unsigned int n)
 {
 	unsigned int x;
 
 	for (x = 0; x < n; x++)
-		s[x] = _memset_inner(s, b, x);
+		s[x] = memorySet_inner(s, b, x);
 	return (s);
 }
 /*..........................NUM 7 BTW..........................*/
 /**
- * _memset - fills memory with constant byte
+ * memorySet - fills memory with constant byte
  * @s: memory area
  * @b: constant byte b
  * @n: first n bytes of memory area pointed by s
@@ -1112,7 +1112,7 @@ char *_memset(char *s, char b, unsigned int n)
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.
  */
-char _memset_inner(char *s, char b, unsigned int x)
+char memorySet_inner(char *s, char b, unsigned int x)
 {
 	s[x] = b;
 	return (s[x]);
@@ -1121,31 +1121,31 @@ char _memset_inner(char *s, char b, unsigned int x)
 
 /*..........................NUM 8 START..........................*/
 /**
- * _memcpy - copies memory
+ * memoryCopyFunc - copies memory
  * @dest: destination
  * @src: source
  * @n: size of memory to copy
  *
  * Return: Returns memory copied
  */
-char *_memcpy(char *dest, char *src, unsigned int n)
+char *memoryCopyFunc(char *dest, char *src, unsigned int n)
 {
 	unsigned int x;
 
 	for (x = 0; x < n; x++)
-		dest[x] = _memcpy_inner(dest, src, x);
+		dest[x] = memoryCopyFunc_inner(dest, src, x);
 	return (dest);
 }
 /*..........................NUM 8 BTW..........................*/
 /**
- * _memcpy - copies memory
+ * memoryCopyFunc - copies memory
  * @dest: destination
  * @src: source
  * @n: size of memory to copy
  *
  * Return: Returns memory copied
  */
-char _memcpy_inner(char *dest, char *src, unsigned int x)
+char memoryCopyFunc_inner(char *dest, char *src, unsigned int x)
 {
 	return (dest[x] = src[x]);
 }
@@ -1154,67 +1154,67 @@ char _memcpy_inner(char *dest, char *src, unsigned int x)
 
 /*..........................NUM 9 START..........................*/
 /**
- * _realloc - reallocates a memory block using malloc and free
+ * reAllocateMemSpce - reallocates a memory block using malloc and free
  * @ptr: pointer to modify
- * @old_size: current size of memory
- * @new_size: size memory will now have
+ * @oldSze: current size of memory
+ * @newSze: size memory will now have
  *
  * Return: Pointer to reallocated memory
  */
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
+void *reAllocateMemSpce(void *ptr, unsigned int oldSze, unsigned int newSze)
 {
 	void *ptr2;
 	int chk = 0;
 
-	if (old_size == new_size)
+	if (oldSze == newSze)
 		return (ptr);
 
 	if (ptr == NULL)
 	{
 		chk = 1;
 		ptr2 = NULL;
-		ptr2 = _realloc_inner(ptr, old_size, new_size, ptr2, chk);
+		ptr2 = reAllocateMemSpce_inner(ptr, oldSze, newSze, ptr2, chk);
 		return (ptr2);
 	}
 
-	if (new_size == 0 && ptr != NULL)
+	if (newSze == 0 && ptr != NULL)
 	{
 		freSingle(ptr);
 		return (0);
 	}
 
-	ptr2 = malloc(new_size);
+	ptr2 = malloc(newSze);
 
 	if (ptr2 == 0)
 		return (0);
 
-	ptr2 = _memset(ptr2, '\0', new_size);
+	ptr2 = memorySet(ptr2, '\0', newSze);
 
-	ptr2 = _realloc_inner(ptr, old_size, new_size, ptr2, chk);
+	ptr2 = reAllocateMemSpce_inner(ptr, oldSze, newSze, ptr2, chk);
 	return (ptr2);
 }
 /*..........................NUM 9 BTW..........................*/
 /**
- * _realloc - reallocates a memory block using malloc and free
+ * reAllocateMemSpce - reallocates a memory block using malloc and free
  * @ptr: pointer to modify
- * @old_size: current size of memory
- * @new_size: size memory will now have
+ * @oldSze: current size of memory
+ * @newSze: size memory will now have
  *
  * Return: Pointer to reallocated memory
  */
-void *_realloc_inner(void *ptr, unsigned int old_size, unsigned int new_size,
+void *reAllocateMemSpce_inner(void *ptr, unsigned int oldSze, unsigned int newSze,
 				void *ptr2, int chk)
 {
 	if (chk == 1)
 	{
-		ptr2 = malloc(new_size);
+		ptr2 = malloc(newSze);
 		if (ptr2 == 0)
 			return (0);
 		freSingle(ptr);
 	}
 	else
 	{
-		_memcpy(ptr2, ptr, old_size);
+		memoryCopyFunc(ptr2, ptr, oldSze);
 		freSingle(ptr);
 	}
 	return (ptr2);
@@ -1223,7 +1223,7 @@ void *_realloc_inner(void *ptr, unsigned int old_size, unsigned int new_size,
 
 
 /**
- * _getline - read a string or a line from an input stream
+ * getInputLine - read a string or a line from an input stream
  * @buffer: pointer to a space where the stdin read will be saved
  * as a string
  * @bufsize: current size of buffer (must be given as 0 initially)
@@ -1231,7 +1231,7 @@ void *_realloc_inner(void *ptr, unsigned int old_size, unsigned int new_size,
  *
  * Return: Number of Characters Read
  */
-int _getline(char **buffer, size_t *bufsize, int fd)
+int getInputLine(char **buffer, size_t *bufsize, int fd)
 {
 	static char *buff;
 	static size_t size;
@@ -1247,7 +1247,7 @@ int _getline(char **buffer, size_t *bufsize, int fd)
 			return (printCmt(1), 0);
 		*buffer = buff;
 	}
-	buff = _memset(buff, '\0', size);
+	buff = memorySet(buff, '\0', size);
 	do {
 
 		r = read(fd, buff + len, BSIZE);
@@ -1258,7 +1258,7 @@ int _getline(char **buffer, size_t *bufsize, int fd)
 		if  (len >= size)
 		{
 			sizeold = size, size += BSIZE;
-			buff = _realloc(buff, sizeold, size);
+			buff = reAllocateMemSpce(buff, sizeold, size);
 			if (!buff)
 				return (printCmt(1), 0);
 		}
@@ -1275,35 +1275,35 @@ int _getline(char **buffer, size_t *bufsize, int fd)
 	return (len);
 }
 
-/*..........................getparameters..........................*/
+/*..........................getParam..........................*/
 /**
- * getParameters - obtains parameters from buffer of prompt
+ * getParam - obtains parameters from buffer of prompt
  * @raw_buffer: raw_buffer
  * @shellVar: struct containing shell info
  *
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.
  */
-char **getParameters(char *raw_buffer, shellDType *shellVar)
+char **getParam(char *raw_buffer, shellDType *shellVar)
 {
 	char **buffer, *cp_raw_buffer;
 	ssize_t cnt = 0, i = 0;
 
-	cp_raw_buffer = _strdup(raw_buffer);
+	cp_raw_buffer = stringDupl(raw_buffer);
 	if (!cp_raw_buffer)
 	{
 		errorStrFunc(7, shellVar, 1);
 		exit(-1);
 	}
 
-	if (_strtok(cp_raw_buffer, " \n"))
+	if (strTokenFunc(cp_raw_buffer, " \n"))
 		cnt++;
 	else
 	{
 		freSingle(cp_raw_buffer);
 		return (NULL);
 	}
-	while (_strtok(NULL, " \n"))
+	while (strTokenFunc(NULL, " \n"))
 		cnt++;
 
 	freSingle(cp_raw_buffer);
@@ -1313,13 +1313,13 @@ char **getParameters(char *raw_buffer, shellDType *shellVar)
 		errorStrFunc(7, shellVar, 1);
 		exit(-1);
 	}
-	buffer[0] = _strtok(raw_buffer, " \n");
+	buffer[0] = strTokenFunc(raw_buffer, " \n");
 	for (i = 1; i < cnt && buffer[i - 1]; i++)
-		buffer[i] = _strtok(NULL, " \n");
+		buffer[i] = strTokenFunc(NULL, " \n");
 
 	if (!buffer[i - 1])
 	{
-		free_doubpoint(buffer);
+		freeDbPtrFunc(buffer);
 		return (NULL);
 	}
 
@@ -1329,39 +1329,39 @@ char **getParameters(char *raw_buffer, shellDType *shellVar)
 
 /*..........................help001..........................*/
 /**
- * _puts - prints string to std output
+ * putsToStd - prints string to std output
  * @s: string (must be NULL terminated)
  *
  * Return: No Return
  */
-void _puts(char *s)
+void putsToStd(char *s)
 {
-	write(1, s, _strlen(s));
+	write(1, s, strLen1(s));
 }
 
 /*..........................NUM 16 START..........................*/
 /**
- * help_exit - prints help of exit built in
+ * helpExit1 - prints help of exit built in
  *
  * Return: No Return
  */
-void help_exit(void)
+void helpExit1(void)
 {
-	help_exit_inner();
+	helpExit1_inner();
 }
 /*..........................NUM 16 BTW..........................*/
 /**
- * help_exit - prints help of exit built in
+ * helpExit1 - prints help of exit built in
  *
  * Return: No Return
  */
-void help_exit_inner(void)
+void helpExit1_inner(void)
 {
-	_puts("exit: exit [n]\n");
-	_puts("    Exit the shell.\n\n");
-	_puts("    Exits the shell with a stat of N.  ");
-	_puts("    If N is omitted, the exit stat\n");
-	_puts("    is that of the last command executed.\n");
+	putsToStd("exit: exit [n]\n");
+	putsToStd("    Exit the shell.\n\n");
+	putsToStd("    Exits the shell with a stat of N.  ");
+	putsToStd("    If N is omitted, the exit stat\n");
+	putsToStd("    is that of the last command executed.\n");
 }
 /*..........................NUM 16 BTW..........................*/
 /*..........................NUM 16 END..........................*/
@@ -1369,25 +1369,25 @@ void help_exit_inner(void)
 
 /*..........................NUM 17 START..........................*/
 /**
- * help_env - prints help of env built in
+ * helpEnv1 - prints help of env built in
  *
  * Return: No Return
  */
-void help_env(void)
+void helpEnv1(void)
 {
-	help_env_inner();
+	helpEnv1_inner();
 }
 /*..........................NUM 17 BTW..........................*/
 /**
- * help_env - prints help of env built in
+ * helpEnv1 - prints help of env built in
  *
  * Return: No Return
  */
-void help_env_inner(void)
+void helpEnv1_inner(void)
 {
-	_puts("env: env\n");
-	_puts("    prints the current environment.\n\n");
-	_puts("    Has no options\n");
+	putsToStd("env: env\n");
+	putsToStd("    prints the current environment.\n\n");
+	putsToStd("    Has no options\n");
 }
 /*..........................NUM 17 BTW..........................*/
 /*..........................NUM 17 END..........................*/
@@ -1395,28 +1395,28 @@ void help_env_inner(void)
 
 /*..........................NUM 18 START..........................*/
 /**
- * help_setenv - prints help of setenv built in
+ * helpSetenv1 - prints help of setenv built in
  *
  * Return: No Return
  */
-void help_setenv(void)
+void helpSetenv1(void)
 {
-	help_setenv_inner();
+	helpSetenv1_inner();
 }
 /*..........................NUM 18 BTW..........................*/
 /**
- * help_setenv - prints help of setenv built in
+ * helpSetenv1 - prints help of setenv built in
  *
  * Return: No Return
  */
-void help_setenv_inner(void)
+void helpSetenv1_inner(void)
 {
-	_puts("setenv: setenv [VARIABLE] [VALUE]\n");
-	_puts("    Initializes a new environment variable, ");
-	_puts("    or modifies an existing one.\n\n");
-	_puts("    VARIABLE must not have the character '='.\n");
-	_puts("    If no arguments are given, setenv prints ");
-	_puts("    the current environment.\n");
+	putsToStd("setenv: setenv [VARIABLE] [VALUE]\n");
+	putsToStd("    Initializes a new environment variable, ");
+	putsToStd("    or modifies an existing one.\n\n");
+	putsToStd("    VARIABLE must not have the character '='.\n");
+	putsToStd("    If no arguments are given, setenv prints ");
+	putsToStd("    the current environment.\n");
 }
 /*..........................NUM 18 BTW..........................*/
 /*..........................NUM 18 END..........................*/
@@ -1427,22 +1427,22 @@ void help_setenv_inner(void)
 /*..........................NUM 19 BTW..........................*/
 /*..........................NUM 19 END..........................*/
 /**
- * _help_cmd - help of built in commands
+ * helpCmdFunc1 - help of built in commands
  * @shellVar: struct containing shell info
  *
  * Return: 1 if succesful, -1 if fail
  */
-ssize_t _help_cmd(shellDType *shellVar)
+ssize_t helpCmdFunc1(shellDType *shellVar)
 {
 	int check = 1, bcheck = 0;
 	helps_s help[] = {
-		{"exit", help_exit},
-		{"env", help_env},
-		{"setenv", help_setenv},
-		{"unsetenv", help_unsetenv},
-		{"cd", help_cd},
-		{"help", help_help},
-		{"alias", help_alias}
+		{"exit", helpExit1},
+		{"env", helpEnv1},
+		{"setenv", helpSetenv1},
+		{"unsetenv", helpUnSetEnv1},
+		{"cd", helpCdFunc1},
+		{"help", helpHelpFunc1},
+		{"alias", helpAliasFunc}
 	};
 
 	int i = 7;
@@ -1456,7 +1456,7 @@ ssize_t _help_cmd(shellDType *shellVar)
 	}
 	if (shellVar->options[1] == NULL)
 	{
-		printsHelp();
+		printsHelpFunc1();
 		bcheck = 1;
 	}
 	if (bcheck == 0)
@@ -1473,28 +1473,28 @@ ssize_t _help_cmd(shellDType *shellVar)
 /*..........................help002..........................*/
 /*..........................NUM 19 START..........................*/
 /**
- * help_unsetenv - prints help of unsetenv built in
+ * helpUnSetEnv1 - prints help of unsetenv built in
  *
  * Return: No Return
  */
-void help_unsetenv(void)
+void helpUnSetEnv1(void)
 {
-	help_unsetenv_inner();
+	helpUnSetEnv1_inner();
 }
 /*..........................NUM 19 BTW..........................*/
 /**
- * help_unsetenv - prints help of unsetenv built in
+ * helpUnSetEnv1 - prints help of unsetenv built in
  *
  * Return: No Return
  */
-void help_unsetenv_inner(void)
+void helpUnSetEnv1_inner(void)
 {
-	_puts("unsetenv: unsetenv [VARIABLE]\n");
-	_puts("    Initializes a new environment variable, or ");
-	_puts("    modifies an existing one.\n\n");
-	_puts("    VARIABLE must not have the character '='.\n");
-	_puts("    If no arguments are given, setenv prints the current ");
-	_puts("    environment.\n");
+	putsToStd("unsetenv: unsetenv [VARIABLE]\n");
+	putsToStd("    Initializes a new environment variable, or ");
+	putsToStd("    modifies an existing one.\n\n");
+	putsToStd("    VARIABLE must not have the character '='.\n");
+	putsToStd("    If no arguments are given, setenv prints the current ");
+	putsToStd("    environment.\n");
 }
 /*..........................NUM 19 BTW..........................*/
 /*..........................NUM 19 END..........................*/
@@ -1502,37 +1502,37 @@ void help_unsetenv_inner(void)
 
 /*..........................NUM 20 START..........................*/
 /**
- * help_cd - prints help of cd built in
+ * helpCdFunc1 - prints help of cd built in
  *
  * Return: No Return
  */
-void help_cd(void)
+void helpCdFunc1(void)
 {
-	help_cd_inner();
+	helpCdFunc1_inner();
 }
 /*..........................NUM 20 BTW..........................*/
 /**
- * help_cd - prints help of cd built in
+ * helpCdFunc1 - prints help of cd built in
  *
  * Return: No Return
  */
-void help_cd_inner(void)
+void helpCdFunc1_inner(void)
 {
-	_puts("cd: cd [DIRECTORY]\n");
-	_puts("    Change the shell working directory.\n\n");
-	_puts("    Change the current directory to DIR.  ");
-	_puts("    The default DIR is the valuel of the\n");
-	_puts("    HOME shell variable.\n\n");
-	_puts("    Options:\n");
-	_puts("    -  If a mynus signed is used instead a directory, ");
-	_puts("    cd will change to the\n");
-	_puts("       previous used directory\n\n");
-	_puts("    Each time cd runs successfuly, the env variable ");
-	_puts("    PWD is updated\n\n");
-	_puts("    Exit Status:\n");
-	_puts("    Returns 1 if the directory is changed, and if $PWD is set ");
-	_puts("    successfully when\n");
-	_puts("    is used; -1 otherwise.\n");
+	putsToStd("cd: cd [DIRECTORY]\n");
+	putsToStd("    Change the shell working directory.\n\n");
+	putsToStd("    Change the current directory to DIR.  ");
+	putsToStd("    The default DIR is the valuel of the\n");
+	putsToStd("    HOME shell variable.\n\n");
+	putsToStd("    Options:\n");
+	putsToStd("    -  If a mynus signed is used instead a directory, ");
+	putsToStd("    cd will change to the\n");
+	putsToStd("       previous used directory\n\n");
+	putsToStd("    Each time cd runs successfuly, the env variable ");
+	putsToStd("    PWD is updated\n\n");
+	putsToStd("    Exit Status:\n");
+	putsToStd("    Returns 1 if the directory is changed, and if $PWD is set ");
+	putsToStd("    successfully when\n");
+	putsToStd("    is used; -1 otherwise.\n");
 }
 /*..........................NUM 20 BTW..........................*/
 /*..........................NUM 20 END..........................*/
@@ -1540,69 +1540,69 @@ void help_cd_inner(void)
 
 /*..........................NUM 21 START..........................*/
 /**
- * help_help - prints help of help built in
+ * helpHelpFunc1 - prints help of help built in
  *
  * Return: No Return
  */
-void help_help(void)
+void helpHelpFunc1(void)
 {
-	help_help_inner();
+	helpHelpFunc1_inner();
 }
 /*..........................NUM 21 BTW..........................*/
 /**
- * help_help - prints help of help built in
+ * helpHelpFunc1 - prints help of help built in
  *
  * Return: No Return
  */
-void help_help_inner(void)
+void helpHelpFunc1_inner(void)
 {
-	_puts("help: help [BUILTIN ...]\n");
-	_puts("    Display information about builtin commands.\n\n");
-	_puts("    Displays brief summaries of builtin commands.  If BUILTIN is\n");
-	_puts("    specified, gives detailed help on all commands ");
-	_puts("    matching BUILTIN,\n");
-	_puts("    otherwise the list of help topics is printed.\n\n");
-	_puts("    Arguments:\n");
-	_puts("      BUILTIN   Builtin specifying a help topic\n\n");
-	_puts("    Exit Status:\n");
-	_puts("    Returns success unless PATTERN is not found or an invalid ");
-	_puts("    optNoni is given.\n");
+	putsToStd("help: help [BUILTIN ...]\n");
+	putsToStd("    Display information about builtin commands.\n\n");
+	putsToStd("    Displays brief summaries of builtin commands.  If BUILTIN is\n");
+	putsToStd("    specified, gives detailed help on all commands ");
+	putsToStd("    matching BUILTIN,\n");
+	putsToStd("    otherwise the list of help topics is printed.\n\n");
+	putsToStd("    Arguments:\n");
+	putsToStd("      BUILTIN   Builtin specifying a help topic\n\n");
+	putsToStd("    Exit Status:\n");
+	putsToStd("    Returns success unless PATTERN is not found or an invalid ");
+	putsToStd("    optNoni is given.\n");
 }
 /*..........................NUM 21 BTW..........................*/
 /*..........................NUM 21 END..........................*/
 
 /*..........................NUM 22 START..........................*/
 /**
- * help_alias - prints help of alias built in
+ * helpAliasFunc - prints help of alias built in
  *
  * Return: No Return
  */
-void help_alias(void)
+void helpAliasFunc(void)
 {
-	help_alias_inner();
+	helpAliasFunc_inner();
 }
 /*..........................NUM 22 BTW..........................*/
 /**
- * help_alias - prints help of alias built in
+ * helpAliasFunc - prints help of alias built in
  *
  * Return: No Return
  */
-void help_alias_inner(void)
+void helpAliasFunc_inner(void)
 {
-	_puts("alias: alias alias [name[='valuel'] ...]\n");
-	_puts("    Define or display aliases.\n\n");
-	_puts("    Without arguments, `alias' prints the list of aliases ");
-	_puts("    in the reusable\n");
-	_puts("    form `alias NAME=VALUE' on standard output.\n\n");
-	_puts("     Otherwise, an alias is defined for each NAME whose ");
-	_puts("    VALUE is given.\n");
-	_puts("    A trailing space in VALUE causes the next word to ");
-	_puts("    be checked for\n");
-	_puts("    alias substitution when the alias is expanded.\n\n");
-	_puts("    Exit Status:\n");
-	_puts("    alias returns true unless a NAME is supplied for which ");
-	_puts("    no alias has been\n");
-	_puts("    defined.\n");
+	putsToStd("alias: alias alias [name[='valuel'] ...]\n");
+	putsToStd("    Define or display aliases.\n\n");
+	putsToStd("    Without arguments, `alias' prints the list of aliases ");
+	putsToStd("    in the reusable\n");
+	putsToStd("    form `alias NAME=VALUE' on standard output.\n\n");
+	putsToStd("     Otherwise, an alias is defined for each NAME whose ");
+	putsToStd("    VALUE is given.\n");
+	putsToStd("    A trailing space in VALUE causes the next word to ");
+	putsToStd("    be checked for\n");
+	putsToStd("    alias substitution when the alias is expanded.\n\n");
+	putsToStd("    Exit Status:\n");
+	putsToStd("    alias returns true unless a NAME is supplied for which ");
+	putsToStd("    no alias has been\n");
+	putsToStd("    defined.\n");
 }
 /*..........................NUM 22 BTW..........................*/
 /*..........................NUM 22 END..........................*/
@@ -1611,34 +1611,34 @@ void help_alias_inner(void)
 /*..........................NUM 23 START..........................*/
 /*..........................help003..........................*/
 /**
- * printsHelp - prints help of help built in
+ * printsHelpFunc1 - prints help of help built in
  *
  * Return: No Return
  */
-void printsHelp(void)
+void printsHelpFunc1(void)
 {
-	printsHelp_inner();
+	printsHelpFunc1_inner();
 }
 /*..........................NUM 23 BTW..........................*/
 /**
- * printsHelp - prints help of help built in
+ * printsHelpFunc1 - prints help of help built in
  *
  * Return: No Return
  */
-void printsHelp_inner(void)
+void printsHelpFunc1_inner(void)
 {
-	_puts("Shell HSH, version 1.0(1)-release (x86_64-pc-linux-gnu)\n");
-	_puts("These shell commands are defined internally.\n");
-	_puts("Type `help' to see this list.\n");
-	_puts("Type help  'BUILTIN'' to find out more about ");
-	_puts("the function 'BUILTIN'.\n\n");
-	_puts(" exit [n]\n");
-	_puts(" env\n");
-	_puts(" setenv [VARIABLE] [VALUE]\n");
-	_puts(" unsetenv [VARIABLE]\n");
-	_puts(" cd [DIRECTORY]\n");
-	_puts(" help [BUILTIN ...]\n");
-	_puts(" alias [name[='valuel'] ...]\n");
+	putsToStd("Shell HSH, version 1.0(1)-release (x86_64-pc-linux-gnu)\n");
+	putsToStd("These shell commands are defined internally.\n");
+	putsToStd("Type `help' to see this list.\n");
+	putsToStd("Type help  'BUILTIN'' to find out more about ");
+	putsToStd("the function 'BUILTIN'.\n\n");
+	putsToStd(" exit [n]\n");
+	putsToStd(" env\n");
+	putsToStd(" setenv [VARIABLE] [VALUE]\n");
+	putsToStd(" unsetenv [VARIABLE]\n");
+	putsToStd(" cd [DIRECTORY]\n");
+	putsToStd(" help [BUILTIN ...]\n");
+	putsToStd(" alias [name[='valuel'] ...]\n");
 }
 /*..........................NUM 23 BTW..........................*/
 /*..........................NUM 23 END..........................*/
@@ -1647,17 +1647,17 @@ void printsHelp_inner(void)
 /*..........................path..........................*/
 /*..........................NUM 10 START..........................*/
 /**
- * _pathcheck - check if current dir must be added
+ * pathCheckFunc1 - check if current dir must be added
  * @path: path env variable
  *
  * Return: Pointer to adress of new PATH
  *
  */
 
-char *_pathcheck(char *path)
+char *pathCheckFunc1(char *path)
 {
-	char *npath;
-	int x, y, nsize, cnter = 0;
+	char *nupath;
+	int x, y, nusize, cnter = 0;
 
 	for (x = 0; path[x]; x++)
 	{
@@ -1671,50 +1671,50 @@ char *_pathcheck(char *path)
 	}
 	if (cnter == 0)
 		return (0);
-	nsize = _strlen(path) + 1 + cnter;
-	npath = malloc(sizeof(char) * nsize);
+	nusize = strLen1(path) + 1 + cnter;
+	nupath = malloc(sizeof(char) * nusize);
 
-	for (x = 0, y = 0; x < nsize; x++, y++)
+	for (x = 0, y = 0; x < nusize; x++, y++)
 	{
 		if (path[y] == '=' && path[y + 1] == ':')
 		{
-			npath[x] = _pathcheck_inner(path, npath, x, y), x++;
+			nupath[x] = pathCheckFunc1_inner(path, nupath, x, y), x++;
 			continue;
 		}
 		if (path[y] == ':' && path[y + 1] == ':')
 		{
-			npath[x] = _pathcheck_inner(path, npath, x, y), x++;
+			nupath[x] = pathCheckFunc1_inner(path, nupath, x, y), x++;
 			continue;
 		}
 		if (path[y] == ':' && path[y + 1] == '\0')
 		{
-			npath[x] = _pathcheck_inner(path, npath, x, y), x++;
+			nupath[x] = pathCheckFunc1_inner(path, nupath, x, y), x++;
 			continue;
 		}
-		npath[x] = path[y];
+		nupath[x] = path[y];
 	}
 	freSingle(path);
-	return (npath);
+	return (nupath);
 }
 /*..........................NUM 10 BTW..........................*/
 /**
- * _pathcheck - check if current dir must be added
+ * pathCheckFunc1 - check if current dir must be added
  * @path: path env variable
  *
  * Return: Pointer to adress of new PATH
  *
  */
 
-char _pathcheck_inner(char *path, char *npath, int x, int y)
+char pathCheckFunc1_inner(char *path, char *nupath, int x, int y)
 {
-	npath[x] = path[y], npath[x + 1] = '.';
-	return (npath[x]);
+	nupath[x] = path[y], nupath[x + 1] = '.';
+	return (nupath[x]);
 }
 /*..........................NUM 10 END..........................*/
 
 
 /**
- * _path - Searches for a cmd in PATH
+ * pathFunc1 - Searches for a cmd in PATH
  * @cmd: string contating env variable PATH
  * @env: current environment
  * @shellVar: struct containing shell info
@@ -1723,18 +1723,18 @@ char _pathcheck_inner(char *path, char *npath, int x, int y)
  *
  */
 
-char *_path(char *cmd, char **env, shellDType *shellVar)
+char *pathFunc1(char *cmd, char **env, shellDType *shellVar)
 {
 	char *path, *path2;
 	struct stat st;
-	char *token, *concat, *concat2, *pathcheck, *delim = ":=";
+	char *token, *concaten1, *concaten2, *pthchck1, *delim = ":=";
 	int x;
 
 	for (x = 0; cmd[x]; x++)
 		if (cmd[x] == '/')
 		{
 			if (stat(cmd, &st) == 0)
-				return (concat = str_concat(cmd, '\0'));
+				return (concaten1 = stringConcatFunc(cmd, '\0'));
 			else
 				return (0);
 		}
@@ -1743,23 +1743,23 @@ char *_path(char *cmd, char **env, shellDType *shellVar)
 	(void) shellVar;
 	if (!path2)
 		return (0);
-	path = _strdup(path2);
-	pathcheck = _pathcheck(path);
-	if (pathcheck)
-		path = pathcheck;
-	token = _strtok(path, delim);
-	for (token = _strtok(0, delim); token; token = _strtok(0, delim))
+	path = stringDupl(path2);
+	pthchck1 = pathCheckFunc1(path);
+	if (pthchck1)
+		path = pthchck1;
+	token = strTokenFunc(path, delim);
+	for (token = strTokenFunc(0, delim); token; token = strTokenFunc(0, delim))
 	{
-		concat = str_concat(token, "/");
-		concat2 = str_concat(concat, cmd);
-		freSingle(concat);
-		if (stat(concat2, &st) == 0)
+		concaten1 = stringConcatFunc(token, "/");
+		concaten2 = stringConcatFunc(concaten1, cmd);
+		freSingle(concaten1);
+		if (stat(concaten2, &st) == 0)
 		{
 			/*Found the command in PATH*/
 			freSingle(path);
-			return (concat2);
+			return (concaten2);
 		}
-		freSingle(concat2);
+		freSingle(concaten2);
 	}
 
 	freSingle(path);
@@ -1770,39 +1770,39 @@ char *_path(char *cmd, char **env, shellDType *shellVar)
 
 
 /**
- * _copydoublep - copies an array of strings (double pointer)
+ * copyDoublePtrFunc - copies an array of strings (double pointer)
  *
  * @p: double pointer to copy
- * @old_size: original size of P
- * @new_size: size of copy
+ * @oldSze: original size of P
+ * @newSze: size of copy
  *
  * Return: Pointer malloec
  */
-char **_copydoublep(char **p, int old_size, int new_size)
+char **copyDoublePtrFunc(char **p, int oldSze, int newSze)
 {
 	char **copy;
-	int x, csize;
+	int x, countSize1;
 
-	if (!p && (old_size == new_size))
+	if (!p && (oldSze == newSze))
 		return (NULL);
 
-	if (new_size < old_size)
+	if (newSze < oldSze)
 	{
-		csize = new_size;
-		copy = malloc(sizeof(char *) * (csize + 1));
+		countSize1 = newSze;
+		copy = malloc(sizeof(char *) * (countSize1 + 1));
 	}
 	else
 	{
-		csize = old_size;
-		copy = malloc(sizeof(char *) * (new_size + 1));
+		countSize1 = oldSze;
+		copy = malloc(sizeof(char *) * (newSze + 1));
 	}
 	if (copy == 0)
 		return (0);
 
 	if (p)
-		for (x = 0; x < csize; x++)
+		for (x = 0; x < countSize1; x++)
 		{
-			copy[x] = _strdup(p[x]);
+			copy[x] = stringDupl(p[x]);
 			if (copy[x] == 0)
 			{
 				x--;
@@ -1814,39 +1814,39 @@ char **_copydoublep(char **p, int old_size, int new_size)
 		}
 
 	/* Add Null in the end */
-	copy[new_size] = '\0';
+	copy[newSze] = '\0';
 
 	return (copy);
 }
 
 /*..........................NUM 25 START..........................*/
 /**
- * _strlendp - calculates length of double pointer (ending in NULL)
+ * strLenDblePtrFunc - calculates length of double pointer (ending in NULL)
  * @s: double pointer
  *
  * Return: Length of double pointer
  *
  */
-int _strlendp(char **s)
+int strLenDblePtrFunc(char **s)
 {
 	int x = 0;
 
 	if (!s)
 		return (0);
 
-	x = _strlendp_inner(s, x);
+	x = strLenDblePtrFunc_inner(s, x);
 
 	return (x);
 }
 /*..........................NUM 25 BTW..........................*/
 /**
- * _strlendp - calculates length of double pointer (ending in NULL)
+ * strLenDblePtrFunc - calculates length of double pointer (ending in NULL)
  * @s: double pointer
  *
  * Return: Length of double pointer
  *
  */
-int _strlendp_inner(char **s, int x)
+int strLenDblePtrFunc_inner(char **s, int x)
 {
 	while (s[x] != NULL)
 		x++;
@@ -1857,7 +1857,7 @@ int _strlendp_inner(char **s, int x)
 
 
 /**
- * _setenv - overwrite an env variable or creates it
+ * setEnvFunc1 - overwrite an env variable or creates it
  *
  * @env: array of env variables
  * @variable: env variable to set
@@ -1866,82 +1866,82 @@ int _strlendp_inner(char **s, int x)
  *
  * Return: 0 on success, -1 on error
  */
-char **_setenv(char **env, char *variable, char *valuel, shellDType *shellVar)
+char **setEnvFunc1(char **env, char *variable, char *valuel, shellDType *shellVar)
 {
 	int x, y, check, z = 0, zenv = 0;
-	char *envjoin, *envjoin2, *copydup, **copy;
+	char *joinEnv, *joinEnv2, *cpydupl1, **copy;
 
-	if (_strlen(variable) == 0 || variable == 0)
+	if (strLen1(variable) == 0 || variable == 0)
 		return (errorStrFunc(3, shellVar, 1), NULL);
-	envjoin2 = str_concat(variable, "=");
-	if (envjoin2 == 0)
+	joinEnv2 = stringConcatFunc(variable, "=");
+	if (joinEnv2 == 0)
 		return (errorStrFunc(3, shellVar, 1), NULL);
-	envjoin = str_concat(envjoin2, valuel), freSingle(envjoin2);
-	if (envjoin == 0)
+	joinEnv = stringConcatFunc(joinEnv2, valuel), freSingle(joinEnv2);
+	if (joinEnv == 0)
 		return (errorStrFunc(3, shellVar, 1), NULL);
-	z = _strlen(variable), zenv = _strlendp(env);
+	z = strLen1(variable), zenv = strLenDblePtrFunc(env);
 	for (x = 0; env && env[x] != 0; x++)
 	{
 		for (check = 0, y = 0; y < z && env[x][y] != 0; y++)
 		{
 			if (variable[y] == '=')
-				return (freSingle(envjoin), errorStrFunc(3, shellVar, 2), NULL);
+				return (freSingle(joinEnv), errorStrFunc(3, shellVar, 2), NULL);
 			if (env[x][y] == variable[y])
 				check++;
 		}
 		if (check == z && env[x][check] == '=')
 		{
-			freSingle(env[x]), copydup = _strdup(envjoin), freSingle(envjoin);
-			if (copydup == 0)
+			freSingle(env[x]), cpydupl1 = stringDupl(joinEnv), freSingle(joinEnv);
+			if (cpydupl1 == 0)
 				return (errorStrFunc(3, shellVar, 1), NULL);
-			return (env[x] = copydup, env);
+			return (env[x] = cpydupl1, env);
 		}
 	}
-	copy = _copydoublep(env, zenv, zenv + 1);
+	copy = copyDoublePtrFunc(env, zenv, zenv + 1);
 	if (env)
-		free_doubpoint(env);
+		freeDbPtrFunc(env);
 	if (copy == 0)
-		return (freSingle(envjoin), errorStrFunc(3, shellVar, 1), NULL);
-	env = copy, copydup = _strdup(envjoin), freSingle(envjoin);
-	if (copydup == 0)
+		return (freSingle(joinEnv), errorStrFunc(3, shellVar, 1), NULL);
+	env = copy, cpydupl1 = stringDupl(joinEnv), freSingle(joinEnv);
+	if (cpydupl1 == 0)
 		return (errorStrFunc(3, shellVar, 1), NULL);
-	return (env[zenv] = copydup, env);
+	return (env[zenv] = cpydupl1, env);
 }
 
 /*..........................signalHandle..........................*/
 /**
- * signal_handler - handles ctrl + c in runtime
+ * signalHandlerFunc - handles ctrl + c in runtime
  * @x: unused valuel, just for betty
  *
  * Return: No return
  */
-void signal_handler(int x)
+void signalHandlerFunc(int x)
 {
 	(void) x;
 	printCmt(10);
 }
 /**
- * signal_handler2 - handles ctrl + c during cmd exec
+ * signalHandlerFunc2 - handles ctrl + c during cmd exec
  * @x: unused valuel, just for betty
  *
  * Return: No return
  */
-void signal_handler2(int x)
+void signalHandlerFunc2(int x)
 {
 	(void) x;
 	printCmt(11);
 }
 
-/*..........................str_concat..........................*/
+/*..........................stringConcatFunc..........................*/
 
 /**
- * str_concat - concatenates two strings
+ * stringConcatFunc - concatenates two strings
  * @s1: string1
  * @s2: string2
  *
  * Return: Pointer
  */
-char *str_concat(char *s1, char *s2)
+char *stringConcatFunc(char *s1, char *s2)
 {
 	int l1, l2, i, j;
 	char *s;
@@ -1976,7 +1976,7 @@ char *str_concat(char *s1, char *s2)
 /*..........................NUM 26 START..........................*/
 /*..........................strdup..........................*/
 /**
- * _strcpy - copy a source input ont destinated input
+ * stringCopyFunc - copy a source input ont destinated input
  * @dest: target where will be stored the input
  * @src: source to copy from
  *
@@ -1985,20 +1985,20 @@ char *str_concat(char *s1, char *s2)
  * On error: -1 inapropiate entry
  */
 
-char *_strcpy(char *dest, char *src)
+char *stringCopyFunc(char *dest, char *src)
 {
 	int i = 0;
 
 	for (i = 0; *(src + i) != '\0'; i++)
-		*(dest + i) = _strcpy_inner(dest, src, i);
+		*(dest + i) = stringCopyFunc_inner(dest, src, i);
 
-	*(dest + i) = _strcpy_inner(dest, src, i); /* adding '\0' character */
+	*(dest + i) = stringCopyFunc_inner(dest, src, i); /* adding '\0' character */
 
 	return (dest);
 }
 /*..........................NUM 26 BTW..........................*/
 /**
- * _strcpy - copy a source input ont destinated input
+ * stringCopyFunc - copy a source input ont destinated input
  * @dest: target where will be stored the input
  * @src: source to copy from
  *
@@ -2007,7 +2007,7 @@ char *_strcpy(char *dest, char *src)
  * On error: -1 inapropiate entry
  */
 
-char _strcpy_inner(char *dest, char *src, int i)
+char stringCopyFunc_inner(char *dest, char *src, int i)
 {
 	*(dest + i) = *(src + i);
 	return (*(dest + i));
@@ -2017,7 +2017,7 @@ char _strcpy_inner(char *dest, char *src, int i)
 
 
 /**
- * _strlen - function that returns the length of a string
+ * strLen1 - function that returns the length of a string
  * @s: string address
  *
  *
@@ -2025,13 +2025,13 @@ char _strcpy_inner(char *dest, char *src, int i)
  * On error: -1 inapropiate entry
  */
 
-int _strlen(char *s)
+int strLen1(char *s)
 {
-	return ((!*s) ? 0 : 1 + _strlen(s + 1));
+	return ((!*s) ? 0 : 1 + strLen1(s + 1));
 }
 
 /**
- * _strdup - function that returns a pointer to a newly allocated space
+ * stringDupl - function that returns a pointer to a newly allocated space
  * in memory, which contains a copy of the string given as a parameter
  * @str: source to copy
  *
@@ -2040,19 +2040,19 @@ int _strlen(char *s)
  * On error: -1 inapropiate entry
  */
 
-char *_strdup(char *str)
+char *stringDupl(char *str)
 {
 	char *arr;
 
 	if (!str)
 		return (NULL);
 
-	arr = malloc((_strlen(str) * sizeof(*arr)) + 1);
+	arr = malloc((strLen1(str) * sizeof(*arr)) + 1);
 
 	if (!arr)
 		return (NULL);
 
-	_strcpy(arr, str);
+	stringCopyFunc(arr, str);
 
 	return (arr);
 }
@@ -2060,7 +2060,7 @@ char *_strdup(char *str)
 
 /*..........................strtok..........................*/
 /**
- * _strtok - tokenizes a string based on a delimiter
+ * strTokenFunc - tokenizes a string based on a delimiter
  *
  * @str: string to operate
  * @delim: delimiter
@@ -2069,75 +2069,75 @@ char *_strdup(char *str)
  * or NULL if there is no match
  *
  */
-char *_strtok(char *str, const char *delim)
+char *strTokenFunc(char *str, const char *delim)
 {
 	const char *org = delim;
-	int issEqual = 1, issGetInto = 0;
-	static char *step, *stepNull;
-	static int isEnd;
+	int isEql = 1, isGtIto = 0;
+	static char *step, *stpNull1;
+	static int iEnd1;
 
 	if (str)
-		isEnd = 0;
-	if (isEnd)
+		iEnd1 = 0;
+	if (iEnd1)
 		return (NULL);
-	step = (str) ? str : (stepNull + 1);
+	step = (str) ? str : (stpNull1 + 1);
 	if (str)
-		stepNull = str;
+		stpNull1 = str;
 	else
 		str = step;
-	while (*str && issEqual)
+	while (*str && isEql)
 	{
-		issEqual = 0;
+		isEql = 0;
 		for (delim = org; *delim; delim++)
 			if (*str == *delim)
-				issEqual = 1;
-		str = (!issEqual) ? str : str + 1;
-		isEnd = (*str) ? 0 : 1;
-		if (isEnd)
+				isEql = 1;
+		str = (!isEql) ? str : str + 1;
+		iEnd1 = (*str) ? 0 : 1;
+		if (iEnd1)
 			return (NULL);
 	}
 	step = str;
-	while (*str && !issEqual)
+	while (*str && !isEql)
 	{
-		issEqual = 0;
+		isEql = 0;
 		for (delim = org; *delim; delim++)
 			if (*str == *delim)
 			{
-				issGetInto = 1, issEqual = 1;
-				isEnd = (*(str + 1)) ? 0 : 1, *str = '\0';
+				isGtIto = 1, isEql = 1;
+				iEnd1 = (*(str + 1)) ? 0 : 1, *str = '\0';
 			}
-		str = (issEqual) ? str : str + 1;
-		if (!issGetInto && !*str)
-			isEnd = 1;
+		str = (isEql) ? str : str + 1;
+		if (!isGtIto && !*str)
+			iEnd1 = 1;
 	}
-	return (stepNull = str, step);
+	return (stpNull1 = str, step);
 }
 
 /*..........................unsetenv..........................*/
 /**
- * _copydoublepDel - copies an array of strings (double pointer)
+ * copyDoublePtrFuncDel - copies an array of strings (double pointer)
  *
  * @p: double pointer to copy
- * @new_size: size of copy
+ * @newSze: size of copy
  * @jump: valuel that must be skipped in copy
  *
  * Return: Pointer malloec
  */
-char **_copydoublepDel(char **p, int new_size, int jump)
+char **copyDoublePtrFuncDel(char **p, int newSze, int jump)
 {
 	char **copy;
-	int i, j, csize;
+	int i, j, countSize1;
 
-	csize = new_size;
-	copy = malloc(sizeof(char *) * (csize + 1));
+	countSize1 = newSze;
+	copy = malloc(sizeof(char *) * (countSize1 + 1));
 	if (copy == 0)
 		return (0);
 
-	for (i = 0, j = 0; j < csize; i++, j++)
+	for (i = 0, j = 0; j < countSize1; i++, j++)
 	{
 		if (i == jump)
 			i++;
-		copy[j] = _strdup(p[i]);
+		copy[j] = stringDupl(p[i]);
 		if (copy[j] == 0)
 		{
 			j--;
@@ -2148,7 +2148,7 @@ char **_copydoublepDel(char **p, int new_size, int jump)
 		}
 	}
 
-	copy[new_size] = '\0';
+	copy[newSze] = '\0';
 
 	return (copy);
 }
@@ -2159,7 +2159,7 @@ char **_copydoublepDel(char **p, int new_size, int jump)
 /*..........................NUM 27 BTW..........................*/
 /*..........................NUM 27 END..........................*/
 /**
- * _unsetenv - unsets an enviromental variable
+ * unSetEnvFunf - unsets an enviromental variable
  *
  * @env: array of env variables
  * @variable: env variable to unset
@@ -2167,9 +2167,9 @@ char **_copydoublepDel(char **p, int new_size, int jump)
  *
  * Return: 0 on success, -1 on error
  */
-char **_unsetenv(char **env, char *variable, shellDType *shellVar)
+char **unSetEnvFunf(char **env, char *variable, shellDType *shellVar)
 {
-	int i, j, check, l = 0, lenv = 0, found = 0;
+	int i, j, check, l = 0, ilenv = 0, found = 0;
 	char **copy;
 
 	shellVar->unsetnull[0] = 0;
@@ -2178,9 +2178,9 @@ char **_unsetenv(char **env, char *variable, shellDType *shellVar)
 		return (printCmt(3), NULL);
 		/* return (write(2, "Environment is NULL\n", 20), NULL); */
 	}
-	if (_strlen(variable) == 0 || variable == 0)
+	if (strLen1(variable) == 0 || variable == 0)
 		return (errorStrFunc(3, shellVar, 1), NULL);
-	l = _strlen(variable), lenv = _strlendp(env);
+	l = strLen1(variable), ilenv = strLenDblePtrFunc(env);
 	for (i = 0; env[i] != 0; i++)
 	{
 		for (check = 0, j = 0; j < l && env[i][j] != 0; j++)
@@ -2194,15 +2194,15 @@ char **_unsetenv(char **env, char *variable, shellDType *shellVar)
 		{
 			/* Found env to erase */
 			found = 1;
-			if ((lenv - 1) != 0)
+			if ((ilenv - 1) != 0)
 			{
-				copy = _copydoublepDel(env, lenv - 1, i);
+				copy = copyDoublePtrFuncDel(env, ilenv - 1, i);
 				if (copy == 0)
 					return (errorStrFunc(7, shellVar, 1), NULL);
 			}
 			else
 				shellVar->unsetnull[0] = 1, copy = NULL;
-			free_doubpoint(env), env = copy;
+			freeDbPtrFunc(env), env = copy;
 			return (env);
 		}
 	}

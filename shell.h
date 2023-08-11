@@ -85,17 +85,17 @@ typedef struct Helps_strct
 
 
 char *getEnvi(const char *name, char **env);
-char *_path(char *cmd, char **env, shellDType *shellVar);
-char *_strdup(char *str);
-char *str_concat(char *s1, char *s2);
-int _strlen(char *s);
-char *_strcpy(char *dest, char *src);
-char *_strtok(char *str, const char *delim);
-char **getParameters(char *buffer, shellDType *shellVar);
+char *pathFunc1(char *cmd, char **env, shellDType *shellVar);
+char *stringDupl(char *str);
+char *stringConcatFunc(char *s1, char *s2);
+int strLen1(char *s);
+char *stringCopyFunc(char *dest, char *src);
+char *strTokenFunc(char *str, const char *delim);
+char **getParam(char *buffer, shellDType *shellVar);
 int execCmdFunc(char *program, char *command[], char **env, shellDType *shellVar);
-void signal_handler(int x);
-void signal_handler2(int x);
-int _getline(char **buffer, size_t *bufsize, int fd);
+void signalHandlerFunc(int x);
+void signalHandlerFunc2(int x);
+int getInputLine(char **buffer, size_t *bufsize, int fd);
 int _strlendp(char **s);
 char **shPrmptInput(int ac, char **av, size_t *bufsize,
 		  char **buffer, shellDType *shellVar);
@@ -109,23 +109,23 @@ ssize_t exitCmdFunc(shellDType *shellVar);
 int stringCompareFunc(char *s1, char *s2);
 long a2iFunc(char *s);
 long powerFunc(long base, long pot);
-char **_copydoublep(char **p, int old_size, int new_size);
-int _strlendp(char **s);
-char **_setenv(char **env, char *variable, char *value, shellDType *shellVar);
-char **_unsetenv(char **env, char *variable, shellDType *shellVar);
+char **copyDoublePtrFunc(char **p, int old_size, int new_size);
+int strLenDblePtrFunc(char **s);
+char **setEnvFunc1(char **env, char *variable, char *value, shellDType *shellVar);
+char **unSetEnvFunf(char **env, char *variable, shellDType *shellVar);
 int isDigitFunc(int c);
 int isNumFunc(char *s);
 ssize_t cdCmdFunc(shellDType *shellVar);
 char *delCmntFunc(char *str);
 
 
-ssize_t _help_cmd(shellDType *shellVar);
-void _puts(char *s);
-void help_unsetenv(void);
-void help_cd(void);
-void help_help(void);
-void help_alias(void);
-void printsHelp(void);
+ssize_t helpCmdFunc1(shellDType *shellVar);
+void putsToStd(char *s);
+void helpUnSetEnv1(void);
+void helpCdFunc1(void);
+void helpHelpFunc1(void);
+void helpAliasFunc(void);
+void printsHelpFunc(void);
 
 /*..........................START..........................*/
 int Length_base(unsigned long int n, unsigned long int base);
@@ -138,17 +138,15 @@ char *errorStrFunc2_inner(char *conc2, char *option, char *conc1);
 long powerFunc_inner(long base, long res);
 int stringCompareFunc_inner(char *s1, char *s2, int x, int equal);
 char delCmntFunc_inner(void);
-char _memset_inner(char *s, char b, unsigned int x);
-char _memcpy_inner(char *dest, char *src, unsigned int x);
-void *_realloc_inner(void *ptr, unsigned int old_size, unsigned int new_size,
+void *reAllocateMemSpce_inner(void *ptr, unsigned int old_size, unsigned int new_size,
 				void *ptr2, int chk);
-char _pathcheck_inner(char *path, char *npath, int x, int y);
+char pathCheckFunc1_inner(char *path, char *npath, int x, int y);
 char str_concat_inner(char *s1, char *s2, char *s, int l1, int l2, int chk);
 int reverseString_upper(char *s, int x);
 void reverseString_lower(char *s, int x, int y, int z);
 char *intToAlph_upper(int n, unsigned long int x, unsigned long int base);
 int cmdMore(shellDType *shellVar, int chk);
-
+void helpSetenv1_inner(void);
 
 /*..........................fixed..........................*/
 ssize_t envCmdFunc(shellDType *shellVar);
@@ -156,25 +154,37 @@ void envCmdFunc_lower(char **str);
 ssize_t setEnvCmdFunc(shellDType *shellVar);
 ssize_t unSetEnvCmdFunc(shellDType *shellVar);
 char *auxChnDir2(shellDType *shellVar, char *currdir);
+char *memorySet(char *s, char b, unsigned int n);
+char memorySet_inner(char *s, char b, unsigned int x);
+char *memoryCopyFunc(char *dest, char *src, unsigned int n);
+char memoryCopyFunc_inner(char *dest, char *src, unsigned int x);
+void *reAllocateMemSpce(void *ptr, unsigned int oldSze, unsigned int newSze);
+void helpExit1(void);
+void helpEnv1(void);
+void helpSetenv1(void);
+void printsHelpFunc1(void);
+int strLenDblePtrFunc(char **s);
+int strLenDblePtrFunc_inner(char **s, int x);
+
 /*..........................fixed..........................*/
 
 char *auxChnDir2_inner(char *home);
 void auxChnDir_inner(shellDType *shellVar, char *currdir);
-void help_exit_inner(void);
-void help_env_inner(void);
-void help_setenv_inner(void);
-void help_unsetenv_inner(void);
-void help_cd_inner(void);
-void help_help_inner(void);
-void help_alias_inner(void);
-void printsHelp_inner(void);
+void helpExit1_inner(void);
+void helpEnv1_inner(void);
+void helpSetenv1_inner(void);
+void helpUnSetEnv1_inner(void);
+void helpCdFunc1_inner(void);
+void helpHelpFunc1_inner(void);
+void helpAliasFunc_inner(void);
+void printsHelpFunc1_inner(void);
 int _strlendp_inner(char **s, int x);
-char _strcpy_inner(char *dest, char *src, int i);
+char stringCopyFunc_inner(char *dest, char *src, int i);
 
 
 
-void free_doubpoint(char **p);
-int free_doubpoint_inner(char **p, int z);
+void freeDbPtrFunc(char **p);
+int freeDbPtrFunc_inner(char **p, int z);
 void freSingle(char *temp);
 void printCmt(int chk);
 
