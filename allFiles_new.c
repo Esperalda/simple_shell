@@ -1,6 +1,5 @@
 #include "shell.h"
 
-
 /*..........................errorStrFunc..........................*/
 /*..........................NUM 11 START..........................*/
 /**
@@ -144,172 +143,77 @@ char *intToAlph_upper(int n, unsigned long int x, unsigned long int base)
  *
  * Return: 0 success, -1 fail
  */
-void concatErrorMessage(char **concat_b, char *sh_Name, char *collctspace, int cnter, int errNum, char *err[], char **optNoni, char *cmd)
+int errorStrFunc(int errNum, shellDType *shellVar, int exnum)
 {
-	char *numStr, *concat_a;
+	int cnter = shellVar->errnum[0], z = 0;
+	char *cmd = shellVar->cmd, **optNoni = shellVar->options;
+	char *sh_Name = shellVar->hshname;
+	char *numStr, *concat_a, *concat_b, *collctspace = ": ";
+	char *err[] = {
+		"not found", "Permission denied", "Illegal number",
+		"name is NULL, points to string of len 0, or has an '=' char.",
+		"can't cd to ", "Illegal optNoni ", "Help command error",
+		"Error allocating memory", "Wrong Alias",
+		NULL
+	};
 
-    *concat_b = stringConcatFunc(sh_Name, collctspace);
-    if (!*concat_b) {
-        printCmt(1);
-        return;
-    }
+	concat_a = stringConcatFunc(sh_Name, collctspace);
+	if (!concat_a) /*hsh: */
+		return (printCmt(1), -1);
 
-    if (errNum == 7) {
-        char *concat_a = "fol";
-        errorStrFunc_inner(errNum, *concat_b, concat_a, err, 0);
-    }
+	if (errNum == 7) /* Alloc Error */
+	{
+		concat_b = "fol";
+		errorStrFunc_inner(errNum, concat_a, concat_b, err, z);
+	}
 
-    numStr = intToAlph(cnter);
-    if (!numStr) {
-        printCmt(1);
-        freSingle(*concat_b);
-        return;
-    }
+	numStr = intToAlph(cnter);
+	if (!numStr)  /* number to string */
+		return (freSingle(concat_a), printCmt(1), -1);
 
-    concat_a = stringConcatFunc(*concat_b, numStr);
-    freSingle(*concat_b);
-    freSingle(numStr);
+	concat_b = stringConcatFunc(concat_a, numStr);
+	if (!concat_b) /*hsh: cnter*/
+	{
+		printCmt(1);
+		return (freSingle(concat_a), freSingle(numStr),  -1);
+	}
+	freSingle(concat_a), freSingle(numStr);
 
-    if (!concat_a) {
-        printCmt(1);
-        return;
-    }
+	concat_a = stringConcatFunc(concat_b, collctspace);
+	if (!concat_a) /*hsh: cnter: */
+		return (freSingle(concat_b), printCmt(1), -1);
 
-    *concat_b = stringConcatFunc(concat_a, cmd);
-    freSingle(concat_a);
+	freSingle(concat_b);
+	concat_b = stringConcatFunc(concat_a, cmd);
+	if (!concat_b) /*hsh: cnter: cmd*/
+		return (freSingle(concat_a), printCmt(1), -1);
+	freSingle(concat_a);
 
-    if (!*concat_b) {
-        printCmt(1);
-        return;
-    }
+	concat_a = stringConcatFunc(concat_b, collctspace);
+	if (!concat_a) /*hsh: cnter: cmd: */
+		return (freSingle(concat_b), printCmt(1), -1);
+	freSingle(concat_b);
 
-    *concat_b = stringConcatFunc(*concat_b, err[errNum]);
-    if (!*concat_b) {
-        printCmt(1);
-        return;
-    }
+	concat_b = stringConcatFunc(concat_a, err[errNum]);
+	if (!concat_b) /*hsh: cnter: cmd: error*/
+		return (freSingle(concat_a), printCmt(1), -1);
+	freSingle(concat_a);
 
-    if (errNum > 1 && errNum < 6 && errNum != 3) {
-        *concat_b = errorStrFunc2(errNum, *concat_b, optNoni[1]);
-        /* *concat_b = errorStrFunc2(errNum, *concat_b, optNoni); */
-        if (*concat_b == NULL) {
-            printCmt(1);
-            return;
-        }
-    }
+	if (errNum > 1 && errNum < 6 && errNum != 3)
+		concat_b = errorStrFunc2(errNum, concat_b, optNoni[1]);
+	if (concat_b == NULL)
+	{
+		printCmt(1);
+		return (-1);
+	}
+
+	while (concat_b[z] != 0)
+		z++;
+	write(2, concat_b, z), printCmt(2);
+	freSingle(concat_b);
+	shellVar->exit_Num[0] = exnum;
+	return (0);
 }
-
-int errorStrFunc(int errNum, shellDType *shellVar, int exnum) {
-    int cnter = shellVar->errnum[0], z = 0;
-    char *cmd = shellVar->cmd, **optNoni = shellVar->options;
-    char *sh_Name = shellVar->hshname;
-    char *collctspace = ": ";
-    char *err[] = {
-        "not found", "Permission denied", "Illegal number",
-        "name is NULL, points to string of len 0, or has an '=' char.",
-        "can't cd to ", "Illegal optNoni ", "Help command error",
-        "Error allocating memory", "Wrong Alias",
-        NULL
-    };
-
-    char *concat_b = NULL;
-    concatErrorMessage(&concat_b, sh_Name, collctspace, cnter, errNum, err, optNoni, cmd);
-
-    if (!concat_b) {
-        return -1;
-    }
-
-    while (concat_b[z] != 0) {
-        z++;
-    }
-
-    write(2, concat_b, z);
-    printCmt(2);
-    freSingle(concat_b);
-    shellVar->exit_Num[0] = exnum;
-    return 0;
-}
-
-
-
-/*..........................original..........................*/
-/**
- *int errorStrFunc(int errNum, shellDType *shellVar, int exnum)
- *{
- *	int cnter = shellVar->errnum[0], z = 0;
- *	char *cmd = shellVar->cmd, **optNoni = shellVar->options;
- *	char *sh_Name = shellVar->hshname;
- *	char *numStr, *concat_a, *concat_b, *collctspace = ": ";
- *	char *err[] = {
- *		"not found", "Permission denied", "Illegal number",
- *		"name is NULL, points to string of len 0, or has an '=' char.",
- *		"can't cd to ", "Illegal optNoni ", "Help command error",
- *		"Error allocating memory", "Wrong Alias",
- *		NULL
- *	};
- *
- *	concat_a = stringConcatFunc(sh_Name, collctspace);
- *	if (!concat_a)
- *		return (printCmt(1), -1);
- *
- *	if (errNum == 7)
- *	{
- *		concat_b = "fol";
- *		errorStrFunc_inner(errNum, concat_a, concat_b, err, z);
- *	}
- *
- *	numStr = intToAlph(cnter);
- *	if (!numStr)
- *		return (freSingle(concat_a), printCmt(1), -1);
- *
- *	concat_b = stringConcatFunc(concat_a, numStr);
- *	if (!concat_b)
- *	{
- *		printCmt(1);
- *		return (freSingle(concat_a), freSingle(numStr),  -1);
- *	}
- *	freSingle(concat_a), freSingle(numStr);
- *
- *	concat_a = stringConcatFunc(concat_b, collctspace);
- *	if (!concat_a)
- *		return (freSingle(concat_b), printCmt(1), -1);
- *
- *	freSingle(concat_b);
- *	concat_b = stringConcatFunc(concat_a, cmd);
- *	if (!concat_b) 
- *		return (freSingle(concat_a), printCmt(1), -1);
- *	freSingle(concat_a);
- *
- *	concat_a = stringConcatFunc(concat_b, collctspace);
- *	if (!concat_a)
- *		return (freSingle(concat_b), printCmt(1), -1);
- *	freSingle(concat_b);
- *
- *	concat_b = stringConcatFunc(concat_a, err[errNum]);
- *	if (!concat_b)
- *		return (freSingle(concat_a), printCmt(1), -1);
- *	freSingle(concat_a);
- *
- *	if (errNum > 1 && errNum < 6 && errNum != 3)
- *		concat_b = errorStrFunc2(errNum, concat_b, optNoni[1]);
- *	if (concat_b == NULL)
- *	{
- *		printCmt(1);
- *		return (-1);
- *	}
- *
- *	while (concat_b[z] != 0)
- *		z++;
- *	write(2, concat_b, z), printCmt(2);
- *	freSingle(concat_b);
- *	shellVar->exit_Num[0] = exnum;
- *	return (0);
- *}
- */
-/*..........................original..........................*/
-
-
-
 
 
 /*..........................NUM 2 BTW..........................*/
