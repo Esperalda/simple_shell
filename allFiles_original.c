@@ -1665,6 +1665,7 @@ char *_path(char *cmd, char **env, shellDType *shellVar)
 }
 
 /*..........................setenv..........................*/
+/*..........................NUM 24 START..........................*/
 /**
  * free_doubpoint - frees a double pointer array of strings
  * (must end in NULL)
@@ -1677,8 +1678,7 @@ void free_doubpoint(char **p)
 {
 	int x, z = 0;
 
-	while (p[z] != 0)
-		z++;
+	free_doubpoint_inner(p, z);
 
 	for (x = 0; x < z; x++)
 	{
@@ -1686,6 +1686,23 @@ void free_doubpoint(char **p)
 	}
 	free(p);
 }
+/*..........................NUM 24 BTW..........................*/
+/**
+ * free_doubpoint - frees a double pointer array of strings
+ * (must end in NULL)
+ *
+ * @p: double pointer to free
+ *
+ * Return: no return
+ */
+int free_doubpoint_inner(char **p, int z)
+{
+	while (p[z] != 0)
+		z++;
+	return (z);
+}
+/*..........................NUM 24 BTW..........................*/
+/*..........................NUM 24 END..........................*/
 /**
  * _copydoublep - copies an array of strings (double pointer)
  *
