@@ -92,7 +92,8 @@ int strLen1(char *s);
 char *stringCopyFunc(char *dest, char *src);
 char *strTokenFunc(char *str, const char *delim);
 char **getParam(char *buffer, shellDType *shellVar);
-int execCmdFunc(char *program, char *command[], char **env, shellDType *shellVar);
+int execCmdFunc(char *program, char *command[], char **env,
+							shellDType *shellVar);
 void signalHandlerFunc(int x);
 void signalHandlerFunc2(int x);
 int getInputLine(char **buffer, size_t *bufsize, int fd);
@@ -102,7 +103,8 @@ char **shPrmptInput(int ac, char **av, size_t *bufsize,
 shellDType *set_struct(char *argv0, int *errn, int *exnum, int *relation,
 		    int *run_able, char ***env, int *unsetnull);
 int errorStrFunc(int errn, shellDType *shellVar, int exnum);
-void addCmd(shellDType *shellVar, char *buffer, char *command, char **parameters);
+void addCmd(shellDType *shellVar, char *buffer, char *command,
+							char **parameters);
 void addPathToCmd(shellDType *shellVar, char *pathCmd);
 ssize_t checkIfBuiltinFunc(shellDType *shellVar);
 ssize_t exitCmdFunc(shellDType *shellVar);
@@ -111,7 +113,8 @@ long a2iFunc(char *s);
 long powerFunc(long base, long pot);
 char **copyDoublePtrFunc(char **p, int old_size, int new_size);
 int strLenDblePtrFunc(char **s);
-char **setEnvFunc1(char **env, char *variable, char *value, shellDType *shellVar);
+char **setEnvFunc1(char **env, char *variable, char *value,
+						shellDType *shellVar);
 char **unSetEnvFunf(char **env, char *variable, shellDType *shellVar);
 int isDigitFunc(int c);
 int isNumFunc(char *s);
@@ -129,7 +132,8 @@ void printsHelpFunc(void);
 
 /*..........................START..........................*/
 int Length_base(unsigned long int n, unsigned long int base);
-unsigned long int Length_base_inner(unsigned long int n, unsigned long int base);
+unsigned long int Length_base_inner(unsigned long int n,
+								unsigned long int base);
 char *intToAlph(int n);
 void reverseString(char *s);
 char *errorStrFunc2(int errn, char *conc2, char *option);
@@ -138,7 +142,8 @@ char *errorStrFunc2_inner(char *conc2, char *option, char *conc1);
 long powerFunc_inner(long base, long res);
 int stringCompareFunc_inner(char *s1, char *s2, int x, int equal);
 char delCmntFunc_inner(void);
-void *reAllocateMemSpce_inner(void *ptr, unsigned int old_size, unsigned int new_size,
+void *reAllocateMemSpce_inner(void *ptr, unsigned int old_size,
+							unsigned int new_size,
 				void *ptr2, int chk);
 char pathCheckFunc1_inner(char *path, char *npath, int x, int y);
 char str_concat_inner(char *s1, char *s2, char *s, int l1, int l2, int chk);

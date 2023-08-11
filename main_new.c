@@ -1,6 +1,7 @@
 #include "shell.h"
 
 
+int _strlendp_inner(char **s, int x);
 /**
  * main - Shell Program
  * @ac: count of input parameters to program
@@ -22,7 +23,8 @@ int main(int ac, char **av, char **env)
 	signal(SIGINT, signalHandlerFunc);
 	sizeEnv = strLenDblePtrFunc(env);
 	env = copyDoublePtrFunc(env, sizeEnv, sizeEnv);
-	shellVar = set_struct(av[0], &errn, &exnum, &relation, &run_able, &env, &enul);
+	shellVar = set_struct(av[0], &errn, &exnum, &relation,
+						&run_able, &env, &enul);
 	while (1)
 	{
 		command = NULL;
@@ -97,7 +99,8 @@ shellDType *set_struct(char *argv0, int *errn, int *exnum,
  *
  * Return: No return
  */
-void addCmd(shellDType *shellVar, char *buffer, char *command, char **parameters)
+void addCmd(shellDType *shellVar, char *buffer, char *command,
+				char **parameters)
 {
 	shellVar->buffer = buffer;
 	shellVar->cmd = command;

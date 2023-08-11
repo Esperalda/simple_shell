@@ -18,8 +18,10 @@ void reverseString(char *s)
 }
 /*..........................NUM 11 BTW..........................*/
 /**
- * reverseString - Reverses a string
+ * reverseString_upper - Reverses a string
  * @s: string to reverse
+ * @x: string to reverse
+ *
  *
  * Return: Nothing
  */
@@ -31,8 +33,11 @@ int reverseString_upper(char *s, int x)
 }
 /*..........................NUM 11 BTW..........................*/
 /**
- * reverseString - Reverses a string
+ * reverseString_lower - Reverses a string
  * @s: string to reverse
+ * @x: string to reconcat_a
+ * @y: string to reverse
+ * @z: string to revconcat_a
  *
  * Return: Nothing
  */
@@ -77,7 +82,8 @@ int Length_base(unsigned long int n, unsigned long int base)
  *
  * Return: length of number
  */
-unsigned long int Length_base_inner(unsigned long int n, unsigned long int base)
+unsigned long int Length_base_inner(unsigned long int n,
+					unsigned long int base)
 {
 	n = n / base;
 	return (n);
@@ -91,7 +97,7 @@ unsigned long int Length_base_inner(unsigned long int n, unsigned long int base)
  *
  * @n: number
  *
- * Return: pointer to string
+ * Return: pointer to
  */
 char *intToAlph(int n)
 {
@@ -115,14 +121,17 @@ char *intToAlph(int n)
 }
 /*..........................NUM 12 BTW..........................*/
 /**
- * intToAlph - converts an integer to string
+ * intToAlph_upper - converts an integer to string
  *
  * @n: number
+ * @x: number
+ * @base: number
  *
  * Return: pointer to string
  */
-char *intToAlph_upper(int n, unsigned long int x, unsigned long int base)
-{	
+char *intToAlph_upper(int n, unsigned long int x,
+							unsigned long int base)
+{
 	char *str;
 
 	if (n != 0)
@@ -133,13 +142,13 @@ char *intToAlph_upper(int n, unsigned long int x, unsigned long int base)
 }
 /*..........................NUM 12 BTW..........................*/
 /*..........................NUM 12 END..........................*/
-
+int _strlendp_inner(char **s, int x);
 /*..........................NUM 2 START..........................*/
 /**
  * errorStrFunc - creates a string with error line
- * @errNum: number corresponding to type of error
- * @shellVar: struct containing shell information
- * @exnum: valuel of exit the shell should have
+ * @errNum: number correspond of error
+ * @shellVar: struct containing mation
+ * @exnum: valuel of exit thee
  *
  * Return: 0 success, -1 fail
  */
@@ -218,14 +227,17 @@ int errorStrFunc(int errNum, shellDType *shellVar, int exnum)
 
 /*..........................NUM 2 BTW..........................*/
 /**
- * errorStrFunc - creates a string with error line
- * @errNum: number corresponding to type of error
- * @shellVar: struct containing shell information
- * @exnum: valuel of exit the shell should have
+ * errorStrFunc_inner - tring with error line
+ * @errNum: number corresponof error
+ * @concat_a: struct l information
+ * @err: valuel of exit thehave
+ * @concat_b: valuel of exit thd have
+ * @z: valuel of exit the s
  *
  * Return: 0 success, -1 fail
  */
-int errorStrFunc_inner(int errNum, char *concat_a, char *concat_b, char *err[], int z)
+int errorStrFunc_inner(int errNum, char *concat_a, char *concat_b,
+							char *err[], int z)
 {
 	concat_b = stringConcatFunc(concat_a, err[errNum]); /*hsh: cnter: error*/
 	if (!concat_b)
@@ -241,12 +253,12 @@ int errorStrFunc_inner(int errNum, char *concat_a, char *concat_b, char *err[], 
 
 /*..........................NUM 3 START..........................*/
 /**
- * errorStrFunc2 - extra modes for error generation
- * @errNum: number corresponding to type of error
- * @concat_b: error part from errorStrFunc
- * @optNoni: cmd optNoni thaat
+ * errorStrFunc2 - extra modes eration
+ * @errNum: number correspto type of error
+ * @concat_b: error part from ernc
+ * @optNoni: cmd optNo
  *
- * Return: pointer to string
+ * Return: pointer to s
  */
 char *errorStrFunc2(int errNum, char *concat_b, char *optNoni)
 {
@@ -282,14 +294,15 @@ char *errorStrFunc2(int errNum, char *concat_b, char *optNoni)
 }
 /*..........................NUM 3 BTW..........................*/
 /**
- * errorStrFunc2 - extra modes for error generation
- * @errNum: number corresponding to type of error
- * @concat_b: error part from errorStrFunc
- * @optNoni: cmd optNoni thaat
+ * errorStrFunc2_inner - extra modes for error generation
+ * @concat_a: number correspondingr
+ * @concat_b: error part frounc
+ * @optNoni: cmd optN
  *
  * Return: pointer to string
  */
-char *errorStrFunc2_inner(char *concat_b, char *optNoni, char *concat_a)
+char *errorStrFunc2_inner(char *concat_b, char *optNoni,
+								char *concat_a)
 {
 	concat_a = stringConcatFunc(concat_b, optNoni);
 	if (!concat_a) /*hsh: cnter: cmd: error optNoni*/
@@ -307,7 +320,7 @@ char *errorStrFunc2_inner(char *concat_b, char *optNoni, char *concat_a)
 
 /**
  * exitCmdFunc - built in command exit
- * @shellVar: struct containing shell info
+ * @shellVar: struct col info
  *
  * Return: -1 if error
  */
@@ -340,10 +353,10 @@ ssize_t exitCmdFunc(shellDType *shellVar)
 
 /*..........................NUM 13 START..........................*/
 /**
- * envCmdFunc - built in command env
- * @shellVar: struct containing shell info
+ * envCmdFunc - built in comm
+ * @shellVar: struct contain info
  *
- * Return: 1 if succesful
+ * Return: 1 if succ
  */
 ssize_t envCmdFunc(shellDType *shellVar)
 {
@@ -373,8 +386,9 @@ ssize_t envCmdFunc(shellDType *shellVar)
 }
 /*..........................NUM 13 BTW..........................*/
 /**
- * envCmdFunc - built in command env
- * @shellVar: struct containing shell info
+ * cmdMore - built in command env
+ * @shellVar: struct containinfo
+ * @chk: struct containi
  *
  * Return: 1 if succesful
  */
@@ -382,7 +396,7 @@ int cmdMore(shellDType *shellVar, int chk)
 {
 	if (chk == 1)
 	{
-		/* write(2, "Environment is Null, Can't Print it\n", 36); */
+		/* write(2, "Environment is it\n", 36); */
 		printCmt(3);
 	}
 	else if (chk == 2)
@@ -396,8 +410,8 @@ int cmdMore(shellDType *shellVar, int chk)
 }
 /*..........................NUM 13 BTW..........................*/
 /**
- * envCmdFunc - built in command env
- * @shellVar: struct containing shell info
+ * envCmdFunc_lower - built  env
+ * @str: struct contai 
  *
  * Return: 1 if succesful
  */
@@ -413,10 +427,10 @@ void envCmdFunc_lower(char **str)
 
 
 /**
- * setEnvCmdFunc - built in command setenv
- * @shellVar: struct containing shell info
+ * setEnvCmdFunc - built ietenv
+ * @shellVar: struct conll info
  *
- * Return: 1 if succesful, -1 if fail
+ * Return: 1 if succfail
  */
 ssize_t setEnvCmdFunc(shellDType *shellVar)
 {
@@ -454,10 +468,10 @@ ssize_t setEnvCmdFunc(shellDType *shellVar)
 }
 
 /**
- * unSetEnvCmdFunc - built in command unsetenv
- * @shellVar: struct containing shell info
+ * unSetEnvCmdFunc - built  env
+ * @shellVar: struct c ll info
  *
- * Return: 1 if succesful, -1 if fail
+ * Return: 1 if succesful,  il
  */
 ssize_t unSetEnvCmdFunc(shellDType *shellVar)
 {
@@ -495,8 +509,7 @@ ssize_t unSetEnvCmdFunc(shellDType *shellVar)
 
 /**
  * checkIfBuiltinFunc - checks if cmd is a built in
- * @shellVar: struct containing shell info
- *
+ * @shellVar: struct conta
  * Return: On fail 0
  */
 ssize_t checkIfBuiltinFunc(shellDType *shellVar)
@@ -529,10 +542,10 @@ ssize_t checkIfBuiltinFunc(shellDType *shellVar)
 /*..........................NUM 14 START..........................*/
 /**
  * auxChnDir2 - auxiliary function of cd built in
- * @shellVar: struct containing shell info
- * @curDire: current directory
+ * @shellVar: struct con shell info
+ * @curDire: current d
  *
- * Return: pointer to HOME or NULL if fail
+ * Return: pointer to  if fail
  */
 char *auxChnDir2(shellDType *shellVar, char *curDire)
 {
@@ -548,11 +561,9 @@ char *auxChnDir2(shellDType *shellVar, char *curDire)
 
 /*..........................NUM 14 BTW..........................*/
 /**
- * auxChnDir2 - auxiliary function of cd built in
- * @shellVar: struct containing shell info
- * @curDire: current directory
- *
- * Return: pointer to HOME or NULL if fail
+ * auxChnDir2_inner - auxiliary function of cd built in
+ * @home: struct contain info
+ * Return: pointer to H if fail
  */
 char *auxChnDir2_inner(char *home)
 {
@@ -565,10 +576,10 @@ char *auxChnDir2_inner(char *home)
 /*..........................NUM 15 START..........................*/
 /**
  * auxChnDir - auxiliary function of cd built in
- * @shellVar: struct containing shell info
- * @curDire: the current directory
+ * @shellVar: struct contll info
+ * @curDire: the current
  *
- * Return: Pointer to dir or NULL if fail
+ * Return: Pointer to dif fail
  */
 char *auxChnDir(shellDType *shellVar, char *curDire)
 {
@@ -596,11 +607,11 @@ char *auxChnDir(shellDType *shellVar, char *curDire)
 }
 /*..........................NUM 15 BTW..........................*/
 /**
- * auxChnDir - auxiliary function of cd built in
- * @shellVar: struct containing shell info
- * @curDire: the current directory
+ * auxChnDir_inner - auxiliary function of cd built in
+ * @shellVar: struct shell info
+ * @curDire: the cutory
  *
- * Return: Pointer to dir or NULL if fail
+ * Return: Pointer toL if fail
  */
 void auxChnDir_inner(shellDType *shellVar, char *curDire)
 {
@@ -615,10 +626,9 @@ void auxChnDir_inner(shellDType *shellVar, char *curDire)
 
 
 /**
- * cdCmdFunc - built in command cd
- * @shellVar: struct containing shell info
- *
- * Return: 1 if succesful, -1 if fail
+ * cdCmdFunc - builnd cd
+ * @shellVar: struct 
+ * Return: 1 if succif fail
  */
 ssize_t cdCmdFunc(shellDType *shellVar)
 {
@@ -686,9 +696,9 @@ long powerFunc(long base, long pot)
 }
 /*..........................NUM 4 BTW..........................*/
 /**
- * powerFunc - gets the result of base to ower
- * @base: base decimal
- * @pot: power
+ * powerFunc_inner - gets the result of base to ower
+ * @base: base decim
+ * @res: power
  *
  * Return: result
  */
@@ -701,12 +711,12 @@ long powerFunc_inner(long base, long res)
 
 
 /**
- * a2iFunc - convert a char input to int
+ * a2iFunc - converinput to int
  * @s: char input
  *
  *
- * Return: input transformed to integer
- * On error: -1 inapropiate entry
+ * Return: input tnteger
+ * On error: -1 inapr
  */
 
 long a2iFunc(char *s)
@@ -747,7 +757,7 @@ long a2iFunc(char *s)
  * @s1: string 1
  * @s2: string 2
  *
- * Return: 0 if strings are equal or another valuel if not
+ * Return: 0 if stringsanother valuel if not
  *
  */
 int stringCompareFunc(char *s1, char *s2)
@@ -763,11 +773,13 @@ int stringCompareFunc(char *s1, char *s2)
 }
 /*..........................NUM 5 BTW..........................*/
 /**
- * stringCompareFunc - compares two strings
+ * stringCompareFunc_inner - compares two strings
  * @s1: string 1
  * @s2: string 2
+ * @x: string 2
+ * @equal: string 2
  *
- * Return: 0 if strings are equal or another valuel if not
+ * Return: 0 if strings areother valuel if not
  *
  */
 int stringCompareFunc_inner(char *s1, char *s2, int x, int equal)
@@ -778,10 +790,10 @@ int stringCompareFunc_inner(char *s1, char *s2, int x, int equal)
 /*..........................NUM 5 END..........................*/
 
 /**
- * isDigitFunc - checks if a character is a digit
+ * isDigitFunc - checks if a chs a digit
  * @c: character
  *
- * Return: 1 if digit, 0 if not
+ * Return: 1 if digit,
  *
  */
 int isDigitFunc(int c)
@@ -807,14 +819,14 @@ int isNumFunc(char *s)
 
 /**
  * shPrmptInput - checks for input in after shell prompt
- * @ac: cnter of main arguments
+ * @ac: cnter of main ts
  * @av: main arguments
- * @bufsize: size of buffer in prompt
- * @buffer: buffer in prompt
- * @shellVar: struct of shell info
+ * @bufsize: size of bufmpt
+ * @buffer: buffer in 
+ * @shellVar: struct fo
  *
  * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ * On error, -1 is returno is set appropriately.
  */
 char **shPrmptInput(int ac, char **av, size_t *bufsize,
 		   char **buffer, shellDType *shellVar)
@@ -863,11 +875,11 @@ char **shPrmptInput(int ac, char **av, size_t *bufsize,
 
 /*..........................NUM 6 START..........................*/
 /**
- * delCmntFunc - deletes a commnet inside a command line
+ * delCmntFunc - deletes a commnet insline
  *
- * @str: string to operate
+ * @str: string to o
  *
- * Return: pointer to string
+ * Return: pointer t
  *
  */
 char *delCmntFunc(char *str)
@@ -885,11 +897,8 @@ char *delCmntFunc(char *str)
 }
 /*..........................NUM 6 BTW..........................*/
 /**
- * delCmntFunc - deletes a commnet inside a command line
- *
- * @str: string to operate
- *
- * Return: pointer to string
+ * delCmntFunc_inner - deletes a commnide a command line
+ * Return: pointer tng
  *
  */
 char delCmntFunc_inner(void)
@@ -903,16 +912,17 @@ char delCmntFunc_inner(void)
 /**
  * execCmdFunc - creates a child prcss to execute a cmd
  *
- * @program: command that will be executed
- * @command: arguments of command
- * @env: current environment
- * @shellVar: struct with shell information
+ * @program: command e executed
+ * @command: argum command
+ * @env: currentnment
+ * @shellVar: struct witnformation
  *
- * Return: pointer to the valuel in the environment,
- * or NULL if there is no match
+ * Return: pointer to the valvironment,
+ * or NULL if there is n
  *
  */
-int execCmdFunc(char *program, char *command[], char **env, shellDType *shellVar)
+int execCmdFunc(char *program, char *command[], char **env,
+						shellDType *shellVar)
 {
 	pid_t prcss, stat;
 	int execveSts = 0, waitSts = 0;
@@ -954,11 +964,10 @@ int execCmdFunc(char *program, char *command[], char **env, shellDType *shellVar
 /**
  * getEnvi - gets an environment variable
  *
- * @name: name of environmental variable
- * @env: current environment
- *
- * Return: pointer to the valuel in the environment,
- * or NULL if there is no match
+ * @name: name of environiable
+ * @env: current en
+ * Return: pointer to tin the environment,
+ * or NULL if thch
  *
  */
 char *getEnvi(const char *name, char **env)
@@ -1034,7 +1043,7 @@ void printCmt(int chk)
 /* ..........................NUM 28 END.........................*/
 /* ..........................NUM 29 START.......................*/
 /**
- * freeCharFoluke - frees
+ * freSingle - frees
  * @temp: head
  */
 
@@ -1045,10 +1054,9 @@ void freSingle(char *temp)
 /* ..........................NUM 29 END...........................*/
 /*..........................NUM 24 START..........................*/
 /**
- * freeDbPtrFunc - frees a double pointer array of strings
- * (must end in NULL)
+ * freeDbPtrFunc - frees a st end 
  *
- * @p: double pointer to free
+ * @p: double pointe
  *
  * Return: no return
  */
@@ -1066,10 +1074,10 @@ void freeDbPtrFunc(char **p)
 }
 /*..........................NUM 24 BTW..........................*/
 /**
- * freeDbPtrFunc - frees a double pointer array of strings
- * (must end in NULL)
+ * freeDbPtrFunc_inner - frees a double pointer array of strings
  *
- * @p: double pointer to free
+ * @p: double poi
+ * @z: double p
  *
  * Return: no return
  */
@@ -1088,10 +1096,10 @@ int freeDbPtrFunc_inner(char **p, int z)
  * memorySet - fills memory with constant byte
  * @s: memory area
  * @b: constant byte b
- * @n: first n bytes of memory area pointed by s
+ * @n: first n bytes of memory aed by s
  *
  * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ * On error, -1 is returned, set appropriately.
  */
 char *memorySet(char *s, char b, unsigned int n)
 {
@@ -1103,13 +1111,12 @@ char *memorySet(char *s, char b, unsigned int n)
 }
 /*..........................NUM 7 BTW..........................*/
 /**
- * memorySet - fills memory with constant byte
+ * memorySet_inner - fills memory with constant byte
  * @s: memory area
  * @b: constant byte b
- * @n: first n bytes of memory area pointed by s
- *
+ * @x: first n bytes of mem
  * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ * On error, -1 is returned,opriately.
  */
 char memorySet_inner(char *s, char b, unsigned int x)
 {
@@ -1120,12 +1127,11 @@ char memorySet_inner(char *s, char b, unsigned int x)
 
 /*..........................NUM 8 START..........................*/
 /**
- * memoryCopyFunc - copies memory
- * @dest: destination
+ * memoryCopyFunc - copies 
+ * @dest: destinati
  * @src: source
- * @n: size of memory to copy
- *
- * Return: Returns memory copied
+ * @n: size of memory 
+ * Return: Returns 
  */
 char *memoryCopyFunc(char *dest, char *src, unsigned int n)
 {
@@ -1137,12 +1143,12 @@ char *memoryCopyFunc(char *dest, char *src, unsigned int n)
 }
 /*..........................NUM 8 BTW..........................*/
 /**
- * memoryCopyFunc - copies memory
+ * memoryCopyFunc_inner - copies memory
  * @dest: destination
  * @src: source
- * @n: size of memory to copy
+ * @x: size of memo
  *
- * Return: Returns memory copied
+ * Return: Returns 
  */
 char memoryCopyFunc_inner(char *dest, char *src, unsigned int x)
 {
@@ -1154,11 +1160,11 @@ char memoryCopyFunc_inner(char *dest, char *src, unsigned int x)
 /*..........................NUM 9 START..........................*/
 /**
  * reAllocateMemSpce - reallocates a memory block using malloc and free
- * @ptr: pointer to modify
- * @oldSze: current size of memory
- * @newSze: size memory will now have
+ * @ptr: pointer to 
+ * @oldSze: current 
+ * @newSze: size memo
  *
- * Return: Pointer to reallocated memory
+ * Return: Pointer toory
  */
 void *reAllocateMemSpce(void *ptr, unsigned int oldSze, unsigned int newSze)
 {
@@ -1194,15 +1200,17 @@ void *reAllocateMemSpce(void *ptr, unsigned int oldSze, unsigned int newSze)
 }
 /*..........................NUM 9 BTW..........................*/
 /**
- * reAllocateMemSpce - reallocates a memory block using malloc and free
- * @ptr: pointer to modify
- * @oldSze: current size of memory
- * @newSze: size memory will now have
+ * reAllocateMemSpce_inner - reallocates a memory block using malloc and free
+ * @ptr: pointer to 
+ * @oldSze: currentory
+ * @newSze: size memow have
+ * @ptr2: size memory w
+ * @chk: size memory wi
  *
  * Return: Pointer to reallocated memory
  */
-void *reAllocateMemSpce_inner(void *ptr, unsigned int oldSze, unsigned int newSze,
-				void *ptr2, int chk)
+void *reAllocateMemSpce_inner(void *ptr, unsigned int oldSze,
+					unsigned int newSze, void *ptr2, int chk)
 {
 	if (chk == 1)
 	{
@@ -1223,12 +1231,12 @@ void *reAllocateMemSpce_inner(void *ptr, unsigned int oldSze, unsigned int newSz
 
 /**
  * getInputLine - read a string or a line from an input stream
- * @buffer: pointer to a space where the stdin read will be saved
+ * @buffer: pointer to a space where the ill be saved
  * as a string
- * @bufsize: current size of buffer (must be given as 0 initially)
+ * @bufsize: current size of buffer ven as 0 initially)
  * @fd: stream to read
  *
- * Return: Number of Characters Read
+ * Return: Number of Charac
  */
 int getInputLine(char **buffer, size_t *bufsize, int fd)
 {
@@ -1276,12 +1284,12 @@ int getInputLine(char **buffer, size_t *bufsize, int fd)
 
 /*..........................getParam..........................*/
 /**
- * getParam - obtains parameters from buffer of prompt
+ * getParam - obtains parameters frf prompt
  * @raw_buffer: raw_buffer
- * @shellVar: struct containing shell info
- *
+ * @shellVar: struct containing o
+ 
  * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ * On error, -1 is returned, and et appropriately.
  */
 char **getParam(char *raw_buffer, shellDType *shellVar)
 {
@@ -1328,8 +1336,8 @@ char **getParam(char *raw_buffer, shellDType *shellVar)
 
 /*..........................help001..........................*/
 /**
- * putsToStd - prints string to std output
- * @s: string (must be NULL terminated)
+ * putsToStd - prints strioutput
+ * @s: string (must be Nated)
  *
  * Return: No Return
  */
@@ -1340,7 +1348,7 @@ void putsToStd(char *s)
 
 /*..........................NUM 16 START..........................*/
 /**
- * helpExit1 - prints help of exit built in
+ * helpExit1 - prints help of lt in
  *
  * Return: No Return
  */
@@ -1350,7 +1358,7 @@ void helpExit1(void)
 }
 /*..........................NUM 16 BTW..........................*/
 /**
- * helpExit1 - prints help of exit built in
+ * helpExit1_inner - prints heit built in
  *
  * Return: No Return
  */
@@ -1368,7 +1376,7 @@ void helpExit1_inner(void)
 
 /*..........................NUM 17 START..........................*/
 /**
- * helpEnv1 - prints help of env built in
+ * helpEnv1 - prints help of t in
  *
  * Return: No Return
  */
@@ -1378,7 +1386,7 @@ void helpEnv1(void)
 }
 /*..........................NUM 17 BTW..........................*/
 /**
- * helpEnv1 - prints help of env built in
+ * helpEnv1_inner - prints heluilt in
  *
  * Return: No Return
  */
@@ -1394,7 +1402,7 @@ void helpEnv1_inner(void)
 
 /*..........................NUM 18 START..........................*/
 /**
- * helpSetenv1 - prints help of setenv built in
+ * helpSetenv1 - prints help v built in
  *
  * Return: No Return
  */
@@ -1404,7 +1412,7 @@ void helpSetenv1(void)
 }
 /*..........................NUM 18 BTW..........................*/
 /**
- * helpSetenv1 - prints help of setenv built in
+ * helpSetenv1_inner - prinp of setenv built in
  *
  * Return: No Return
  */
@@ -1426,8 +1434,8 @@ void helpSetenv1_inner(void)
 /*..........................NUM 19 BTW..........................*/
 /*..........................NUM 19 END..........................*/
 /**
- * helpCmdFunc1 - help of built in commands
- * @shellVar: struct containing shell info
+ * helpCmdFunc1 - help of ands
+ * @shellVar: struinfo
  *
  * Return: 1 if succesful, -1 if fail
  */
@@ -1472,7 +1480,7 @@ ssize_t helpCmdFunc1(shellDType *shellVar)
 /*..........................help002..........................*/
 /*..........................NUM 19 START..........................*/
 /**
- * helpUnSetEnv1 - prints help of unsetenv built in
+ * helpUnSetEnv1 - prints help ofuilt in
  *
  * Return: No Return
  */
@@ -1482,7 +1490,7 @@ void helpUnSetEnv1(void)
 }
 /*..........................NUM 19 BTW..........................*/
 /**
- * helpUnSetEnv1 - prints help of unsetenv built in
+ * helpUnSetEnv1_inner - prints hev built in
  *
  * Return: No Return
  */
@@ -1511,7 +1519,7 @@ void helpCdFunc1(void)
 }
 /*..........................NUM 20 BTW..........................*/
 /**
- * helpCdFunc1 - prints help of cd built in
+ * helpCdFunc1_inner - prints huilt in
  *
  * Return: No Return
  */
@@ -1539,7 +1547,7 @@ void helpCdFunc1_inner(void)
 
 /*..........................NUM 21 START..........................*/
 /**
- * helpHelpFunc1 - prints help of help built in
+ * helpHelpFunc1 - prints help built in
  *
  * Return: No Return
  */
@@ -1549,7 +1557,7 @@ void helpHelpFunc1(void)
 }
 /*..........................NUM 21 BTW..........................*/
 /**
- * helpHelpFunc1 - prints help of help built in
+ * helpHelpFunc1_inner - prints helpilt in
  *
  * Return: No Return
  */
@@ -1557,7 +1565,7 @@ void helpHelpFunc1_inner(void)
 {
 	putsToStd("help: help [BUILTIN ...]\n");
 	putsToStd("    Display information about builtin commands.\n\n");
-	putsToStd("    Displays brief summaries of builtin commands.  If BUILTIN is\n");
+	putsToStd("    Displays brief summaries of builtin commands. If BUILTINs\n");
 	putsToStd("    specified, gives detailed help on all commands ");
 	putsToStd("    matching BUILTIN,\n");
 	putsToStd("    otherwise the list of help topics is printed.\n\n");
@@ -1572,7 +1580,7 @@ void helpHelpFunc1_inner(void)
 
 /*..........................NUM 22 START..........................*/
 /**
- * helpAliasFunc - prints help of alias built in
+ * helpAliasFunc - prints help oflt in
  *
  * Return: No Return
  */
@@ -1582,7 +1590,7 @@ void helpAliasFunc(void)
 }
 /*..........................NUM 22 BTW..........................*/
 /**
- * helpAliasFunc - prints help of alias built in
+ * helpAliasFunc_inner - prints lias built in
  *
  * Return: No Return
  */
@@ -1610,7 +1618,7 @@ void helpAliasFunc_inner(void)
 /*..........................NUM 23 START..........................*/
 /*..........................help003..........................*/
 /**
- * printsHelpFunc1 - prints help of help built in
+ * printsHelpFunc1 - prints huilt in
  *
  * Return: No Return
  */
@@ -1620,7 +1628,7 @@ void printsHelpFunc1(void)
 }
 /*..........................NUM 23 BTW..........................*/
 /**
- * printsHelpFunc1 - prints help of help built in
+ * printsHelpFunc1_inner - prints help t in
  *
  * Return: No Return
  */
@@ -1647,9 +1655,9 @@ void printsHelpFunc1_inner(void)
 /*..........................NUM 10 START..........................*/
 /**
  * pathCheckFunc1 - check if current dir must be added
- * @path: path env variable
+ * @path: path env e
  *
- * Return: Pointer to adress of new PATH
+ * Return: Pointer to adw PATH
  *
  */
 
@@ -1697,10 +1705,13 @@ char *pathCheckFunc1(char *path)
 }
 /*..........................NUM 10 BTW..........................*/
 /**
- * pathCheckFunc1 - check if current dir must be added
- * @path: path env variable
+ * pathCheckFunc1_inner - cheir must be added
+ * @path: path env ble
+ * @nupath: path iable
+ * @x: path env le
+ * @y: path enble
  *
- * Return: Pointer to adress of new PATH
+ * Return: Pointer new PATH
  *
  */
 
@@ -1713,12 +1724,12 @@ char pathCheckFunc1_inner(char *path, char *nupath, int x, int y)
 
 
 /**
- * pathFunc1 - Searches for a cmd in PATH
- * @cmd: string contating env variable PATH
+ * pathFunc1 - Searche a cmd in PATH
+ * @cmd: string contativariable PATH
  * @env: current environment
- * @shellVar: struct containing shell info
+ * @shellVar: strucng shell info
  *
- * Return: Pointer to adress of cmd in PATH or by itself
+ * Return: Pointer to aPATH or by itself
  *
  */
 
@@ -1771,11 +1782,11 @@ char *pathFunc1(char *cmd, char **env, shellDType *shellVar)
 /**
  * copyDoublePtrFunc - copies an array of strings (double pointer)
  *
- * @p: double pointer to copy
- * @oldSze: original size of P
- * @newSze: size of copy
+ * @p: double poinpy
+ * @oldSze: originof P
+ * @newSze: size
  *
- * Return: Pointer malloec
+ * Return: Pointec
  */
 char **copyDoublePtrFunc(char **p, int oldSze, int newSze)
 {
@@ -1823,7 +1834,7 @@ char **copyDoublePtrFunc(char **p, int oldSze, int newSze)
  * strLenDblePtrFunc - calculates length of double pointer (ending in NULL)
  * @s: double pointer
  *
- * Return: Length of double pointer
+ * Return: Length of doubl
  *
  */
 int strLenDblePtrFunc(char **s)
@@ -1839,8 +1850,10 @@ int strLenDblePtrFunc(char **s)
 }
 /*..........................NUM 25 BTW..........................*/
 /**
- * strLenDblePtrFunc - calculates length of double pointer (ending in NULL)
+ * strLenDblePtrFunc_inner - calculates length of double pointer
+ * (ending in NULL)
  * @s: double pointer
+ * @x: double pointer
  *
  * Return: Length of double pointer
  *
@@ -1858,14 +1871,15 @@ int strLenDblePtrFunc_inner(char **s, int x)
 /**
  * setEnvFunc1 - overwrite an env variable or creates it
  *
- * @env: array of env variables
- * @variable: env variable to set
- * @valuel: valuel to set
- * @shellVar: struct with shell info
+ * @env: array of envbles
+ * @variable: env vare to set
+ * @valuel: valuel to
+ * @shellVar: struct l info
  *
- * Return: 0 on success, -1 on error
+ * Return: 0 on sucror
  */
-char **setEnvFunc1(char **env, char *variable, char *valuel, shellDType *shellVar)
+char **setEnvFunc1(char **env, char *variable, char *valuel,
+						shellDType *shellVar)
 {
 	int x, y, check, z = 0, zenv = 0;
 	char *joinEnv, *joinEnv2, *cpydupl1, **copy;
@@ -1909,7 +1923,7 @@ char **setEnvFunc1(char **env, char *variable, char *valuel, shellDType *shellVa
 
 /*..........................signalHandle..........................*/
 /**
- * signalHandlerFunc - handles ctrl + c in runtime
+ * signalHandlerFunc - handles ctrl + c runtime
  * @x: unused valuel, just for betty
  *
  * Return: No return
@@ -1920,8 +1934,8 @@ void signalHandlerFunc(int x)
 	printCmt(10);
 }
 /**
- * signalHandlerFunc2 - handles ctrl + c during cmd exec
- * @x: unused valuel, just for betty
+ * signalHandlerFunc2 - hand + c during cmd exec
+ * @x: unused valuer betty
  *
  * Return: No return
  */
@@ -1975,13 +1989,13 @@ char *stringConcatFunc(char *s1, char *s2)
 /*..........................NUM 26 START..........................*/
 /*..........................strdup..........................*/
 /**
- * stringCopyFunc - copy a source input ont destinated input
- * @dest: target where will be stored the input
- * @src: source to copy from
+ * stringCopyFunc - copyce input ont destinated input
+ * @dest: target where wiored the input
+ * @src: source to cop
  *
  *
- * Return: dest address
- * On error: -1 inapropiate entry
+ * Return: dest addr
+ * On error: -1 inapropy
  */
 
 char *stringCopyFunc(char *dest, char *src)
@@ -1997,13 +2011,14 @@ char *stringCopyFunc(char *dest, char *src)
 }
 /*..........................NUM 26 BTW..........................*/
 /**
- * stringCopyFunc - copy a source input ont destinated input
- * @dest: target where will be stored the input
- * @src: source to copy from
+ * stringCopyFunc_inner - source input ont destinated input
+ * @dest: target whered the input
+ * @src: source to com
+ * @i: source to c
  *
  *
- * Return: dest address
- * On error: -1 inapropiate entry
+ * Return: dest ad
+ * On error: -1 inapr
  */
 
 char stringCopyFunc_inner(char *dest, char *src, int i)
@@ -2016,12 +2031,12 @@ char stringCopyFunc_inner(char *dest, char *src, int i)
 
 
 /**
- * strLen1 - function that returns the length of a string
- * @s: string address
+ * strLen1 - function that r length of a string
+ * @s: string 
  *
  *
  * Return: nothing
- * On error: -1 inapropiate entry
+ * On error: -1 inap
  */
 
 int strLen1(char *s)
@@ -2030,13 +2045,13 @@ int strLen1(char *s)
 }
 
 /**
- * stringDupl - function that returns a pointer to a newly allocated space
- * in memory, which contains a copy of the string given as a parameter
- * @str: source to copy
+ * stringDupl - function that recated space
+ * in memory, which contains a ing given as a parameter
+ * @str: source to 
  *
  *
- * Return: address where is stored the result
- * On error: -1 inapropiate entry
+ * Return: address red the result
+ * On error: -1 inapro
  */
 
 char *stringDupl(char *str)
@@ -2061,11 +2076,11 @@ char *stringDupl(char *str)
 /**
  * strTokenFunc - tokenizes a string based on a delimiter
  *
- * @str: string to operate
- * @delim: delimiter
+ * @str: string 
+ * @delim: delimit
  *
- * Return: pointer to string
- * or NULL if there is no match
+ * Return: pointto string
+ * or NULL ifis no match
  *
  */
 char *strTokenFunc(char *str, const char *delim)
@@ -2116,11 +2131,11 @@ char *strTokenFunc(char *str, const char *delim)
 /**
  * copyDoublePtrFuncDel - copies an array of strings (double pointer)
  *
- * @p: double pointer to copy
- * @newSze: size of copy
- * @jump: valuel that must be skipped in copy
+ * @p: double poipy
+ * @newSze: size 
+ * @jump: valuel tha skipped in copy
  *
- * Return: Pointer malloec
+ * Return: Poin
  */
 char **copyDoublePtrFuncDel(char **p, int newSze, int jump)
 {
@@ -2160,11 +2175,11 @@ char **copyDoublePtrFuncDel(char **p, int newSze, int jump)
 /**
  * unSetEnvFunf - unsets an enviromental variable
  *
- * @env: array of env variables
- * @variable: env variable to unset
- * @shellVar: struct with shell info
+ * @env: array of env
+ * @variable: env vaet
+ * @shellVar: structnfo
  *
- * Return: 0 on success, -1 on error
+ * Return: 0 on succer
  */
 char **unSetEnvFunf(char **env, char *variable, shellDType *shellVar)
 {
