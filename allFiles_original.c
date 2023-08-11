@@ -212,7 +212,7 @@ int errorStrFunc(int errNum, shellDType *shellVar, int exnum)
 		z++;
 	write(2, concat_b, z), printCmt(2);
 	freSingle(concat_b);
-	shellVar->exitnum[0] = exnum;
+	shellVar->exit_Num[0] = exnum;
 	return (0);
 }
 
@@ -316,16 +316,16 @@ ssize_t exitCmdFunc(shellDType *shellVar)
 {
 	long val2Exit;
 
-	if (shellVar->options[1] == NULL || _isnumber(shellVar->options[1]))
+	if (shellVar->options[1] == NULL || isNumFunc(shellVar->options[1]))
 	{
-		val2Exit = _atoi(shellVar->options[1]);
+		val2Exit = a2iFunc(shellVar->options[1]);
 
 		if (val2Exit >= 0 && val2Exit < INT_MAX)
 		{
 			if (val2Exit > 255)
 				val2Exit %= 256;
 			if (shellVar->options[1] == NULL)
-				val2Exit = shellVar->exitnum[0];
+				val2Exit = shellVar->exit_Num[0];
 			free(*(shellVar->options));
 			free(shellVar->options);
 			if (*(shellVar->envCpy))
@@ -391,7 +391,7 @@ int cmdMore(shellDType *shellVar, int chk)
 	else if (chk == 3)
 		printCmt(5);
 
-	shellVar->exitnum[0] = 2;
+	shellVar->exit_Num[0] = 2;
 	free(shellVar->options);
 	return (-1);
 }
@@ -469,7 +469,7 @@ ssize_t unSetEnvCmdFunc(shellDType *shellVar)
 		variable = shellVar->options[1];
 	else
 	{
-		shellVar->exitnum[0] = 2;
+		shellVar->exit_Num[0] = 2;
 		printCmt(6);
 		return (free(shellVar->options), -1);
 	}
@@ -485,7 +485,7 @@ ssize_t unSetEnvCmdFunc(shellDType *shellVar)
 	if (nEnv == 0 && shellVar->unsetnull[0] == 0)
 	{
 		free(shellVar->options);
-		shellVar->exitnum[0] = 2;
+		shellVar->exit_Num[0] = 2;
 		return (-1);
 	}
 
@@ -495,31 +495,31 @@ ssize_t unSetEnvCmdFunc(shellDType *shellVar)
 }
 
 /**
- * built_ints - checks if cmd is a built in
+ * checkIfBuiltinFunc - checks if cmd is a built in
  * @shellVar: struct containing shell info
  *
  * Return: On fail 0
  */
-ssize_t built_ints(shellDType *shellVar)
+ssize_t checkIfBuiltinFunc(shellDType *shellVar)
 {
 	builtIn_s ops[] = {
 		{"exit", exitCmdFunc},
 		{"env", envCmdFunc},
 		{"setenv", setEnvCmdFunc},
 		{"unsetenv", unSetEnvCmdFunc},
-		{"cd", _cd_cmd},
+		{"cd", cdCmdFunc},
 		{"help", _help_cmd}
 	};
 
 	int x = 6, builtcheck; /* lenght of ops array */
 
 	while (x--)
-		if (!_strcmp(shellVar->cmd, ops[x].cmd))
+		if (!stringCompareFunc(shellVar->cmd, ops[x].cmd))
 		{
 			shellVar->errnum[0] += 1;
 			builtcheck = ops[x].f(shellVar);
 			if (builtcheck == 1)
-				shellVar->exitnum[0] = 0;
+				shellVar->exit_Num[0] = 0;
 			return (builtcheck);
 		}
 
@@ -529,33 +529,33 @@ ssize_t built_ints(shellDType *shellVar)
 /*..........................built_ins2..........................*/
 /*..........................NUM 14 START..........................*/
 /**
- * auxcd2 - auxiliary function of cd built in
+ * auxChnDir2 - auxiliary function of cd built in
  * @shellVar: struct containing shell info
- * @currdir: current directory
+ * @curDire: current directory
  *
  * Return: pointer to HOME or NULL if fail
  */
-char *auxcd2(shellDType *shellVar, char *currdir)
+char *auxChnDir2(shellDType *shellVar, char *curDire)
 {
 	char *home, *dir = NULL;
 
-	(void) currdir;
-	home = _getenv("HOME", *(shellVar->envCpy));
+	(void) curDire;
+	home = getEnvi("HOME", *(shellVar->envCpy));
 	if (home)
-		dir = auxcd2_inner(home);
+		dir = auxChnDir2_inner(home);
 
 	return (dir);
 }
 
 /*..........................NUM 14 BTW..........................*/
 /**
- * auxcd2 - auxiliary function of cd built in
+ * auxChnDir2 - auxiliary function of cd built in
  * @shellVar: struct containing shell info
- * @currdir: current directory
+ * @curDire: current directory
  *
  * Return: pointer to HOME or NULL if fail
  */
-char *auxcd2_inner(char *home)
+char *auxChnDir2_inner(char *home)
 {
 	return (home + 5);
 }
@@ -565,50 +565,50 @@ char *auxcd2_inner(char *home)
 
 /*..........................NUM 15 START..........................*/
 /**
- * auxcd - auxiliary function of cd built in
+ * auxChnDir - auxiliary function of cd built in
  * @shellVar: struct containing shell info
- * @currdir: the current directory
+ * @curDire: the current directory
  *
  * Return: Pointer to dir or NULL if fail
  */
-char *auxcd(shellDType *shellVar, char *currdir)
+char *auxChnDir(shellDType *shellVar, char *curDire)
 {
-	char *oldpwd2 = NULL, *oldpwd = NULL, *dir = NULL;
+	char *oldPwd_b = NULL, *oldPwd_a = NULL, *dir = NULL;
 
 	if (shellVar->options[1] && shellVar->options[2])
 	{
-		auxcd_inner(shellVar, currdir);
+		auxChnDir_inner(shellVar, curDire);
 		return (dir);
 	}
 
-	oldpwd2 = _strdup(_getenv("OLDPWD", *(shellVar->envCpy)));
-	if (oldpwd2)
-		oldpwd = _strdup(oldpwd2 + 7), freSingle(oldpwd2);
-	if (!oldpwd2)
+	oldPwd_b = _strdup(getEnvi("OLDPWD", *(shellVar->envCpy)));
+	if (oldPwd_b)
+		oldPwd_a = _strdup(oldPwd_b + 7), freSingle(oldPwd_b);
+	if (!oldPwd_b)
 	{
-		oldpwd = _strdup(currdir);
-		/* free(oldpwd), free(shellVar->options), free(currdir); */
-		/* return (shellVar->exitnum[0] = 2, NULL); */
+		oldPwd_a = _strdup(curDire);
+		/* free(oldPwd_a), free(shellVar->options), free(curDire); */
+		/* return (shellVar->exit_Num[0] = 2, NULL); */
 	}
 
-	dir = oldpwd;
+	dir = oldPwd_a;
 
 	return (dir);
 }
 /*..........................NUM 15 BTW..........................*/
 /**
- * auxcd - auxiliary function of cd built in
+ * auxChnDir - auxiliary function of cd built in
  * @shellVar: struct containing shell info
- * @currdir: the current directory
+ * @curDire: the current directory
  *
  * Return: Pointer to dir or NULL if fail
  */
-void auxcd_inner(shellDType *shellVar, char *currdir)
+void auxChnDir_inner(shellDType *shellVar, char *curDire)
 {
 	printCmt(7);
-	shellVar->exitnum[0] = 2;
+	shellVar->exit_Num[0] = 2;
 	free(shellVar->options);
-	freSingle(currdir);
+	freSingle(curDire);
 }
 /*..........................NUM 15 BTW..........................*/
 /*..........................NUM 15 END..........................*/
@@ -616,51 +616,51 @@ void auxcd_inner(shellDType *shellVar, char *currdir)
 
 
 /**
- * _cd_cmd - built in command cd
+ * cdCmdFunc - built in command cd
  * @shellVar: struct containing shell info
  *
  * Return: 1 if succesful, -1 if fail
  */
-ssize_t _cd_cmd(shellDType *shellVar)
+ssize_t cdCmdFunc(shellDType *shellVar)
 {
-	char *currdir = NULL, *dir = NULL, **nEnv, *oldpwd = NULL;
-	int exit = 1, chcka = 1, chckaminus = 0;
+	char *curDire = NULL, *dir = NULL, **nEnv, *oldPwd_a = NULL;
+	int exit = 1, chcka = 1, chcka_minus = 0;
 
-	currdir = getcwd(NULL, 4096);
-	if (!currdir)
+	curDire = getcwd(NULL, 4096);
+	if (!curDire)
 		return (errorStrFunc(4, shellVar, 2), free(shellVar->options), -1);
 	if (!shellVar->options[1] ||
-			(shellVar->options[1] && (!_strcmp(shellVar->options[1], "~"))))
+			(shellVar->options[1] && (!stringCompareFunc(shellVar->options[1], "~"))))
 	{
-		dir = auxcd2(shellVar, currdir);
+		dir = auxChnDir2(shellVar, curDire);
 		if (!dir)
-			return (free(shellVar->options), freSingle(currdir), 1);
+			return (free(shellVar->options), freSingle(curDire), 1);
 	}
 	else
-		if (!_strcmp(shellVar->options[1], "-"))
+		if (!stringCompareFunc(shellVar->options[1], "-"))
 		{
-			dir = auxcd(shellVar, currdir);
+			dir = auxChnDir(shellVar, curDire);
 			if (!dir)
-				return (free(shellVar->options), freSingle(currdir), 1);
-			chckaminus = 1;
+				return (free(shellVar->options), freSingle(curDire), 1);
+			chcka_minus = 1;
 		}
 		else
 			dir = shellVar->options[1];
 	if (dir)
 		chcka = chdir(dir);
-	if (chcka == 0 && chckaminus == 1)
-		write(1, dir, _strlen(dir)), write(1, "\n", 1);
+	if (chcka == 0 && chcka_minus == 1)
+		write(1, dir, _strlen(dir)), printCmt(11);
 	if (chcka != 0)
 		errorStrFunc(4, shellVar, 2), exit = -1;
 	else
 	{
 		nEnv = _setenv(*(shellVar->envCpy), "PWD", dir, shellVar);
 		*(shellVar->envCpy) = nEnv;
-		nEnv = _setenv(*(shellVar->envCpy), "OLDPWD", currdir, shellVar);
+		nEnv = _setenv(*(shellVar->envCpy), "OLDPWD", curDire, shellVar);
 		*(shellVar->envCpy) = nEnv;
 	}
-	free(shellVar->options), freSingle(currdir), freSingle(oldpwd);
-	if (chckaminus == 1)
+	free(shellVar->options), freSingle(curDire), freSingle(oldPwd_a);
+	if (chcka_minus == 1)
 		freSingle(dir);
 	return (exit);
 }
@@ -669,31 +669,31 @@ ssize_t _cd_cmd(shellDType *shellVar)
 /*..........................built_ins3..........................*/
 /*..........................NUM 4 START..........................*/
 /**
- * _pow - gets the result of base to ower
+ * powerFunc - gets the result of base to ower
  * @base: base decimal
  * @pot: power
  *
  * Return: result
  */
-long _pow(long base, long pot)
+long powerFunc(long base, long pot)
 {
 	long x = 0;
 	long res = 1;
 
 	for (x = 0; x < pot; x++)
-		_pow_inner(base, res);
+		powerFunc_inner(base, res);
 
 	return (res);
 }
 /*..........................NUM 4 BTW..........................*/
 /**
- * _pow - gets the result of base to ower
+ * powerFunc - gets the result of base to ower
  * @base: base decimal
  * @pot: power
  *
  * Return: result
  */
-long _pow_inner(long base, long res)
+long powerFunc_inner(long base, long res)
 {
 	res *= base;
 	return (res);
@@ -702,7 +702,7 @@ long _pow_inner(long base, long res)
 
 
 /**
- * _atoi - convert a char input to int
+ * a2iFunc - convert a char input to int
  * @s: char input
  *
  *
@@ -710,14 +710,14 @@ long _pow_inner(long base, long res)
  * On error: -1 inapropiate entry
  */
 
-long _atoi(char *s)
+long a2iFunc(char *s)
 {
 	long x = 0;
 	long k = 0;
 	long len = 0;
 	unsigned long result = 0;
-	long toReturn = 0;
-	long minus = 0;
+	long retrnPpty = 0;
+	long mynus = 0;
 	long offset = 48;
 
 	if (!s)
@@ -731,47 +731,47 @@ long _atoi(char *s)
 			break;
 
 		if (*(s + x) == '-')
-			minus++;
+			mynus++;
 	}
 
 	for (x--; len > 0; x--, k++, len--)
-		result +=  (*(s + x) - offset) * _pow(10, k);
+		result +=  (*(s + x) - offset) * powerFunc(10, k);
 
-	toReturn = (minus % 2 != 0) ? result * (-1) : result;
+	retrnPpty = (mynus % 2 != 0) ? result * (-1) : result;
 
-	return (toReturn);
+	return (retrnPpty);
 }
 
 /*..........................NUM 5 START..........................*/
 /**
- * _strcmp - compares two strings
+ * stringCompareFunc - compares two strings
  * @s1: string 1
  * @s2: string 2
  *
  * Return: 0 if strings are equal or another valuel if not
  *
  */
-int _strcmp(char *s1, char *s2)
+int stringCompareFunc(char *s1, char *s2)
 {
 	int x = 0;
 	int equal = 0;
 
 	for (x = 0; (*(s1 + x) || *(s2 + x)) && !equal; x++)
 		if (*(s1 + x) != *(s2 + x))
-			equal = _strcmp_inner(s1, s2, x, equal);
+			equal = stringCompareFunc_inner(s1, s2, x, equal);
 
 	return (equal);
 }
 /*..........................NUM 5 BTW..........................*/
 /**
- * _strcmp - compares two strings
+ * stringCompareFunc - compares two strings
  * @s1: string 1
  * @s2: string 2
  *
  * Return: 0 if strings are equal or another valuel if not
  *
  */
-int _strcmp_inner(char *s1, char *s2, int x, int equal)
+int stringCompareFunc_inner(char *s1, char *s2, int x, int equal)
 {
 	equal = *(s1 + x) - *(s2 + x);
 	return (equal);
@@ -779,35 +779,35 @@ int _strcmp_inner(char *s1, char *s2, int x, int equal)
 /*..........................NUM 5 END..........................*/
 
 /**
- * _isdigit - checks if a character is a digit
+ * isDigitFunc - checks if a character is a digit
  * @c: character
  *
  * Return: 1 if digit, 0 if not
  *
  */
-int _isdigit(int c)
+int isDigitFunc(int c)
 {
 	return ((c >= 48 && c <= 57) ? 1 : 0);
 }
 /**
- * _isnumber - checks if a string is composed of numbers
+ * isNumFunc - checks if a string is composed of numbers
  * @s: string
  *
  * Return: 1 if string has only numbers, 0 if not
  */
-int _isnumber(char *s)
+int isNumFunc(char *s)
 {
 	for (; *s; s++)
-		if (!_isdigit(*s))
+		if (!isDigitFunc(*s))
 			return (0);
 	return (1);
 }
 
 
-/*..........................checkinputs..........................*/
+/*..........................shPrmptInputs..........................*/
 
 /**
- * checkInput - checks for input in after shell prompt
+ * shPrmptInput - checks for input in after shell prompt
  * @ac: cnter of main arguments
  * @av: main arguments
  * @bufsize: size of buffer in prompt
@@ -817,33 +817,33 @@ int _isnumber(char *s)
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.
  */
-char **checkInput(int ac, char **av, size_t *bufsize,
+char **shPrmptInput(int ac, char **av, size_t *bufsize,
 		   char **buffer, shellDType *shellVar)
 {
-	ssize_t characters;
+	ssize_t charctrs;
 	char **command;
-	int exitnum;
+	int exit_Num;
 
 	if (ac == 1)
 	{
 		if (isatty(STDIN_FILENO))
 			printCmt(8);
-		characters = getline(buffer, bufsize, stdin);
+		charctrs = getline(buffer, bufsize, stdin);
 
-		if (characters == -1)
+		if (charctrs == -1)
 		{
-			exitnum = shellVar->exitnum[0];
+			exit_Num = shellVar->exit_Num[0];
 			free(*buffer);
 			if (*(shellVar->envCpy))
 				free_doubpoint(*(shellVar->envCpy));
 			free(shellVar);
 			if (isatty(STDIN_FILENO))
-				write(1, "\n", 1);
-			exit(exitnum);
+				printCmt(11);
+			exit(exit_Num);
 		}
-		if (**buffer == '#' || !characters || **buffer == '\n')
+		if (**buffer == '#' || !charctrs || **buffer == '\n')
 			return (NULL);
-		*buffer = deleteComment(*buffer);
+		*buffer = delCmntFunc(*buffer);
 		command = getParameters(*buffer, shellVar);
 	}
 	else
@@ -864,21 +864,21 @@ char **checkInput(int ac, char **av, size_t *bufsize,
 
 /*..........................NUM 6 START..........................*/
 /**
- * deleteComment - deletes a commnet inside a command line
+ * delCmntFunc - deletes a commnet inside a command line
  *
  * @str: string to operate
  *
  * Return: pointer to string
  *
  */
-char *deleteComment(char *str)
+char *delCmntFunc(char *str)
 {
 	char *org = str;
 
 	for (; str && *str; str++)
 		if (*str == '#' && *(str - 1) == ' ')
 		{
-			*str = deleteComment_inner();
+			*str = delCmntFunc_inner();
 			break;
 		}
 
@@ -886,23 +886,23 @@ char *deleteComment(char *str)
 }
 /*..........................NUM 6 BTW..........................*/
 /**
- * deleteComment - deletes a commnet inside a command line
+ * delCmntFunc - deletes a commnet inside a command line
  *
  * @str: string to operate
  *
  * Return: pointer to string
  *
  */
-char deleteComment_inner(void)
+char delCmntFunc_inner(void)
 {
 	return ('\0');
 }
 /*..........................NUM 6 END..........................*/
 
 
-/*..........................executeCmd..........................*/
+/*..........................execCmdFunc..........................*/
 /**
- * executeCmd - creates a child process to execute a cmd
+ * execCmdFunc - creates a child prcss to execute a cmd
  *
  * @program: command that will be executed
  * @command: arguments of command
@@ -913,19 +913,19 @@ char deleteComment_inner(void)
  * or NULL if there is no match
  *
  */
-int executeCmd(char *program, char *command[], char **env, shellDType *shellVar)
+int execCmdFunc(char *program, char *command[], char **env, shellDType *shellVar)
 {
-	pid_t process, status;
+	pid_t prcss, stat;
 	int execveSts = 0, waitSts = 0;
 
-	process = fork();
+	prcss = fork();
 	signal(SIGINT, signal_handler2);
-	if (process == -1)
+	if (prcss == -1)
 	{
 		printCmt(9);
 		exit(-1);
 	}
-	if (process == 0)
+	if (prcss == 0)
 	{
 
 		execveSts = execve(program, command, env);
@@ -936,14 +936,14 @@ int executeCmd(char *program, char *command[], char **env, shellDType *shellVar)
 	}
 	else
 	{
-		waitSts = wait(&status);
+		waitSts = wait(&stat);
 		signal(SIGINT, signal_handler);
 		if (waitSts == -1)
 			exit(-1);
-		if (WEXITSTATUS(status) == 0)
-			shellVar->exitnum[0] = 0;
+		if (WEXITSTATUS(stat) == 0)
+			shellVar->exit_Num[0] = 0;
 		else
-			shellVar->exitnum[0] = 2;
+			shellVar->exit_Num[0] = 2;
 	}
 
 	shellVar->errnum[0] += 1;
@@ -953,7 +953,7 @@ int executeCmd(char *program, char *command[], char **env, shellDType *shellVar)
 /*..........................getenv..........................*/
 
 /**
- * _getenv - gets an environment variable
+ * getEnvi - gets an environment variable
  *
  * @name: name of environmental variable
  * @env: current environment
@@ -962,7 +962,7 @@ int executeCmd(char *program, char *command[], char **env, shellDType *shellVar)
  * or NULL if there is no match
  *
  */
-char *_getenv(const char *name, char **env)
+char *getEnvi(const char *name, char **env)
 {
 	int x, y, check, z = 0;
 
@@ -1359,8 +1359,8 @@ void help_exit_inner(void)
 {
 	_puts("exit: exit [n]\n");
 	_puts("    Exit the shell.\n\n");
-	_puts("    Exits the shell with a status of N.  ");
-	_puts("    If N is omitted, the exit status\n");
+	_puts("    Exits the shell with a stat of N.  ");
+	_puts("    If N is omitted, the exit stat\n");
 	_puts("    is that of the last command executed.\n");
 }
 /*..........................NUM 16 BTW..........................*/
@@ -1451,7 +1451,7 @@ ssize_t _help_cmd(shellDType *shellVar)
 	for (; shellVar->options[p]; p++, i = 7)
 	{
 		while (i--)
-			if (!_strcmp(shellVar->options[p], help[i].built))
+			if (!stringCompareFunc(shellVar->options[p], help[i].built))
 				help[i].h(), bcheck = 1;
 	}
 	if (shellVar->options[1] == NULL)
@@ -1524,7 +1524,7 @@ void help_cd_inner(void)
 	_puts("    The default DIR is the valuel of the\n");
 	_puts("    HOME shell variable.\n\n");
 	_puts("    Options:\n");
-	_puts("    -  If a minus signed is used instead a directory, ");
+	_puts("    -  If a mynus signed is used instead a directory, ");
 	_puts("    cd will change to the\n");
 	_puts("       previous used directory\n\n");
 	_puts("    Each time cd runs successfuly, the env variable ");
@@ -1739,7 +1739,7 @@ char *_path(char *cmd, char **env, shellDType *shellVar)
 				return (0);
 		}
 
-	path2 = _getenv("PATH", env);
+	path2 = getEnvi("PATH", env);
 	(void) shellVar;
 	if (!path2)
 		return (0);

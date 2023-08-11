@@ -26,11 +26,11 @@ int main(int ac, char **av, char **env)
 	while (1)
 	{
 		command = NULL;
-		command = checkInput(ac, av, &bufsize, &buffer, shellVar);
+		command = shPrmptInput(ac, av, &bufsize, &buffer, shellVar);
 		if (!command)
 			continue;
 		addCmd(shellVar, buffer, command[0], command);
-		isBuiltIn = built_ints(shellVar);
+		isBuiltIn = checkIfBuiltinFunc(shellVar);
 		if (isBuiltIn == -1 || isBuiltIn == 1)
 			continue;
 		pathCmd = _path(command[0], env, shellVar);
@@ -44,7 +44,7 @@ int main(int ac, char **av, char **env)
 		else if (access(pathCmd, X_OK) == -1)
 			errorStrFunc(1, shellVar, 126);
 		else
-			executeCmd(pathCmd, command, env, shellVar);
+			execCmdFunc(pathCmd, command, env, shellVar);
 		free(command);
 		free(pathCmd);
 
@@ -80,7 +80,7 @@ shellDType *set_struct(char *argv0, int *errn, int *exnum,
 	shellpack->options = NULL;
 	shellpack->path = NULL;
 	shellpack->errnum = errn;
-	shellpack->exitnum = exnum;
+	shellpack->exit_Num = exnum;
 	shellpack->relation = relation;
 	shellpack->run_able = run_able;
 	shellpack->envCpy = env;
