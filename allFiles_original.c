@@ -170,35 +170,35 @@ int _error(int errn, shellDType *shellVar, int exnum)
 
 	nstring = intToAlph(count);
 	if (!nstring)  /* number to string */
-		return (free(conc1), printCmt(1), -1);
+		return (freSingle(conc1), printCmt(1), -1);
 
 	conc2 = str_concat(conc1, nstring);
 	if (!conc2) /*hsh: count*/
 	{
 		printCmt(1);
-		return (free(conc1), free(nstring),  -1);
+		return (freSingle(conc1), freSingle(nstring),  -1);
 	}
-	free(conc1), free(nstring);
+	freSingle(conc1), freSingle(nstring);
 
 	conc1 = str_concat(conc2, colspace);
 	if (!conc1) /*hsh: count: */
-		return (free(conc2), printCmt(1), -1);
+		return (freSingle(conc2), printCmt(1), -1);
 
-	free(conc2);
+	freSingle(conc2);
 	conc2 = str_concat(conc1, cmd);
 	if (!conc2) /*hsh: count: cmd*/
-		return (free(conc1), printCmt(1), -1);
-	free(conc1);
+		return (freSingle(conc1), printCmt(1), -1);
+	freSingle(conc1);
 
 	conc1 = str_concat(conc2, colspace);
 	if (!conc1) /*hsh: count: cmd: */
-		return (free(conc2), printCmt(1), -1);
-	free(conc2);
+		return (freSingle(conc2), printCmt(1), -1);
+	freSingle(conc2);
 
 	conc2 = str_concat(conc1, err[errn]);
 	if (!conc2) /*hsh: count: cmd: error*/
-		return (free(conc1), printCmt(1), -1);
-	free(conc1);
+		return (freSingle(conc1), printCmt(1), -1);
+	freSingle(conc1);
 
 	if (errn > 1 && errn < 6 && errn != 3)
 		conc2 = _error2(errn, conc2, option[1]);
@@ -211,7 +211,7 @@ int _error(int errn, shellDType *shellVar, int exnum)
 	while (conc2[z] != 0)
 		z++;
 	write(2, conc2, z), printCmt(2);
-	free(conc2);
+	freSingle(conc2);
 	shellVar->exitnum[0] = exnum;
 	return (0);
 }
@@ -230,12 +230,12 @@ int _error_inner(int errn, char *conc1, char *conc2, char *err[], int z)
 {
 	conc2 = str_concat(conc1, err[errn]); /*hsh: count: error*/
 	if (!conc2)
-		return (free(conc1), printCmt(1), -1);
-	free(conc1);
+		return (freSingle(conc1), printCmt(1), -1);
+	freSingle(conc1);
 	while (conc2[z] != 0)
 		z++;
 	write(2, conc2, z), printCmt(2);
-	free(conc2);
+	freSingle(conc2);
 	return (0);
 }
 /*..........................NUM 2 END..........................*/
@@ -260,18 +260,18 @@ char *_error2(int errn, char *conc2, char *option)
 		if (!conc1) /*hsh: count: cmd: error: */
 		{
 			printCmt(1);
-			return (free(conc2), NULL);
+			return (freSingle(conc2), NULL);
 		}
-		free(conc2);
+		freSingle(conc2);
 
 		conc2 = str_concat(conc1, option);
 
 		if (!conc2) /*hsh: count: cmd: error: option*/
 		{
 			printCmt(1);
-			return (free(conc1), NULL);
+			return (freSingle(conc1), NULL);
 		}
-		free(conc1);
+		freSingle(conc1);
 	}
 	if (errn > 3) /* Errors with options at end */
 	{
@@ -296,9 +296,9 @@ char *_error2_inner(char *conc2, char *option, char *conc1)
 	if (!conc1) /*hsh: count: cmd: error option*/
 	{
 		printCmt(1);
-		return (free(conc2), NULL);
+		return (freSingle(conc2), NULL);
 	}
-	free(conc2);
+	freSingle(conc2);
 	return (conc1);
 }
 /*..........................NUM 3 END..........................*/
@@ -583,7 +583,7 @@ char *auxcd(shellDType *shellVar, char *currdir)
 
 	oldpwd2 = _strdup(_getenv("OLDPWD", *(shellVar->envCpy)));
 	if (oldpwd2)
-		oldpwd = _strdup(oldpwd2 + 7), free(oldpwd2);
+		oldpwd = _strdup(oldpwd2 + 7), freSingle(oldpwd2);
 	if (!oldpwd2)
 	{
 		oldpwd = _strdup(currdir);
@@ -608,7 +608,7 @@ void auxcd_inner(shellDType *shellVar, char *currdir)
 	printCmt(7);
 	shellVar->exitnum[0] = 2;
 	free(shellVar->options);
-	free(currdir);
+	freSingle(currdir);
 }
 /*..........................NUM 15 BTW..........................*/
 /*..........................NUM 15 END..........................*/
@@ -641,7 +641,7 @@ ssize_t _cd_cmd(shellDType *shellVar)
 		{
 			dir = auxcd(shellVar, currdir);
 			if (!dir)
-				return (free(shellVar->options), free(currdir), 1);
+				return (free(shellVar->options), freSingle(currdir), 1);
 			checkerminus = 1;
 		}
 		else
@@ -659,9 +659,9 @@ ssize_t _cd_cmd(shellDType *shellVar)
 		newenv = _setenv(*(shellVar->envCpy), "OLDPWD", currdir, shellVar);
 		*(shellVar->envCpy) = newenv;
 	}
-	free(shellVar->options), free(currdir), free(oldpwd);
+	free(shellVar->options), freSingle(currdir), freSingle(oldpwd);
 	if (checkerminus == 1)
-		free(dir);
+		freSingle(dir);
 	return (exit);
 }
 
@@ -1039,7 +1039,7 @@ void printCmt(int chk)
  * @temp: head
  */
 
-void freeSingle(char *temp)
+void freSingle(char *temp)
 {
 	free(temp);
 }
@@ -1179,7 +1179,7 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 
 	if (new_size == 0 && ptr != NULL)
 	{
-		free(ptr);
+		freSingle(ptr);
 		return (0);
 	}
 
@@ -1210,12 +1210,12 @@ void *_realloc_inner(void *ptr, unsigned int old_size, unsigned int new_size,
 		ptr2 = malloc(new_size);
 		if (ptr2 == 0)
 			return (0);
-		free(ptr);
+		freSingle(ptr);
 	}
 	else
 	{
 		_memcpy(ptr2, ptr, old_size);
-		free(ptr);
+		freSingle(ptr);
 	}
 	return (ptr2);
 }
@@ -1693,7 +1693,7 @@ char *_pathcheck(char *path)
 		}
 		npath[x] = path[y];
 	}
-	free(path);
+	freSingle(path);
 	return (npath);
 }
 /*..........................NUM 10 BTW..........................*/
@@ -1752,17 +1752,17 @@ char *_path(char *cmd, char **env, shellDType *shellVar)
 	{
 		concat = str_concat(token, "/");
 		concat2 = str_concat(concat, cmd);
-		free(concat);
+		freSingle(concat);
 		if (stat(concat2, &st) == 0)
 		{
 			/*Found the command in PATH*/
-			free(path);
+			freSingle(path);
 			return (concat2);
 		}
-		free(concat2);
+		freSingle(concat2);
 	}
 
-	free(path);
+	freSingle(path);
 	return (0);
 }
 
@@ -1876,7 +1876,7 @@ char **_setenv(char **env, char *variable, char *value, shellDType *shellVar)
 	envjoin2 = str_concat(variable, "=");
 	if (envjoin2 == 0)
 		return (_error(3, shellVar, 1), NULL);
-	envjoin = str_concat(envjoin2, value), free(envjoin2);
+	envjoin = str_concat(envjoin2, value), freSingle(envjoin2);
 	if (envjoin == 0)
 		return (_error(3, shellVar, 1), NULL);
 	z = _strlen(variable), zenv = _strlendp(env);
@@ -1885,13 +1885,13 @@ char **_setenv(char **env, char *variable, char *value, shellDType *shellVar)
 		for (check = 0, y = 0; y < z && env[x][y] != 0; y++)
 		{
 			if (variable[y] == '=')
-				return (free(envjoin), _error(3, shellVar, 2), NULL);
+				return (freSingle(envjoin), _error(3, shellVar, 2), NULL);
 			if (env[x][y] == variable[y])
 				check++;
 		}
 		if (check == z && env[x][check] == '=')
 		{
-			free(env[x]), copydup = _strdup(envjoin), free(envjoin);
+			free(env[x]), copydup = _strdup(envjoin), freSingle(envjoin);
 			if (copydup == 0)
 				return (_error(3, shellVar, 1), NULL);
 			return (env[x] = copydup, env);
@@ -1901,8 +1901,8 @@ char **_setenv(char **env, char *variable, char *value, shellDType *shellVar)
 	if (env)
 		free_doubpoint(env);
 	if (copy == 0)
-		return (free(envjoin), _error(3, shellVar, 1), NULL);
-	env = copy, copydup = _strdup(envjoin), free(envjoin);
+		return (freSingle(envjoin), _error(3, shellVar, 1), NULL);
+	env = copy, copydup = _strdup(envjoin), freSingle(envjoin);
 	if (copydup == 0)
 		return (_error(3, shellVar, 1), NULL);
 	return (env[zenv] = copydup, env);
