@@ -634,7 +634,7 @@ ssize_t _cd_cmd(shellDType *shellVar)
 	{
 		dir = auxcd2(shellVar, currdir);
 		if (!dir)
-			return (free(shellVar->options), free(currdir), 1);
+			return (free(shellVar->options), freSingle(currdir), 1);
 	}
 	else
 		if (!_strcmp(shellVar->options[1], "-"))
@@ -1300,13 +1300,13 @@ char **getParameters(char *raw_buffer, shellDType *shellVar)
 		cnt++;
 	else
 	{
-		free(cp_raw_buffer);
+		freSingle(cp_raw_buffer);
 		return (NULL);
 	}
 	while (_strtok(NULL, " \n"))
 		cnt++;
 
-	free(cp_raw_buffer);
+	freSingle(cp_raw_buffer);
 	buffer = malloc(sizeof(char *) * (cnt + 1));
 	if (!buffer)
 	{
@@ -1807,7 +1807,7 @@ char **_copydoublep(char **p, int old_size, int new_size)
 			{
 				x--;
 				for (; x >= 0; x--)
-					free(copy[x]);
+					freSingle(copy[x]);
 				free(copy);
 				return (0);
 			}
@@ -1891,7 +1891,7 @@ char **_setenv(char **env, char *variable, char *value, shellDType *shellVar)
 		}
 		if (check == z && env[x][check] == '=')
 		{
-			free(env[x]), copydup = _strdup(envjoin), freSingle(envjoin);
+			freSingle(env[x]), copydup = _strdup(envjoin), freSingle(envjoin);
 			if (copydup == 0)
 				return (_error(3, shellVar, 1), NULL);
 			return (env[x] = copydup, env);
@@ -2142,7 +2142,7 @@ char **_copydoublepDel(char **p, int new_size, int jump)
 		{
 			j--;
 			for (; j >= 0; j--)
-				free(copy[j]);
+				freSingle(copy[j]);
 			free(copy);
 			return (0);
 		}
