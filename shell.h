@@ -152,6 +152,14 @@ int _cmd_multi(shellDType *shellVar, int chk);
 void _env_cmd_lower(char **str);
 char *auxcd2_inner(char *home);
 void auxcd_inner(shellDType *shellVar, char *currdir);
+void help_exit_inner(void);
+void help_env_inner(void);
+void help_setenv_inner(void);
+void help_unsetenv_inner(void);
+void help_cd_inner(void);
+void help_help_inner(void);
+void help_alias_inner(void);
+void printsHelp_inner(void);
 
 
 
@@ -160,10 +168,10 @@ void auxcd_inner(shellDType *shellVar, char *currdir);
 
 /*..................4567891011213........END..........................*/
 
-/*..........................NUM 15 START..........................*/
-/*..........................NUM 15 BTW..........................*/
-/*..........................NUM 15 BTW..........................*/
-/*..........................NUM 15 END..........................*/
+/*..........................NUM 20 START..........................*/
+/*..........................NUM 20 BTW..........................*/
+/*..........................NUM 20 BTW..........................*/
+/*..........................NUM 20 END..........................*/
 
 /*..........................NUM 1 START..........................*/
 /*..........................NUM 1 BTW..........................*/

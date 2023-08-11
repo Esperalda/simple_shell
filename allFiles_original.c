@@ -1237,7 +1237,7 @@ void _puts(char *s)
 	write(1, s, _strlen(s));
 }
 
-
+/*..........................NUM 16 START..........................*/
 /**
  * help_exit - prints help of exit built in
  *
@@ -1245,14 +1245,27 @@ void _puts(char *s)
  */
 void help_exit(void)
 {
+	help_exit_inner();
+}
+/*..........................NUM 16 BTW..........................*/
+/**
+ * help_exit - prints help of exit built in
+ *
+ * Return: No Return
+ */
+void help_exit_inner(void)
+{
 	_puts("exit: exit [n]\n");
 	_puts("    Exit the shell.\n\n");
 	_puts("    Exits the shell with a status of N.  ");
 	_puts("    If N is omitted, the exit status\n");
 	_puts("    is that of the last command executed.\n");
 }
+/*..........................NUM 16 BTW..........................*/
+/*..........................NUM 16 END..........................*/
 
 
+/*..........................NUM 17 START..........................*/
 /**
  * help_env - prints help of env built in
  *
@@ -1260,18 +1273,41 @@ void help_exit(void)
  */
 void help_env(void)
 {
+	help_env_inner();
+}
+/*..........................NUM 17 BTW..........................*/
+/**
+ * help_env - prints help of env built in
+ *
+ * Return: No Return
+ */
+void help_env_inner(void)
+{
 	_puts("env: env\n");
 	_puts("    prints the current environment.\n\n");
 	_puts("    Has no options\n");
 }
+/*..........................NUM 17 BTW..........................*/
+/*..........................NUM 17 END..........................*/
 
 
+/*..........................NUM 18 START..........................*/
 /**
  * help_setenv - prints help of setenv built in
  *
  * Return: No Return
  */
 void help_setenv(void)
+{
+	help_setenv_inner();
+}
+/*..........................NUM 18 BTW..........................*/
+/**
+ * help_setenv - prints help of setenv built in
+ *
+ * Return: No Return
+ */
+void help_setenv_inner(void)
 {
 	_puts("setenv: setenv [VARIABLE] [VALUE]\n");
 	_puts("    Initializes a new environment variable, ");
@@ -1280,8 +1316,14 @@ void help_setenv(void)
 	_puts("    If no arguments are given, setenv prints ");
 	_puts("    the current environment.\n");
 }
+/*..........................NUM 18 BTW..........................*/
+/*..........................NUM 18 END..........................*/
 
 
+/*..........................NUM 19 START..........................*/
+/*..........................NUM 19 BTW..........................*/
+/*..........................NUM 19 BTW..........................*/
+/*..........................NUM 19 END..........................*/
 /**
  * _help_cmd - help of built in commands
  * @shellVar: struct containing shell info
@@ -1325,13 +1367,25 @@ ssize_t _help_cmd(shellDType *shellVar)
 	return (check);
 }
 
+
 /*..........................help002..........................*/
+/*..........................NUM 19 START..........................*/
 /**
  * help_unsetenv - prints help of unsetenv built in
  *
  * Return: No Return
  */
 void help_unsetenv(void)
+{
+	help_unsetenv_inner();
+}
+/*..........................NUM 19 BTW..........................*/
+/**
+ * help_unsetenv - prints help of unsetenv built in
+ *
+ * Return: No Return
+ */
+void help_unsetenv_inner(void)
 {
 	_puts("unsetenv: unsetenv [VARIABLE]\n");
 	_puts("    Initializes a new environment variable, or ");
@@ -1340,13 +1394,27 @@ void help_unsetenv(void)
 	_puts("    If no arguments are given, setenv prints the current ");
 	_puts("    environment.\n");
 }
+/*..........................NUM 19 BTW..........................*/
+/*..........................NUM 19 END..........................*/
 
+
+/*..........................NUM 20 START..........................*/
 /**
  * help_cd - prints help of cd built in
  *
  * Return: No Return
  */
 void help_cd(void)
+{
+	help_cd_inner();
+}
+/*..........................NUM 20 BTW..........................*/
+/**
+ * help_cd - prints help of cd built in
+ *
+ * Return: No Return
+ */
+void help_cd_inner(void)
 {
 	_puts("cd: cd [DIRECTORY]\n");
 	_puts("    Change the shell working directory.\n\n");
@@ -1364,14 +1432,27 @@ void help_cd(void)
 	_puts("    successfully when\n");
 	_puts("    is used; -1 otherwise.\n");
 }
+/*..........................NUM 20 BTW..........................*/
+/*..........................NUM 20 END..........................*/
 
 
+/*..........................NUM 21 START..........................*/
 /**
  * help_help - prints help of help built in
  *
  * Return: No Return
  */
 void help_help(void)
+{
+	help_help_inner();
+}
+/*..........................NUM 21 BTW..........................*/
+/**
+ * help_help - prints help of help built in
+ *
+ * Return: No Return
+ */
+void help_help_inner(void)
 {
 	_puts("help: help [BUILTIN ...]\n");
 	_puts("    Display information about builtin commands.\n\n");
@@ -1385,14 +1466,26 @@ void help_help(void)
 	_puts("    Returns success unless PATTERN is not found or an invalid ");
 	_puts("    option is given.\n");
 }
+/*..........................NUM 21 BTW..........................*/
+/*..........................NUM 21 END..........................*/
 
-
+/*..........................NUM 22 START..........................*/
 /**
  * help_alias - prints help of alias built in
  *
  * Return: No Return
  */
 void help_alias(void)
+{
+	help_alias_inner();
+}
+/*..........................NUM 22 BTW..........................*/
+/**
+ * help_alias - prints help of alias built in
+ *
+ * Return: No Return
+ */
+void help_alias_inner(void)
 {
 	_puts("alias: alias alias [name[='value'] ...]\n");
 	_puts("    Define or display aliases.\n\n");
@@ -1409,7 +1502,11 @@ void help_alias(void)
 	_puts("    no alias has been\n");
 	_puts("    defined.\n");
 }
+/*..........................NUM 22 BTW..........................*/
+/*..........................NUM 22 END..........................*/
 
+
+/*..........................NUM 23 START..........................*/
 /*..........................help003..........................*/
 /**
  * printsHelp - prints help of help built in
@@ -1417,6 +1514,16 @@ void help_alias(void)
  * Return: No Return
  */
 void printsHelp(void)
+{
+	printsHelp_inner();
+}
+/*..........................NUM 23 BTW..........................*/
+/**
+ * printsHelp - prints help of help built in
+ *
+ * Return: No Return
+ */
+void printsHelp_inner(void)
 {
 	_puts("Shell HSH, version 1.0(1)-release (x86_64-pc-linux-gnu)\n");
 	_puts("These shell commands are defined internally.\n");
@@ -1431,6 +1538,8 @@ void printsHelp(void)
 	_puts(" help [BUILTIN ...]\n");
 	_puts(" alias [name[='value'] ...]\n");
 }
+/*..........................NUM 23 BTW..........................*/
+/*..........................NUM 23 END..........................*/
 
 
 /*..........................path..........................*/
