@@ -96,7 +96,6 @@ int executeCmd(char *program, char *command[], char **env, shellDType *shellVar)
 void signal_handler(int x);
 void signal_handler2(int x);
 int _getline(char **buffer, size_t *bufsize, int fd);
-void free_doubpoint(char **p);
 int _strlendp(char **s);
 char **checkInput(int ac, char **av, size_t *bufsize,
 		  char **buffer, shellDType *shellVar);
@@ -165,9 +164,10 @@ char _strcpy_inner(char *dest, char *src, int i);
 
 
 
+void free_doubpoint(char **p);
 int free_doubpoint_inner(char **p, int z);
-
-
+void freeSingle(char *temp);
+void printCmt(int chk);
 
 
 /*..................4567891011213........END..........................*/

@@ -175,7 +175,7 @@ int _error(int errn, shellDType *shellVar, int exnum)
 	conc2 = str_concat(conc1, nstring);
 	if (!conc2) /*hsh: count*/
 	{
-		write(2, "Memory Error", 22);
+		printCmt(1);
 		return (free(conc1), free(nstring),  -1);
 	}
 	free(conc1), free(nstring);
@@ -204,13 +204,13 @@ int _error(int errn, shellDType *shellVar, int exnum)
 		conc2 = _error2(errn, conc2, option[1]);
 	if (conc2 == NULL)
 	{
-		write(2, "Memory Error", 22);
+		printCmt(1);
 		return (-1);
 	}
 
 	while (conc2[z] != 0)
 		z++;
-	write(2, conc2, z), write(2, "\n", 1);
+	write(2, conc2, z), printCmt(2);
 	free(conc2);
 	shellVar->exitnum[0] = exnum;
 	return (0);
@@ -234,7 +234,7 @@ int _error_inner(int errn, char *conc1, char *conc2, char *err[], int z)
 	free(conc1);
 	while (conc2[z] != 0)
 		z++;
-	write(2, conc2, z), write(2, "\n", 1);
+	write(2, conc2, z), printCmt(2);
 	free(conc2);
 	return (0);
 }
@@ -259,7 +259,7 @@ char *_error2(int errn, char *conc2, char *option)
 		conc1 = str_concat(conc2, colspace);
 		if (!conc1) /*hsh: count: cmd: error: */
 		{
-			write(2, "Memory Error", 22);
+			printCmt(1);
 			return (free(conc2), NULL);
 		}
 		free(conc2);
@@ -268,7 +268,7 @@ char *_error2(int errn, char *conc2, char *option)
 
 		if (!conc2) /*hsh: count: cmd: error: option*/
 		{
-			write(2, "Memory Error", 22);
+			printCmt(1);
 			return (free(conc1), NULL);
 		}
 		free(conc1);
@@ -295,7 +295,7 @@ char *_error2_inner(char *conc2, char *option, char *conc1)
 	conc1 = str_concat(conc2, option);
 	if (!conc1) /*hsh: count: cmd: error option*/
 	{
-		write(2, "Memory Error", 22);
+		printCmt(1);
 		return (free(conc2), NULL);
 	}
 	free(conc2);
@@ -382,7 +382,10 @@ ssize_t _env_cmd(shellDType *shellVar)
 int _cmd_multi(shellDType *shellVar, int chk)
 {
 	if (chk == 1)
-		write(2, "Environment is Null, Can't Print it\n", 36);
+	{
+		/* write(2, "Environment is Null, Can't Print it\n", 36); */
+		printCmt(3);
+	}
 	else if (chk == 2)
 		write(2, "Invalid VALUE\n", 14);
 	else if (chk == 3)
@@ -980,6 +983,105 @@ char *_getenv(const char *name, char **env)
 
 	return (NULL);
 }
+
+/*..........................fixed..........................*/
+/* .......................NUM 28 START......................*/
+/**
+ * printCmt - Reverses string
+ * @chk: str to rev
+ */
+void printCmt(int chk)
+{
+	switch (chk)
+	{
+		case 1:
+			write(2, "Memory Error", 22);
+			break;
+		case 2:
+			write(2, "\n", 1);
+			break;
+		case 3:
+			write(2, "Environment is Null\n", 36);
+			break;
+		case 4:
+			write(2, "Invalid VALUE\n", 14);
+			break;
+		case 5:
+			write(2, "Invalid VARIABLE\n", 17);
+			break;
+		case 6:
+		    write(2, "Please provide an argument\n", 27);
+			break;
+		case 7:
+		    write(2, "cd: too many arguments\n", 23);
+			break;
+		case 8:
+		    write(1, "prompt by foluke $ ", 19);
+			break;
+		case 9:
+		    write(2, "Fork Error", 10);
+			break;
+		case 10:
+			write(1, "\nprompt by foluke $ ", 20);
+			break;
+		case 11:
+			write(1, "\n", 1);
+			break;
+		case 12:
+			write(2, "VARIABLE not found\n", 19);
+			break;
+	}
+}
+/* ..........................NUM 28 END.........................*/
+/* ..........................NUM 29 START.......................*/
+/**
+ * freeCharFoluke - frees
+ * @temp: head
+ */
+
+void freeSingle(char *temp)
+{
+	free(temp);
+}
+/* ..........................NUM 29 END...........................*/
+/*..........................NUM 24 START..........................*/
+/**
+ * free_doubpoint - frees a double pointer array of strings
+ * (must end in NULL)
+ *
+ * @p: double pointer to free
+ *
+ * Return: no return
+ */
+void free_doubpoint(char **p)
+{
+	int x, z = 0;
+
+	z = free_doubpoint_inner(p, z);
+
+	for (x = 0; x < z; x++)
+	{
+		free(p[x]);
+	}
+	free(p);
+}
+/*..........................NUM 24 BTW..........................*/
+/**
+ * free_doubpoint - frees a double pointer array of strings
+ * (must end in NULL)
+ *
+ * @p: double pointer to free
+ *
+ * Return: no return
+ */
+int free_doubpoint_inner(char **p, int z)
+{
+	while (p[z] != 0)
+		z++;
+	return (z);
+}
+/*..........................NUM 24 BTW..........................*/
+/*..........................fixed..........................*/
 
 /*..........................getline..........................*/
 /*..........................NUM 7 START..........................*/
@@ -1665,44 +1767,6 @@ char *_path(char *cmd, char **env, shellDType *shellVar)
 }
 
 /*..........................setenv..........................*/
-/*..........................NUM 24 START..........................*/
-/**
- * free_doubpoint - frees a double pointer array of strings
- * (must end in NULL)
- *
- * @p: double pointer to free
- *
- * Return: no return
- */
-void free_doubpoint(char **p)
-{
-	int x, z = 0;
-
-	z = free_doubpoint_inner(p, z);
-
-	for (x = 0; x < z; x++)
-	{
-		free(p[x]);
-	}
-	free(p);
-}
-/*..........................NUM 24 BTW..........................*/
-/**
- * free_doubpoint - frees a double pointer array of strings
- * (must end in NULL)
- *
- * @p: double pointer to free
- *
- * Return: no return
- */
-int free_doubpoint_inner(char **p, int z)
-{
-	while (p[z] != 0)
-		z++;
-	return (z);
-}
-/*..........................NUM 24 BTW..........................*/
-/*..........................NUM 24 END..........................*/
 
 
 /**
@@ -2110,7 +2174,10 @@ char **_unsetenv(char **env, char *variable, shellDType *shellVar)
 
 	shellVar->unsetnull[0] = 0;
 	if (!env)
-		return (write(2, "Environment is NULL\n", 20), NULL);
+	{
+		return (printCmt(3), NULL);
+		/* return (write(2, "Environment is NULL\n", 20), NULL); */
+	}
 	if (_strlen(variable) == 0 || variable == 0)
 		return (_error(3, shellVar, 1), NULL);
 	l = _strlen(variable), lenv = _strlendp(env);
