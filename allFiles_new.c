@@ -2210,4 +2210,3 @@ char **unSetEnvFunf(char **env, char *variable, shellDType *shellVar)
 		return (printCmt(12), NULL);
 	return (env);
 }
-
