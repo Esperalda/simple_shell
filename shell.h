@@ -166,7 +166,7 @@ char _strcpy_inner(char *dest, char *src, int i);
 
 void free_doubpoint(char **p);
 int free_doubpoint_inner(char **p, int z);
-void freeSingle(char *temp);
+void freSingle(char *temp);
 void printCmt(int chk);
 
 
