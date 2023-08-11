@@ -1,7 +1,7 @@
 #include "shell.h"
 
 
-/*.........................._error..........................*/
+/*..........................errorStrFunc..........................*/
 /*..........................NUM 11 START..........................*/
 /**
  * reverseString - Reverses a string
@@ -54,31 +54,31 @@ void reverseString_lower(char *s, int x, int y, int z)
 
 /*..........................NUM 1 START..........................*/
 /**
- * b_Length - obtains length of number in base
+ * Length_base - obtains length of number in base
  *
  * @n: number
  * @base: base of number
  *
  * Return: length of number
  */
-int b_Length(unsigned long int n, unsigned long int base)
+int Length_base(unsigned long int n, unsigned long int base)
 {
 	unsigned long int x, neg = 0;
 
 	for (x = 0; n > 0; x++)
-		n = b_Length_inner(n, base);
+		n = Length_base_inner(n, base);
 	return (x + neg);
 }
 /*..........................NUM 1 BTW..........................*/
 /**
- * b_Length - obtains length of number in base
+ * Length_base - obtains length of number in base
  *
  * @n: number
  * @base: base of number
  *
  * Return: length of number
  */
-unsigned long int b_Length_inner(unsigned long int n, unsigned long int base)
+unsigned long int Length_base_inner(unsigned long int n, unsigned long int base)
 {
 	n = n / base;
 	return (n);
@@ -107,7 +107,7 @@ char *intToAlph(int n)
 	for (; n > 0; x++)
 	{
 		str[x] = (n % base) + '0';
-		n = b_Length_inner(n, base);
+		n = Length_base_inner(n, base);
 		/* n = n / base; */
 	}
 	str[x] = '\0';
@@ -127,7 +127,7 @@ char *intToAlph_upper(int n, unsigned long int x, unsigned long int base)
 	char *str;
 
 	if (n != 0)
-		str = malloc(b_Length(n, base) + 1);
+		str = malloc(Length_base(n, base) + 1);
 	else
 		str = malloc(2), str[x] = '0', x++;
 	return (str);
@@ -137,81 +137,81 @@ char *intToAlph_upper(int n, unsigned long int x, unsigned long int base)
 
 /*..........................NUM 2 START..........................*/
 /**
- * _error - creates a string with error line
- * @errn: number corresponding to type of error
+ * errorStrFunc - creates a string with error line
+ * @errNum: number corresponding to type of error
  * @shellVar: struct containing shell information
- * @exnum: value of exit the shell should have
+ * @exnum: valuel of exit the shell should have
  *
  * Return: 0 success, -1 fail
  */
-int _error(int errn, shellDType *shellVar, int exnum)
+int errorStrFunc(int errNum, shellDType *shellVar, int exnum)
 {
-	int count = shellVar->errnum[0], z = 0;
-	char *cmd = shellVar->cmd, **option = shellVar->options;
-	char *shelln = shellVar->hshname;
-	char *nstring, *conc1, *conc2, *colspace = ": ";
+	int cnter = shellVar->errnum[0], z = 0;
+	char *cmd = shellVar->cmd, **optNoni = shellVar->options;
+	char *sh_Name = shellVar->hshname;
+	char *numStr, *concat_a, *concat_b, *collctspace = ": ";
 	char *err[] = {
 		"not found", "Permission denied", "Illegal number",
 		"name is NULL, points to string of len 0, or has an '=' char.",
-		"can't cd to ", "Illegal option ", "Help command error",
+		"can't cd to ", "Illegal optNoni ", "Help command error",
 		"Error allocating memory", "Wrong Alias",
 		NULL
 	};
 
-	conc1 = str_concat(shelln, colspace);
-	if (!conc1) /*hsh: */
+	concat_a = str_concat(sh_Name, collctspace);
+	if (!concat_a) /*hsh: */
 		return (printCmt(1), -1);
 
-	if (errn == 7) /* Alloc Error */
+	if (errNum == 7) /* Alloc Error */
 	{
-		conc2 = "fol";
-		_error_inner(errn, conc1, conc2, err, z);
+		concat_b = "fol";
+		errorStrFunc_inner(errNum, concat_a, concat_b, err, z);
 	}
 
-	nstring = intToAlph(count);
-	if (!nstring)  /* number to string */
-		return (freSingle(conc1), printCmt(1), -1);
+	numStr = intToAlph(cnter);
+	if (!numStr)  /* number to string */
+		return (freSingle(concat_a), printCmt(1), -1);
 
-	conc2 = str_concat(conc1, nstring);
-	if (!conc2) /*hsh: count*/
+	concat_b = str_concat(concat_a, numStr);
+	if (!concat_b) /*hsh: cnter*/
 	{
 		printCmt(1);
-		return (freSingle(conc1), freSingle(nstring),  -1);
+		return (freSingle(concat_a), freSingle(numStr),  -1);
 	}
-	freSingle(conc1), freSingle(nstring);
+	freSingle(concat_a), freSingle(numStr);
 
-	conc1 = str_concat(conc2, colspace);
-	if (!conc1) /*hsh: count: */
-		return (freSingle(conc2), printCmt(1), -1);
+	concat_a = str_concat(concat_b, collctspace);
+	if (!concat_a) /*hsh: cnter: */
+		return (freSingle(concat_b), printCmt(1), -1);
 
-	freSingle(conc2);
-	conc2 = str_concat(conc1, cmd);
-	if (!conc2) /*hsh: count: cmd*/
-		return (freSingle(conc1), printCmt(1), -1);
-	freSingle(conc1);
+	freSingle(concat_b);
+	concat_b = str_concat(concat_a, cmd);
+	if (!concat_b) /*hsh: cnter: cmd*/
+		return (freSingle(concat_a), printCmt(1), -1);
+	freSingle(concat_a);
 
-	conc1 = str_concat(conc2, colspace);
-	if (!conc1) /*hsh: count: cmd: */
-		return (freSingle(conc2), printCmt(1), -1);
-	freSingle(conc2);
+	concat_a = str_concat(concat_b, collctspace);
+	if (!concat_a) /*hsh: cnter: cmd: */
+		return (freSingle(concat_b), printCmt(1), -1);
+	freSingle(concat_b);
 
-	conc2 = str_concat(conc1, err[errn]);
-	if (!conc2) /*hsh: count: cmd: error*/
-		return (freSingle(conc1), printCmt(1), -1);
-	freSingle(conc1);
+	concat_b = str_concat(concat_a, err[errNum]);
+	if (!concat_b) /*hsh: cnter: cmd: error*/
+		return (freSingle(concat_a), printCmt(1), -1);
+	freSingle(concat_a);
 
-	if (errn > 1 && errn < 6 && errn != 3)
-		conc2 = _error2(errn, conc2, option[1]);
-	if (conc2 == NULL)
+	if (errNum > 1 && errNum < 6 && errNum != 3)
+		concat_b = errorStrFunc2(errNum, concat_b, optNoni[1]);
+	if (concat_b == NULL)
 	{
 		printCmt(1);
 		return (-1);
 	}
 
-	while (conc2[z] != 0)
+	while (concat_b[z] != 0)
 		z++;
-	write(2, conc2, z), printCmt(2);
-	freSingle(conc2);
+	write(2, concat_b, z), printCmt(2);
+	freSingle(concat_b);
 	shellVar->exitnum[0] = exnum;
 	return (0);
 }
@@ -219,87 +219,87 @@ int _error(int errn, shellDType *shellVar, int exnum)
 
 /*..........................NUM 2 BTW..........................*/
 /**
- * _error - creates a string with error line
- * @errn: number corresponding to type of error
+ * errorStrFunc - creates a string with error line
+ * @errNum: number corresponding to type of error
  * @shellVar: struct containing shell information
- * @exnum: value of exit the shell should have
+ * @exnum: valuel of exit the shell should have
  *
  * Return: 0 success, -1 fail
  */
-int _error_inner(int errn, char *conc1, char *conc2, char *err[], int z)
+int errorStrFunc_inner(int errNum, char *concat_a, char *concat_b, char *err[], int z)
 {
-	conc2 = str_concat(conc1, err[errn]); /*hsh: count: error*/
-	if (!conc2)
-		return (freSingle(conc1), printCmt(1), -1);
-	freSingle(conc1);
-	while (conc2[z] != 0)
+	concat_b = str_concat(concat_a, err[errNum]); /*hsh: cnter: error*/
+	if (!concat_b)
+		return (freSingle(concat_a), printCmt(1), -1);
+	freSingle(concat_a);
+	while (concat_b[z] != 0)
 		z++;
-	write(2, conc2, z), printCmt(2);
-	freSingle(conc2);
+	write(2, concat_b, z), printCmt(2);
+	freSingle(concat_b);
 	return (0);
 }
 /*..........................NUM 2 END..........................*/
 
 /*..........................NUM 3 START..........................*/
 /**
- * _error2 - extra modes for error generation
- * @errn: number corresponding to type of error
- * @conc2: error part from _error
- * @option: cmd option thaat
+ * errorStrFunc2 - extra modes for error generation
+ * @errNum: number corresponding to type of error
+ * @concat_b: error part from errorStrFunc
+ * @optNoni: cmd optNoni thaat
  *
  * Return: pointer to string
  */
-char *_error2(int errn, char *conc2, char *option)
+char *errorStrFunc2(int errNum, char *concat_b, char *optNoni)
 {
-	char *conc1, *colspace = ": ";
+	char *concat_a, *collctspace = ": ";
 
-	if (errn == 2) /* exit error */
+	if (errNum == 2) /* exit error */
 	{
 
-		conc1 = str_concat(conc2, colspace);
-		if (!conc1) /*hsh: count: cmd: error: */
+		concat_a = str_concat(concat_b, collctspace);
+		if (!concat_a) /*hsh: cnter: cmd: error: */
 		{
 			printCmt(1);
-			return (freSingle(conc2), NULL);
+			return (freSingle(concat_b), NULL);
 		}
-		freSingle(conc2);
+		freSingle(concat_b);
 
-		conc2 = str_concat(conc1, option);
+		concat_b = str_concat(concat_a, optNoni);
 
-		if (!conc2) /*hsh: count: cmd: error: option*/
+		if (!concat_b) /*hsh: cnter: cmd: error: optNoni*/
 		{
 			printCmt(1);
-			return (freSingle(conc1), NULL);
+			return (freSingle(concat_a), NULL);
 		}
-		freSingle(conc1);
+		freSingle(concat_a);
 	}
-	if (errn > 3) /* Errors with options at end */
+	if (errNum > 3) /* Errors with options at end */
 	{
-		_error2_inner(conc2, option, conc1);
-		return (conc1);
+		errorStrFunc2_inner(concat_b, optNoni, concat_a);
+		return (concat_a);
 	}
-	return (conc2);
+	return (concat_b);
 
 }
 /*..........................NUM 3 BTW..........................*/
 /**
- * _error2 - extra modes for error generation
- * @errn: number corresponding to type of error
- * @conc2: error part from _error
- * @option: cmd option thaat
+ * errorStrFunc2 - extra modes for error generation
+ * @errNum: number corresponding to type of error
+ * @concat_b: error part from errorStrFunc
+ * @optNoni: cmd optNoni thaat
  *
  * Return: pointer to string
  */
-char *_error2_inner(char *conc2, char *option, char *conc1)
+char *errorStrFunc2_inner(char *concat_b, char *optNoni, char *concat_a)
 {
-	conc1 = str_concat(conc2, option);
-	if (!conc1) /*hsh: count: cmd: error option*/
+	concat_a = str_concat(concat_b, optNoni);
+	if (!concat_a) /*hsh: cnter: cmd: error optNoni*/
 	{
 		printCmt(1);
-		return (freSingle(conc2), NULL);
+		return (freSingle(concat_b), NULL);
 	}
-	freSingle(conc2);
-	return (conc1);
+	freSingle(concat_b);
+	return (concat_a);
 }
 /*..........................NUM 3 END..........................*/
 
@@ -307,79 +307,79 @@ char *_error2_inner(char *conc2, char *option, char *conc1)
 /*..........................built_ins1..........................*/
 
 /**
- * _exit_cmd - built in command exit
+ * exitCmdFunc - built in command exit
  * @shellVar: struct containing shell info
  *
  * Return: -1 if error
  */
-ssize_t _exit_cmd(shellDType *shellVar)
+ssize_t exitCmdFunc(shellDType *shellVar)
 {
-	long valueToExit;
+	long val2Exit;
 
 	if (shellVar->options[1] == NULL || _isnumber(shellVar->options[1]))
 	{
-		valueToExit = _atoi(shellVar->options[1]);
+		val2Exit = _atoi(shellVar->options[1]);
 
-		if (valueToExit >= 0 && valueToExit < INT_MAX)
+		if (val2Exit >= 0 && val2Exit < INT_MAX)
 		{
-			if (valueToExit > 255)
-				valueToExit %= 256;
+			if (val2Exit > 255)
+				val2Exit %= 256;
 			if (shellVar->options[1] == NULL)
-				valueToExit = shellVar->exitnum[0];
+				val2Exit = shellVar->exitnum[0];
 			free(*(shellVar->options));
 			free(shellVar->options);
 			if (*(shellVar->envCpy))
 				free_doubpoint(*(shellVar->envCpy));
 			free(shellVar);
-			exit(valueToExit);
+			exit(val2Exit);
 		}
 	}
-	_error(2, shellVar, 2);
+	errorStrFunc(2, shellVar, 2);
 	free(shellVar->options);
 	return (-1);
 }
 
 /*..........................NUM 13 START..........................*/
 /**
- * _env_cmd - built in command env
+ * envCmdFunc - built in command env
  * @shellVar: struct containing shell info
  *
  * Return: 1 if succesful
  */
-ssize_t _env_cmd(shellDType *shellVar)
+ssize_t envCmdFunc(shellDType *shellVar)
 {
 	char **str;
-	int checker = 1, chk;
+	int chcka = 1, chk;
 
 	if (*(shellVar->envCpy) == NULL)
 	{
 		chk = 1;
-		checker = _cmd_multi(shellVar, chk);
+		chcka = cmdMore(shellVar, chk);
 	}
 
 	str = *(shellVar->envCpy);
 
 	if (shellVar->options[1] == NULL)
 	{
-		_env_cmd_lower(str);
+		envCmdFunc_lower(str);
 	}
 	else
 	{
-		_error(0, shellVar, 2);
-		checker = -1;
+		errorStrFunc(0, shellVar, 2);
+		chcka = -1;
 	}
 
 	free(shellVar->options);
-	return (checker);
+	return (chcka);
 }
 /*..........................NUM 13 BTW..........................*/
 /**
- * _env_cmd - built in command env
+ * envCmdFunc - built in command env
  * @shellVar: struct containing shell info
  *
  * Return: 1 if succesful
  */
-int _cmd_multi(shellDType *shellVar, int chk)
+int cmdMore(shellDType *shellVar, int chk)
 {
 	if (chk == 1)
 	{
@@ -397,72 +397,72 @@ int _cmd_multi(shellDType *shellVar, int chk)
 }
 /*..........................NUM 13 BTW..........................*/
 /**
- * _env_cmd - built in command env
+ * envCmdFunc - built in command env
  * @shellVar: struct containing shell info
  *
  * Return: 1 if succesful
  */
-void _env_cmd_lower(char **str)
+void envCmdFunc_lower(char **str)
 {
 	for (; str && *str; str++)
 	{
 		write(1, *str, _strlen(*str));
-		write(1, "\n", 1);
+		printCmt(11);
 	}
 }
 /*..........................NUM 13 END..........................*/
 
 
 /**
- * _setenv_cmd - built in command setenv
+ * setEnvCmdFunc - built in command setenv
  * @shellVar: struct containing shell info
  *
  * Return: 1 if succesful, -1 if fail
  */
-ssize_t _setenv_cmd(shellDType *shellVar)
+ssize_t setEnvCmdFunc(shellDType *shellVar)
 {
-	char **newenv;
+	char **nEnv;
 	char *variable = NULL;
-	char *value = NULL;
+	char *valuel = NULL;
 
 	if (shellVar->options[1])
 	{
 		variable = shellVar->options[1];
 		if (!shellVar->options[2])
 		{
-			_cmd_multi(shellVar, 2);
+			cmdMore(shellVar, 2);
 		}
 		else
-			value = shellVar->options[2];
+			valuel = shellVar->options[2];
 
 	}
 	if (variable == 0)
 	{
-		_cmd_multi(shellVar, 3);
+		cmdMore(shellVar, 3);
 	}
 
-	newenv = _setenv(*(shellVar->envCpy), variable, value, shellVar);
+	nEnv = _setenv(*(shellVar->envCpy), variable, valuel, shellVar);
 
-	if (newenv == 0)
+	if (nEnv == 0)
 	{
 		free(shellVar->options);
 		return (-1);
 	}
 
-	*(shellVar->envCpy) = newenv;
+	*(shellVar->envCpy) = nEnv;
 	free(shellVar->options);
 	return (1);
 }
 
 /**
- * _unsetenv_cmd - built in command unsetenv
+ * unSetEnvCmdFunc - built in command unsetenv
  * @shellVar: struct containing shell info
  *
  * Return: 1 if succesful, -1 if fail
  */
-ssize_t _unsetenv_cmd(shellDType *shellVar)
+ssize_t unSetEnvCmdFunc(shellDType *shellVar)
 {
-	char **newenv;
+	char **nEnv;
 	char *variable = NULL;
 
 	if (shellVar->options[1])
@@ -480,16 +480,16 @@ ssize_t _unsetenv_cmd(shellDType *shellVar)
 		return (1);
 	}
 
-	newenv = _unsetenv(*(shellVar->envCpy), variable, shellVar);
+	nEnv = _unsetenv(*(shellVar->envCpy), variable, shellVar);
 
-	if (newenv == 0 && shellVar->unsetnull[0] == 0)
+	if (nEnv == 0 && shellVar->unsetnull[0] == 0)
 	{
 		free(shellVar->options);
 		shellVar->exitnum[0] = 2;
 		return (-1);
 	}
 
-	*(shellVar->envCpy) = newenv;
+	*(shellVar->envCpy) = nEnv;
 	free(shellVar->options);
 	return (1);
 }
@@ -503,10 +503,10 @@ ssize_t _unsetenv_cmd(shellDType *shellVar)
 ssize_t built_ints(shellDType *shellVar)
 {
 	builtIn_s ops[] = {
-		{"exit", _exit_cmd},
-		{"env", _env_cmd},
-		{"setenv", _setenv_cmd},
-		{"unsetenv", _unsetenv_cmd},
+		{"exit", exitCmdFunc},
+		{"env", envCmdFunc},
+		{"setenv", setEnvCmdFunc},
+		{"unsetenv", unSetEnvCmdFunc},
 		{"cd", _cd_cmd},
 		{"help", _help_cmd}
 	};
@@ -623,12 +623,12 @@ void auxcd_inner(shellDType *shellVar, char *currdir)
  */
 ssize_t _cd_cmd(shellDType *shellVar)
 {
-	char *currdir = NULL, *dir = NULL, **newenv, *oldpwd = NULL;
-	int exit = 1, checker = 1, checkerminus = 0;
+	char *currdir = NULL, *dir = NULL, **nEnv, *oldpwd = NULL;
+	int exit = 1, chcka = 1, chckaminus = 0;
 
 	currdir = getcwd(NULL, 4096);
 	if (!currdir)
-		return (_error(4, shellVar, 2), free(shellVar->options), -1);
+		return (errorStrFunc(4, shellVar, 2), free(shellVar->options), -1);
 	if (!shellVar->options[1] ||
 			(shellVar->options[1] && (!_strcmp(shellVar->options[1], "~"))))
 	{
@@ -642,25 +642,25 @@ ssize_t _cd_cmd(shellDType *shellVar)
 			dir = auxcd(shellVar, currdir);
 			if (!dir)
 				return (free(shellVar->options), freSingle(currdir), 1);
-			checkerminus = 1;
+			chckaminus = 1;
 		}
 		else
 			dir = shellVar->options[1];
 	if (dir)
-		checker = chdir(dir);
-	if (checker == 0 && checkerminus == 1)
+		chcka = chdir(dir);
+	if (chcka == 0 && chckaminus == 1)
 		write(1, dir, _strlen(dir)), write(1, "\n", 1);
-	if (checker != 0)
-		_error(4, shellVar, 2), exit = -1;
+	if (chcka != 0)
+		errorStrFunc(4, shellVar, 2), exit = -1;
 	else
 	{
-		newenv = _setenv(*(shellVar->envCpy), "PWD", dir, shellVar);
-		*(shellVar->envCpy) = newenv;
-		newenv = _setenv(*(shellVar->envCpy), "OLDPWD", currdir, shellVar);
-		*(shellVar->envCpy) = newenv;
+		nEnv = _setenv(*(shellVar->envCpy), "PWD", dir, shellVar);
+		*(shellVar->envCpy) = nEnv;
+		nEnv = _setenv(*(shellVar->envCpy), "OLDPWD", currdir, shellVar);
+		*(shellVar->envCpy) = nEnv;
 	}
 	free(shellVar->options), freSingle(currdir), freSingle(oldpwd);
-	if (checkerminus == 1)
+	if (chckaminus == 1)
 		freSingle(dir);
 	return (exit);
 }
@@ -748,7 +748,7 @@ long _atoi(char *s)
  * @s1: string 1
  * @s2: string 2
  *
- * Return: 0 if strings are equal or another value if not
+ * Return: 0 if strings are equal or another valuel if not
  *
  */
 int _strcmp(char *s1, char *s2)
@@ -768,7 +768,7 @@ int _strcmp(char *s1, char *s2)
  * @s1: string 1
  * @s2: string 2
  *
- * Return: 0 if strings are equal or another value if not
+ * Return: 0 if strings are equal or another valuel if not
  *
  */
 int _strcmp_inner(char *s1, char *s2, int x, int equal)
@@ -808,7 +808,7 @@ int _isnumber(char *s)
 
 /**
  * checkInput - checks for input in after shell prompt
- * @ac: count of main arguments
+ * @ac: cnter of main arguments
  * @av: main arguments
  * @bufsize: size of buffer in prompt
  * @buffer: buffer in prompt
@@ -851,7 +851,7 @@ char **checkInput(int ac, char **av, size_t *bufsize,
 		command = malloc(sizeof(char *) * (ac - 1));
 		if (!command)
 		{
-			_error(7, shellVar, 1);
+			errorStrFunc(7, shellVar, 1);
 			return (NULL);
 		}
 
@@ -909,7 +909,7 @@ char deleteComment_inner(void)
  * @env: current environment
  * @shellVar: struct with shell information
  *
- * Return: pointer to the value in the environment,
+ * Return: pointer to the valuel in the environment,
  * or NULL if there is no match
  *
  */
@@ -958,7 +958,7 @@ int executeCmd(char *program, char *command[], char **env, shellDType *shellVar)
  * @name: name of environmental variable
  * @env: current environment
  *
- * Return: pointer to the value in the environment,
+ * Return: pointer to the valuel in the environment,
  * or NULL if there is no match
  *
  */
@@ -1292,7 +1292,7 @@ char **getParameters(char *raw_buffer, shellDType *shellVar)
 	cp_raw_buffer = _strdup(raw_buffer);
 	if (!cp_raw_buffer)
 	{
-		_error(7, shellVar, 1);
+		errorStrFunc(7, shellVar, 1);
 		exit(-1);
 	}
 
@@ -1310,7 +1310,7 @@ char **getParameters(char *raw_buffer, shellDType *shellVar)
 	buffer = malloc(sizeof(char *) * (cnt + 1));
 	if (!buffer)
 	{
-		_error(7, shellVar, 1);
+		errorStrFunc(7, shellVar, 1);
 		exit(-1);
 	}
 	buffer[0] = _strtok(raw_buffer, " \n");
@@ -1462,7 +1462,7 @@ ssize_t _help_cmd(shellDType *shellVar)
 	if (bcheck == 0)
 	{
 		check = -1;
-		_error(6, shellVar, 2);
+		errorStrFunc(6, shellVar, 2);
 	}
 
 	free(shellVar->options);
@@ -1521,7 +1521,7 @@ void help_cd_inner(void)
 	_puts("cd: cd [DIRECTORY]\n");
 	_puts("    Change the shell working directory.\n\n");
 	_puts("    Change the current directory to DIR.  ");
-	_puts("    The default DIR is the value of the\n");
+	_puts("    The default DIR is the valuel of the\n");
 	_puts("    HOME shell variable.\n\n");
 	_puts("    Options:\n");
 	_puts("    -  If a minus signed is used instead a directory, ");
@@ -1566,7 +1566,7 @@ void help_help_inner(void)
 	_puts("      BUILTIN   Builtin specifying a help topic\n\n");
 	_puts("    Exit Status:\n");
 	_puts("    Returns success unless PATTERN is not found or an invalid ");
-	_puts("    option is given.\n");
+	_puts("    optNoni is given.\n");
 }
 /*..........................NUM 21 BTW..........................*/
 /*..........................NUM 21 END..........................*/
@@ -1589,7 +1589,7 @@ void help_alias(void)
  */
 void help_alias_inner(void)
 {
-	_puts("alias: alias alias [name[='value'] ...]\n");
+	_puts("alias: alias alias [name[='valuel'] ...]\n");
 	_puts("    Define or display aliases.\n\n");
 	_puts("    Without arguments, `alias' prints the list of aliases ");
 	_puts("    in the reusable\n");
@@ -1638,7 +1638,7 @@ void printsHelp_inner(void)
 	_puts(" unsetenv [VARIABLE]\n");
 	_puts(" cd [DIRECTORY]\n");
 	_puts(" help [BUILTIN ...]\n");
-	_puts(" alias [name[='value'] ...]\n");
+	_puts(" alias [name[='valuel'] ...]\n");
 }
 /*..........................NUM 23 BTW..........................*/
 /*..........................NUM 23 END..........................*/
@@ -1657,21 +1657,21 @@ void printsHelp_inner(void)
 char *_pathcheck(char *path)
 {
 	char *npath;
-	int x, y, nsize, count = 0;
+	int x, y, nsize, cnter = 0;
 
 	for (x = 0; path[x]; x++)
 	{
 
 		if (path[x] == '=' && path[x + 1] == ':')
-			count++;
+			cnter++;
 		if (path[x] == ':' && path[x + 1] == ':')
-			count++;
+			cnter++;
 		if (path[x] == ':' && path[x + 1] == '\0')
-			count++;
+			cnter++;
 	}
-	if (count == 0)
+	if (cnter == 0)
 		return (0);
-	nsize = _strlen(path) + 1 + count;
+	nsize = _strlen(path) + 1 + cnter;
 	npath = malloc(sizeof(char) * nsize);
 
 	for (x = 0, y = 0; x < nsize; x++, y++)
@@ -1861,31 +1861,31 @@ int _strlendp_inner(char **s, int x)
  *
  * @env: array of env variables
  * @variable: env variable to set
- * @value: value to set
+ * @valuel: valuel to set
  * @shellVar: struct with shell info
  *
  * Return: 0 on success, -1 on error
  */
-char **_setenv(char **env, char *variable, char *value, shellDType *shellVar)
+char **_setenv(char **env, char *variable, char *valuel, shellDType *shellVar)
 {
 	int x, y, check, z = 0, zenv = 0;
 	char *envjoin, *envjoin2, *copydup, **copy;
 
 	if (_strlen(variable) == 0 || variable == 0)
-		return (_error(3, shellVar, 1), NULL);
+		return (errorStrFunc(3, shellVar, 1), NULL);
 	envjoin2 = str_concat(variable, "=");
 	if (envjoin2 == 0)
-		return (_error(3, shellVar, 1), NULL);
-	envjoin = str_concat(envjoin2, value), freSingle(envjoin2);
+		return (errorStrFunc(3, shellVar, 1), NULL);
+	envjoin = str_concat(envjoin2, valuel), freSingle(envjoin2);
 	if (envjoin == 0)
-		return (_error(3, shellVar, 1), NULL);
+		return (errorStrFunc(3, shellVar, 1), NULL);
 	z = _strlen(variable), zenv = _strlendp(env);
 	for (x = 0; env && env[x] != 0; x++)
 	{
 		for (check = 0, y = 0; y < z && env[x][y] != 0; y++)
 		{
 			if (variable[y] == '=')
-				return (freSingle(envjoin), _error(3, shellVar, 2), NULL);
+				return (freSingle(envjoin), errorStrFunc(3, shellVar, 2), NULL);
 			if (env[x][y] == variable[y])
 				check++;
 		}
@@ -1893,7 +1893,7 @@ char **_setenv(char **env, char *variable, char *value, shellDType *shellVar)
 		{
 			freSingle(env[x]), copydup = _strdup(envjoin), freSingle(envjoin);
 			if (copydup == 0)
-				return (_error(3, shellVar, 1), NULL);
+				return (errorStrFunc(3, shellVar, 1), NULL);
 			return (env[x] = copydup, env);
 		}
 	}
@@ -1901,17 +1901,17 @@ char **_setenv(char **env, char *variable, char *value, shellDType *shellVar)
 	if (env)
 		free_doubpoint(env);
 	if (copy == 0)
-		return (freSingle(envjoin), _error(3, shellVar, 1), NULL);
+		return (freSingle(envjoin), errorStrFunc(3, shellVar, 1), NULL);
 	env = copy, copydup = _strdup(envjoin), freSingle(envjoin);
 	if (copydup == 0)
-		return (_error(3, shellVar, 1), NULL);
+		return (errorStrFunc(3, shellVar, 1), NULL);
 	return (env[zenv] = copydup, env);
 }
 
 /*..........................signalHandle..........................*/
 /**
  * signal_handler - handles ctrl + c in runtime
- * @x: unused value, just for betty
+ * @x: unused valuel, just for betty
  *
  * Return: No return
  */
@@ -1922,7 +1922,7 @@ void signal_handler(int x)
 }
 /**
  * signal_handler2 - handles ctrl + c during cmd exec
- * @x: unused value, just for betty
+ * @x: unused valuel, just for betty
  *
  * Return: No return
  */
@@ -2119,7 +2119,7 @@ char *_strtok(char *str, const char *delim)
  *
  * @p: double pointer to copy
  * @new_size: size of copy
- * @jump: value that must be skipped in copy
+ * @jump: valuel that must be skipped in copy
  *
  * Return: Pointer malloec
  */
@@ -2179,14 +2179,14 @@ char **_unsetenv(char **env, char *variable, shellDType *shellVar)
 		/* return (write(2, "Environment is NULL\n", 20), NULL); */
 	}
 	if (_strlen(variable) == 0 || variable == 0)
-		return (_error(3, shellVar, 1), NULL);
+		return (errorStrFunc(3, shellVar, 1), NULL);
 	l = _strlen(variable), lenv = _strlendp(env);
 	for (i = 0; env[i] != 0; i++)
 	{
 		for (check = 0, j = 0; j < l && env[i][j] != 0; j++)
 		{
 			if (variable[j] == '=')
-				return (_error(3, shellVar, 2), NULL);
+				return (errorStrFunc(3, shellVar, 2), NULL);
 			if (env[i][j] == variable[j])
 				check++;
 		}
@@ -2198,7 +2198,7 @@ char **_unsetenv(char **env, char *variable, shellDType *shellVar)
 			{
 				copy = _copydoublepDel(env, lenv - 1, i);
 				if (copy == 0)
-					return (_error(7, shellVar, 1), NULL);
+					return (errorStrFunc(7, shellVar, 1), NULL);
 			}
 			else
 				shellVar->unsetnull[0] = 1, copy = NULL;
@@ -2211,6 +2211,3 @@ char **_unsetenv(char **env, char *variable, shellDType *shellVar)
 	return (env);
 }
 
-/*.........................._error..........................*/
-/*.........................._error..........................*/
-/*.........................._error..........................*/

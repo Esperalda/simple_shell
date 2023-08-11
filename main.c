@@ -38,11 +38,11 @@ int main(int ac, char **av, char **env)
 		if (!pathCmd)
 		{
 			free(command);
-			shellVar->errnum[0] += 1, _error(0, shellVar, 127);
+			shellVar->errnum[0] += 1, errorStrFunc(0, shellVar, 127);
 			continue;
 		}
 		else if (access(pathCmd, X_OK) == -1)
-			_error(1, shellVar, 126);
+			errorStrFunc(1, shellVar, 126);
 		else
 			executeCmd(pathCmd, command, env, shellVar);
 		free(command);

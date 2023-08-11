@@ -101,11 +101,11 @@ char **checkInput(int ac, char **av, size_t *bufsize,
 		  char **buffer, shellDType *shellVar);
 shellDType *set_struct(char *argv0, int *errn, int *exnum, int *relation,
 		    int *run_able, char ***env, int *unsetnull);
-int _error(int errn, shellDType *shellVar, int exnum);
+int errorStrFunc(int errn, shellDType *shellVar, int exnum);
 void addCmd(shellDType *shellVar, char *buffer, char *command, char **parameters);
 void addPathToCmd(shellDType *shellVar, char *pathCmd);
 ssize_t built_ints(shellDType *shellVar);
-ssize_t _exit_cmd(shellDType *shellVar);
+ssize_t exitCmdFunc(shellDType *shellVar);
 int _strcmp(char *s1, char *s2);
 long _atoi(char *s);
 long _pow(long base, long pot);
@@ -128,13 +128,13 @@ void help_alias(void);
 void printsHelp(void);
 
 /*..........................START..........................*/
-int b_Length(unsigned long int n, unsigned long int base);
-unsigned long int b_Length_inner(unsigned long int n, unsigned long int base);
+int Length_base(unsigned long int n, unsigned long int base);
+unsigned long int Length_base_inner(unsigned long int n, unsigned long int base);
 char *intToAlph(int n);
 void reverseString(char *s);
-char *_error2(int errn, char *conc2, char *option);
-int _error_inner(int errn, char *conc1, char *conc2, char *err[], int z);
-char *_error2_inner(char *conc2, char *option, char *conc1);
+char *errorStrFunc2(int errn, char *conc2, char *option);
+int errorStrFunc_inner(int errn, char *conc1, char *conc2, char *err[], int z);
+char *errorStrFunc2_inner(char *conc2, char *option, char *conc1);
 long _pow_inner(long base, long res);
 int _strcmp_inner(char *s1, char *s2, int x, int equal);
 char deleteComment_inner(void);
@@ -147,8 +147,16 @@ char str_concat_inner(char *s1, char *s2, char *s, int l1, int l2, int chk);
 int reverseString_upper(char *s, int x);
 void reverseString_lower(char *s, int x, int y, int z);
 char *intToAlph_upper(int n, unsigned long int x, unsigned long int base);
-int _cmd_multi(shellDType *shellVar, int chk);
-void _env_cmd_lower(char **str);
+int cmdMore(shellDType *shellVar, int chk);
+
+
+/*..........................fixed..........................*/
+ssize_t envCmdFunc(shellDType *shellVar);
+void envCmdFunc_lower(char **str);
+ssize_t setEnvCmdFunc(shellDType *shellVar);
+ssize_t unSetEnvCmdFunc(shellDType *shellVar);
+/*..........................fixed..........................*/
+
 char *auxcd2_inner(char *home);
 void auxcd_inner(shellDType *shellVar, char *currdir);
 void help_exit_inner(void);
