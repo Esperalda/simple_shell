@@ -1909,6 +1909,7 @@ char *str_concat(char *s1, char *s2)
 }
 
 
+/*..........................NUM 26 START..........................*/
 /*..........................strdup..........................*/
 /**
  * _strcpy - copy a source input ont destinated input
@@ -1925,12 +1926,31 @@ char *_strcpy(char *dest, char *src)
 	int i = 0;
 
 	for (i = 0; *(src + i) != '\0'; i++)
-		*(dest + i) = *(src + i);
+		*(dest + i) = _strcpy_inner(dest, src, i);
 
-	*(dest + i) = *(src + i); /* adding '\0' character */
+	*(dest + i) = _strcpy_inner(dest, src, i); /* adding '\0' character */
 
 	return (dest);
 }
+/*..........................NUM 26 BTW..........................*/
+/**
+ * _strcpy - copy a source input ont destinated input
+ * @dest: target where will be stored the input
+ * @src: source to copy from
+ *
+ *
+ * Return: dest address
+ * On error: -1 inapropiate entry
+ */
+
+char _strcpy_inner(char *dest, char *src, int i)
+{
+	*(dest + i) = *(src + i);
+	return (*(dest + i));
+}
+/*..........................NUM 26 BTW..........................*/
+/*..........................NUM 26 END..........................*/
+
 
 /**
  * _strlen - function that returns the length of a string
