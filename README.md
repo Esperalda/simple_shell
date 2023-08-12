@@ -7,7 +7,7 @@ In Interactive mode, the shell displays a prompt ($) indicating that the user ca
 
 In Non-interactive mode, the shell will need to be run with a command input piped into its execution so that the command is run as soon as the Shell starts. In this mode no prompt will appear, and no further input will be expected from the user.
 
-This project consists of a basic command interpreter (Shell) created in C language with several features;
+This project consists of a basic command interpreter (Shell) created in C language with several features; 
 1: Write the main code of the shell.
 2: Write shell functions for checking and executing built ins.
 3: Write shell functions for checking the input and obtaining parameters.
@@ -15,4 +15,4 @@ This project consists of a basic command interpreter (Shell) created in C langua
 5: Write shell functions for handling errors.
 6: Write  a shell function for executing commands.
 7: Write a Header file to connect all functions
-8: Create a manual page for simpleshell
+8: Create a manual page for simpleshell 
