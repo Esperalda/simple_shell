@@ -1287,7 +1287,6 @@ int getInputLine(char **buffer, size_t *bufsize, int fd)
  * getParam - obtains parameters frf prompt
  * @raw_buffer: raw_buffer
  * @shellVar: struct containing o
- 
  * Return: On success 1.
  * On error, -1 is returned, and et appropriately.
  */
